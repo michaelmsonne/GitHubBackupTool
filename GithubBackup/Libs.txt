@@ -1,0 +1,4 @@
+﻿https://github.com/natemcmaster/CommandLineUtils
+https://github.com/iamarcel/dotnet-core-neat-console-starter
+https://gist.github.com/iamarcel/8047384bfbe9941e52817cf14a79dc34
+https://gist.github.com/iamarcel/9bdc3f40d95c13f80d259b7eb2bbcabb
