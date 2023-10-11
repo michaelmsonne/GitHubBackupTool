@@ -118,7 +118,7 @@ namespace GithubBackup.Class
                 // Error when create backup folder
                 Message("Exception caught when trying to create log file folder - error: " + e, EventType.Error, 1001);
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Exception caught when trying to create log file folder - error: ", e);
+                Console.WriteLine("Exception caught when trying to create log file folder - error: " + e);
                 Console.ResetColor();
 
                 // Count errors
