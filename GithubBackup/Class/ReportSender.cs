@@ -65,10 +65,10 @@ namespace GithubBackup.Class
                 $"<td style=\"width: 33%; height: 18px;\"><strong>Backup task(s):</strong></td>" +
                 $"<td style=\"width: 10%; height: 18px;\"><strong>File(s):</strong></td>" +
                 $"<td style=\"width: 33.3333%; height: 18px;\"><strong>Status:</strong></td></tr><tr style=\"height: 18px;\">" +
-                $"<td style=\"width: 33%; height: 18px;\">Processed Git project(s) in Azure DevOps (total):</td>" +
+                $"<td style=\"width: 33%; height: 18px;\">Processed Git project(s) in GitHub (total):</td>" +
                 $"<td style=\"width: 10%; height: 18px;\"><b>{repoCount}</b></td>" +
                 $"<td style=\"width: 33.3333%; height: 18px;\">{repoCountStatusText}</td></tr><tr style=\"height: 18px;\">" +
-                $"<td style=\"width: 33%; height: 18px;\">Processed Git repos in project(s) a backup is made of from Azure DevOps (all branches):</td>" +
+                $"<td style=\"width: 33%; height: 18px;\">Processed Git repos in project(s) a backup is made of from GitHub (all branches):</td>" +
                 $"<td style=\"width: 10%; height: 18px;\"><b>{repoItemsCount}</b></td>" +
                 $"<td style=\"width: 33.3333%; height: 18px;\">{repoItemsCountStatusText}</td></tr><tr style=\"height: 18px;\">" +
                 $"<td style=\"width: 33%; height: 18px;\">Processed files to backup from Git repos (total unzipped if specified):</td>" +
