@@ -188,9 +188,9 @@ namespace GithubBackup.Commands
                             if (Globals._daysToKeepBackup == 30)
                             {
                                 // Log
-                                Message($"argument -daystokeepbackup is set to (default) {Globals._daysToKeepBackup}", EventType.Information, 1000);
+                                Message($"Argument -daystokeepbackup is set to (default) {Globals._daysToKeepBackup}", EventType.Information, 1000);
                                 Console.ForegroundColor = ConsoleColor.Green;
-                                Console.WriteLine($"argument -daystokeepbackup is set to (default) {Globals._daysToKeepBackup}");
+                                Console.WriteLine($"Argument -daystokeepbackup is set to (default) {Globals._daysToKeepBackup}");
                                 Console.ResetColor();
 
                                 // Set status text for email
@@ -207,9 +207,9 @@ namespace GithubBackup.Commands
                             if (Globals._daysToKeepBackup != 30)
                             {
                                 // Log
-                                Message($"argument -daystokeepbackup is not default (30), it is set to {Globals._daysToKeepBackup} days", EventType.Information, 1000);
+                                Message($"Argument -daystokeepbackup is not default (30), it is set to {Globals._daysToKeepBackup} days", EventType.Information, 1000);
                                 Console.ForegroundColor = ConsoleColor.Yellow;
-                                Console.WriteLine($"argument -daystokeepbackup is not default (30), it is set to {Globals._daysToKeepBackup} days");
+                                Console.WriteLine($"Argument -daystokeepbackup is not default (30), it is set to {Globals._daysToKeepBackup} days");
                                 Console.ResetColor();
 
                                 // Set status text for email
@@ -234,9 +234,9 @@ namespace GithubBackup.Commands
                         //Console.WriteLine("TEST daysToKeepBackupOption - FALSE");
 
                         // Log
-                        Message($"argument -daystokeepbackup does not exits - using default backups to keep (30 days)!", EventType.Information, 1000);
+                        Message($"Argument -daystokeepbackup does not exits - using default backups to keep (30 days)!", EventType.Information, 1000);
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine($"\nargument -daystokeepbackup does not exits - using default backups to keep (30 days)!\n");
+                        Console.WriteLine($"\nArgument -daystokeepbackup does not exits - using default backups to keep (30 days)!\n");
                         Console.ResetColor();
 
                         // Do work

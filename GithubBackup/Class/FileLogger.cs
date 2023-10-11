@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.IO;
 
 namespace GithubBackup.Class
@@ -80,14 +80,14 @@ namespace GithubBackup.Class
                     Console.WriteLine("Output folder to log files created: '" + Files.LogFilePath + "'.");
                     Console.ResetColor();
                 }
-                else
-                {
-                    // Log folder exists - will not create a new folder
-                    Message("Output folder to log files exists (will not create it again): '" + Files.LogFilePath + "'.", EventType.Information, 1000);
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("Output folder to log files exists (will not create it again): '" + Files.LogFilePath + "'.");
-                    Console.ResetColor();
-                }
+                // else
+                // {
+                //     // Log folder exists - will not create a new folder
+                //     Message("Output folder to log files exists (will not create it again): '" + Files.LogFilePath + "'.", EventType.Information, 1000);
+                //     Console.ForegroundColor = ConsoleColor.Green;
+                //     Console.WriteLine("Output folder to log files exists (will not create it again): '" + Files.LogFilePath + "'.");
+                //     Console.ResetColor();
+                // }
                 
                 var str = type.ToString().Length > 7 ? "\t" : "\t\t";
                 if (!File.Exists(path))

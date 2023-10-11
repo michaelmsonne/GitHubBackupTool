@@ -16,7 +16,7 @@ namespace GithubBackup.Class
             // Log
             Message($"Set to keep {daysToKeep} number of backups (day(s)) in backup folder: '{outBackupDir}'", EventType.Information, 1000);
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine($"\nSet to keep {daysToKeep} number of backups (day(s)) in backup folder: '{outBackupDir}'\n");
+            Console.WriteLine($"Set to keep {daysToKeep} number of backups (day(s)) in backup folder: '{outBackupDir}'");
             Console.ResetColor();
 
             // Loop folders
