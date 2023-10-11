@@ -43,7 +43,7 @@ GitHubBackupTool token-based XXX... "D:\Backup\GitHub\" -allowner -mailto "mail-
 
 You can create a personal access token here: https://github.com/settings/tokens/new
 
-Access: Repositories read
+Access: Read access to repositories who needs backup and read access to user profile.
 
 </br>
 
@@ -53,6 +53,11 @@ However, it’s a good starting point to backup your GitHub projects and keep a 
 
 There is send an email report to the specified email address when the backup is done with status and usefull information about the backup job and more information.
 
+You can also use the tool to backup all repositories of an organization of you created a personal access token with the right permissions under there.
+
+And the tool can also be used to backup all repositories of a user.
+
+Use it in a scheduled task to backup your repositories every day or week or month or whatever you want manually or automatically.
 
 # Email report sample:
 
@@ -75,7 +80,7 @@ There is send an email report to the specified email address when the backup is 
 ![Screenshot](docs/help-about.png)
 
 # To-do list:
-> Add branch filter option/parameter
+> Add branch filter option/parameter (done)
 
 
 ## Building
@@ -88,7 +93,7 @@ So far I tested the application only for win10-x64 systems, but it might also wo
 
 </br>
 
-## Used 3rd party libraries
+## Used 3rd party libraries for the tool:
 
 [Octokit.NET](https://github.com/octokit/octokit.net)
 
