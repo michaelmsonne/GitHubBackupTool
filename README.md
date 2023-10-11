@@ -91,7 +91,6 @@ $ dotnet publish -r win10-x64 -c release
 
 So far I tested the application only for win10-x64 systems, but it might also work on other platforms.
 
-</br>
 
 ## Used 3rd party libraries for the tool:
 
