@@ -71,8 +71,24 @@ namespace GithubBackup.Class
             {
                 // Check if file exists else create it
                 if (!Directory.Exists(Files.LogFilePath))
+                {
                     Directory.CreateDirectory(Files.LogFilePath);
 
+                    // Log folder exists - will not create a new folder
+                    Message("Output folder to log files created: '" + Files.LogFilePath + "'.", EventType.Information, 1000);
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Output folder to log files created: '" + Files.LogFilePath + "'.");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    // Log folder exists - will not create a new folder
+                    Message("Output folder to log files exists (will not create it again): '" + Files.LogFilePath + "'.", EventType.Information, 1000);
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Output folder to log files exists (will not create it again): '" + Files.LogFilePath + "'.");
+                    Console.ResetColor();
+                }
+                
                 var str = type.ToString().Length > 7 ? "\t" : "\t\t";
                 if (!File.Exists(path))
                 {
@@ -87,11 +103,31 @@ namespace GithubBackup.Class
                             $"{(object)dtf} - [EventID {(object)id.ToString()}] {(object)type.ToString()}{(object)str}{(object)mess}");
                 }
             }
-            catch (Exception ex)
+            catch (UnauthorizedAccessException)
             {
+                Message("Unable to create folder to store the log files: " + Files.LogFilePath + "'. Make sure the account you use to run this tool has write rights to this location.", EventType.Error, 1001);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Unable to create folder to store the log files: ´'" + Files.LogFilePath + "'. Make sure the account you use to run this tool has write rights to this location.");
+                Console.ResetColor();
+
+                // Count errors
+                Globals._errors++;
+            }
+            catch (Exception e)
+            {
+                // Error when create backup folder
+                Message("Exception caught when trying to create log file folder - error: " + e, EventType.Error, 1001);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Exception caught when trying to create log file folder - error: ", e);
+                Console.ResetColor();
+
+                // Count errors
+                Globals._errors++;
+
+                // Handle exception if error when create log file folder
                 if (!WriteToEventLog)
                     return;
-                AddMessageToEventLog($"Error writing to log file, {ex.Message}", EventType.Error, dtf, path, 0);
+                AddMessageToEventLog($"Error writing to log file, {e.Message}", EventType.Error, dtf, path, 0);
                 AddMessageToEventLog("Writing log file have been disabled.", EventType.Information, dtf, path, 0);
                 WriteToFile = false;
             }

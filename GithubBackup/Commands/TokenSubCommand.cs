@@ -115,12 +115,28 @@ namespace GithubBackup.Commands
                             Directory.CreateDirectory(destinationFolder);
                             Message("Created backup folder: " + destinationFolder, EventType.Information, 1000);
                         }
+                        catch (UnauthorizedAccessException)
+                        {
+                            Message("Unable to create folder to store the backups: " + destinationFolder + ". Make sure the account you use to run this tool has write rights to this location.", EventType.Error, 1001);
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Unable to create folder to store the backups: " + destinationFolder + ". Make sure the account you use to run this tool has write rights to this location.");
+                            Console.ResetColor();
+
+                            // Count errors
+                            Globals._errors++;
+                        }
                         catch (Exception e)
                         {
-                            Console.WriteLine(e);
+                            // Error when create backup folder
+                            Message("Exception caught when trying to create backup folder '" + destinationFolder + " - error: " + e, EventType.Error, 1001);
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("{0} Exception caught.", e);
+                            Console.ResetColor();
 
-                            Message("Error when try to create backup folder: " + destinationFolder + " Error: " + e, EventType.Information, 1000);
-                            throw;
+                            // Count errors
+                            Globals._errors++;
+
+                            //throw;
                         }
                     }
 
