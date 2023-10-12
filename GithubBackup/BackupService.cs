@@ -66,11 +66,9 @@ namespace GithubBackup
             // Create backup folder name
             //var backupFolderName = $"Github Backup ({DateTime.Now.ToString("dd-MM-yyyy HH-mm", CultureInfo.InvariantCulture)})\\";
             var backupFolderName = $"Github Backup {DateTime.Now.ToString("dd-MM-yyyy-(HH-mm)", CultureInfo.InvariantCulture)}\\";
-
-            // DateTime.Now.ToString("dd-MM-yyyy-(HH-mm)");
-
+            
+            // Set destination folder
             Destination = Path.Combine(destination, backupFolderName);
-
             Globals._backupFolderName = Destination;
 
             // Log backup folder name
@@ -123,16 +121,16 @@ namespace GithubBackup
             // Console.WriteLine("Selected backup type is: ");
             // Message("Selected backup type is: ", EventType.Information, 1000);
 
-            Console.WriteLine($"Backup destination folder is set to: \"{Destination}\"");
-            Message($"Backup destination folder is set to: \"{Destination}\"", EventType.Information, 1000);
+            Console.WriteLine($"Backup destination folder is set to: '\"{Destination}\"'");
+            Message($"Backup destination folder is set to: '\"{Destination}\"'", EventType.Information, 1000);
 
 #if DEBUG
             Console.ReadKey();
 #endif
             
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"Starting to clone all repositories into backup folder: {Destination}...");
-            Message($"Starting to clone all repositories into backup folder: {Destination}...", EventType.Information, 1000);
+            Console.WriteLine($"Starting to clone all repositories into backup folder: '{Destination}'...");
+            Message($"Starting to clone all repositories into backup folder: '{Destination}'...", EventType.Information, 1000);
 
             var exceptions = CloneRepos(repos);
 
@@ -145,8 +143,8 @@ namespace GithubBackup
                 foreach (var repoName in exceptions.Keys)
                 {
                     Console.WriteLine();
-                    Console.WriteLine($"Error while cloning repository {repoName}:");
-                    Message($"Error while cloning repository {repoName}:", EventType.Error, 1001);
+                    Console.WriteLine($"Error while cloning repository '{repoName}':");
+                    Message($"Error while cloning repository '{repoName}':", EventType.Error, 1001);
 
                     Console.WriteLine(exceptions[repoName]);
                     Message(exceptions[repoName].ToString(), EventType.Error, 1001);
@@ -169,7 +167,7 @@ namespace GithubBackup
                     // No errors counted - backup should be finished successfully
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("\nBackup finished successfully - see log for more information");
-                    Message($"Backup finished successfully - see log for more information", EventType.Information, 1000);
+                    Message("Backup finished successfully - see log for more information", EventType.Information, 1000);
 
                     // Handle success
                     ApplicationEndStatus.ApplicationEndBackupSuccess();
@@ -217,7 +215,7 @@ namespace GithubBackup
                 // Print branch names
                 foreach (var branchName in branchNames)
                 {
-                    Console.WriteLine($"Repository Name: {repo.Name}, Branch: {branchName}");
+                    Console.WriteLine($"Repository Name: '{repo.Name}', Branch: '{branchName}'");
                 }
 
                 // Print repository details to console
@@ -281,7 +279,7 @@ namespace GithubBackup
                             // If all branches is selected for backup (all branches option) - show branches in progressbar
                             foreach (var branchName in branchNames)
                             {
-                                progressBar = rootProgressBar.Spawn(progress.TotalObjects, repo.Name + ", Branch: " + "'" + branchName.Name + "'" , new ProgressBarOptions
+                                progressBar = rootProgressBar.Spawn(progress.TotalObjects, repo.Name + ", Branch: '" + branchName.Name + "'" , new ProgressBarOptions
                                 {
                                     CollapseWhenFinished = true,
                                     ForegroundColorDone = ConsoleColor.Green,
@@ -322,16 +320,20 @@ namespace GithubBackup
 
                 cloneOptions.RepositoryOperationCompleted = (context) =>
                 {
+                    // Dispose the progressbar
                     progressBar?.Dispose();
                 };
 
+                // Set credentials for Github - basic or oauth
                 if (Credentials.AuthenticationType == AuthenticationType.Basic)
                 {
+                    // Set credentials for Github - basic
                     cloneOptions.CredentialsProvider = (url, user, cred)
                         => new LibGit2Sharp.UsernamePasswordCredentials { Username = Credentials.Login, Password = Credentials.Password };
                 }
                 else if (Credentials.AuthenticationType == AuthenticationType.Oauth)
                 {
+                    // Set credentials for Github - oauth
                     cloneOptions.CredentialsProvider = (url, user, cred)
                         => new LibGit2Sharp.UsernamePasswordCredentials { Username = Credentials.GetToken(), Password = string.Empty };
                 }
