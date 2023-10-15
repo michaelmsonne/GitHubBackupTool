@@ -79,7 +79,7 @@ namespace GithubBackup.Class
             }
             
             // Call method to end program
-            Globals.ApplicationEndMessage();
+            ApplicationEndMessage();
         }
 
         public static void ApplicationEndBackupError()
@@ -153,7 +153,20 @@ namespace GithubBackup.Class
             }
             
             // Call method to end program
-            Globals.ApplicationEndMessage();
+            ApplicationEndStatus.ApplicationEndMessage();
+        }
+
+        public static void ApplicationStartMessage()
+        {
+            // Log start of program
+            Console.WriteLine($"\nWelcome to {Globals.AppName}, v." + Globals._vData + " by " + Globals._companyName + "\n");
+            Message($"Welcome to {Globals.AppName}, v." + Globals._vData + " by " + Globals._companyName, EventType.Information, 1000);
+        }
+        public static void ApplicationEndMessage()
+        {
+            // Log end of program
+            Console.WriteLine($"\nEnd of application - {Globals.AppName} v. {Globals._vData}\n");
+            Message($"End of application - {Globals.AppName} v. {Globals._vData}", EventType.Information, 1000);
         }
     }
 }

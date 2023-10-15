@@ -29,18 +29,13 @@ namespace GithubBackup.Commands
                                         $"My Website:" +
                                         $"\n  https://sonnes.cloud\n";
             Command.HelpOption(true);
-
-            // Define the backup type argument
-            // Command.Argument("-all", "Backup all repositories");
-            // Command.Argument("-allnf", "Exclude forked repositories");
-            // Command.Argument("-allowner", "Backup repositories where you are the owner (default)");
             
-            // Define the token subcommand and execute it
+            // Define the token sub-command and execute it
             Command.OnExecute(() =>
             {
                 Command.ShowHelp();
                 Console.WriteLine();
-                Console.WriteLine("Please specify the authentication mode via the appropriate subcommand.");
+                Console.WriteLine("Please specify the authentication mode via the appropriate sub-command.");
                 Console.WriteLine();
                 return 1;
             });
