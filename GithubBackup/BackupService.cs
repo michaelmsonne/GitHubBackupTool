@@ -312,22 +312,6 @@ namespace GithubBackup
                             });
                         }
 
-                        // foreach (var branchName in branchNames)
-                        // {
-                        //     progressBar = rootProgressBar.Spawn(progress.TotalObjects, repo.Name + ", Branch: " + "'" + branchName.Name + "'" , new ProgressBarOptions
-                        //     {
-                        //         CollapseWhenFinished = true,
-                        //         ForegroundColorDone = ConsoleColor.Green,
-                        //         ForegroundColor = ConsoleColor.Yellow
-                        //     });
-                        // }
-                        // progressBar = rootProgressBar.Spawn(progress.TotalObjects, repo.Name + "Branch: " + "'" + branchName.Name + "'" , new ProgressBarOptions
-                        // {
-                        //     CollapseWhenFinished = true,
-                        //     ForegroundColorDone = ConsoleColor.Green,
-                        //     ForegroundColor = ConsoleColor.Yellow
-                        // });
-
                     progressBar.Tick(progress.ReceivedObjects);
                     return true;
                 };
@@ -357,17 +341,8 @@ namespace GithubBackup
                     if (Globals._AllBranches)
                     {
                         // Backup all branches for the current repository selected for backup
-                        //var client = CreateGithubClient();
-                        //var task = client.Repository.GetAllForCurrent();
-                        //task.Wait();
-
-                        // Get branch names for the current repository
-                        //var branchNames = GetBranchesForRepository(client, repo);
-
                         foreach (var branchName in branchNames)
                         {
-                            //Console.WriteLine($"Repository Name: {repo.Name}, Branch: {branchName.Name}");
-
                             // Clone the specific branch
                             string clonedRepoPath = Path.Combine(repoDestination, branchName.Name); // Create a folder for the branch
                             LibGit2Sharp.Repository.Clone(repo.CloneUrl, clonedRepoPath, cloneOptions);
@@ -376,6 +351,12 @@ namespace GithubBackup
                             //Console.WriteLine($"Processed repository {repo.FullName} - ALL branch: saved data for branch {branchName.Name} to disk");
 
                             Globals.repoitemscountelements.Add($"Repository Name: '{repo.Name}', Branch: '{branchName.Name}', Owner: '{repo.Owner.Login}'");
+
+                            // Count repos processed
+                            lock (lockObject)
+                            {
+                                Globals._repoBackupedCount++; // Increment the _repoCount integer for count of repos in total
+                            }
                         }
                     }
                     else
@@ -386,32 +367,25 @@ namespace GithubBackup
                         Message($"Processed repository: '{repo.Name}' for DefaultBranch '{repo.DefaultBranch}' - saved data to disk", EventType.Information, 1000);
                     
                         Globals.repoitemscountelements.Add($"Repository Name: '{repo.Name}', DefaultBranch: '{repo.DefaultBranch}', Owner: '{repo.Owner.Login}'");
+
+                        // Count repos processed
+                        lock (lockObject)
+                        {
+                            Globals._repoBackupedCount++; // Increment the _repoCount integer for count of repos in total
+                        }
                     }
-                    
-                    //string clonedRepoPath = LibGit2Sharp.Repository.Clone(repo.CloneUrl, repoDestination, new CloneOptions { BranchName = branchName });
-                    //LibGit2Sharp.Repository.Clone(repo.CloneUrl, repoDestination, cloneOptions);
-                    
-                    // LibGit2Sharp.Repository.Clone(repo.CloneUrl, repoDestination, cloneOptions);
-                    //
-                    // Message("Processed repository: " + repo.FullName + " - saved data to disk", EventType.Information, 1000);
-                    //
-                    // Globals.repoitemscountelements.Add($"Repository Name: {repo.Name}, DefaultBranch: {repo.DefaultBranch}, Owner: {repo.Owner.Login}");
                 }
                 catch (LibGit2SharpException libGit2SharpException)
                 //catch (Exception ex)
                 {
                     if (libGit2SharpException.Message == "this remote has never connected")
                     {
-                        Console.WriteLine("An error occured; GitHub may be down or you have no internet!");
+                        Console.WriteLine("An error occurred; GitHub may be down or you have no internet!");
                     }
                     else
                     {
-                        Console.WriteLine("An unknown error occured whilst trying to retrieve data from github when processing repository: " + repo.FullName + " when save data to disk - Error: "+ libGit2SharpException.Message);
+                        Console.WriteLine("An unknown error occurred whilst trying to retrieve data from github when processing repository: " + repo.FullName + " when save data to disk - Error: "+ libGit2SharpException.Message);
                     }
-
-                    // cloneException = ex;
-                    //
-                    // Message("Exception when processing repository: " + repo.FullName + " - Exception when save data to disk: " + cloneException, EventType.Error, 1001);
                 }
                 finally
                 {
@@ -424,75 +398,12 @@ namespace GithubBackup
                             Globals._errors++; // Increment the _errors integer
                         }
                     }
-
-                    // Add code to count number of repos processed
                 }
             });
 
             rootProgressBar.Dispose();
 
             return exceptions; // Add this return statement at the end
-            
-            /*var exceptions = new ConcurrentDictionary<string, Exception>();
-
-            var rootProgressBarOptions = new ProgressBarOptions
-            {
-                ForegroundColor = ConsoleColor.Cyan,
-                CollapseWhenFinished = false,
-                EnableTaskBarProgress = true,
-            };
-
-            var rootProgressBar = new ProgressBar(repos.Count, "Overall Progress", rootProgressBarOptions);
-
-            Parallel.ForEach(repos, (repo) =>
-            {
-                var repoDestination = Path.Combine(Destination, repo.FullName);
-
-                ChildProgressBar progressBar = null;
-
-                var cloneOptions = new LibGit2Sharp.CloneOptions();
-                cloneOptions.RecurseSubmodules = true;
-                cloneOptions.OnTransferProgress = (progress) =>
-                {
-                    if (progressBar == null)
-                        progressBar = rootProgressBar.Spawn(progress.TotalObjects, repo.Name, new ProgressBarOptions {
-                            CollapseWhenFinished = true,  ForegroundColorDone = ConsoleColor.Green, ForegroundColor = ConsoleColor.Yellow });
-
-                    progressBar.Tick(progress.ReceivedObjects);
-                    return true;
-                };
-
-                cloneOptions.RepositoryOperationCompleted = (context) =>
-                {
-                    progressBar?.Dispose();
-                };
-
-                if (Credentials.AuthenticationType == AuthenticationType.Basic)
-                {
-                    cloneOptions.CredentialsProvider = (url, user, cred)
-                    => new LibGit2Sharp.UsernamePasswordCredentials { Username = Credentials.Login, Password = Credentials.Password };
-                }
-                else if (Credentials.AuthenticationType == AuthenticationType.Oauth)
-                {
-                    cloneOptions.CredentialsProvider = (url, user, cred)
-                        => new LibGit2Sharp.UsernamePasswordCredentials { Username = Credentials.GetToken(), Password = string.Empty };
-                }
-
-                try
-                {
-                    LibGit2Sharp.Repository.Clone(repo.CloneUrl, repoDestination, cloneOptions);
-                }
-                catch (Exception ex)
-                {
-                    exceptions[repo.FullName] = ex;
-                }
-
-                rootProgressBar.Tick();
-            });
-
-            rootProgressBar.Dispose();
-
-            return exceptions;*/
         }
     }
 }
