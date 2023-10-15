@@ -72,7 +72,7 @@ namespace GithubBackup.Class
                 $"<td style=\"width: 10%; height: 18px;\"><b>{repoItemsCount}</b></td>" +
                 $"<td style=\"width: 33.3333%; height: 18px;\">{repoItemsCountStatusText}</td></tr><tr style=\"height: 18px;\">" +
                 $"<td style=\"width: 33%; height: 18px;\">Processed files to backup from Git repos (total unzipped if specified):</td>" +
-                $"<td style=\"width: 10%; height: 18px;\"><b>XXXXXXXXXXXXXXXXXX</b></td>" +
+                $"<td style=\"width: 10%; height: 18px;\"><b>{Globals._downloadedAllBranchesFileCount}</b></td>" +
                 $"<td style=\"width: 33.3333%; height: 18px;\">XXXXXXXXXXXXXXXXXX</td></tr><tr style=\"height: 18px;\">" +
                 $"<td style=\"width: 33%; height: 18px;\">Processed files to backup from Git repos (blob files (.zip files)) (all branches):</td>" +
                 $"<td style=\"width: 10%; height: 18px;\"><b>XXXXXXXXXXXXXXXXXX</b></td>" +
@@ -154,7 +154,8 @@ namespace GithubBackup.Class
                     Message("Found logfile for today:", EventType.Information, 1000);
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Found logfile for today:");
-                    Console.ResetColor();
+                    Console.ForegroundColor = ConsoleColor.White;
+                    //Console.ResetColor();
 
                     // Full file name
                     var fileName = Globals._fileAttachedIneMailReport;

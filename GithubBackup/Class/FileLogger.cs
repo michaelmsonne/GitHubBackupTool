@@ -56,13 +56,19 @@ namespace GithubBackup.Class
             var dateTime = GetDateTime(now);
             var logPath = GetLogPath(date);
 
-            // Set where to save log message to
-            if (WriteToFile)
-                AppendMessageToFile(logText, type, dateTime, logPath, id);
-            if (!WriteToEventLog)
-                return;
-            AddMessageToEventLog(logText, type, dateTime, logPath, id);
+            lock (LogLock) // Use a lock to synchronize access to the log file
+            {
+                // Set where to save log message to
+                if (WriteToFile)
+                    AppendMessageToFile(logText, type, dateTime, logPath, id);
+                if (!WriteToEventLog)
+                    return;
+                AddMessageToEventLog(logText, type, dateTime, logPath, id);
+            }
         }
+
+        // Define an object for locking
+        private static readonly object LogLock = new object();
 
         // Save message to logfile
         private static void AppendMessageToFile(string mess, EventType type, string dtf, string path, int id)
