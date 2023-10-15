@@ -32,6 +32,11 @@ namespace GithubBackup.Class
         public static int _errors; // count errors
         public static int _repoCount; // count repos from Github
         public static int _repoItemsCount; // count repo items from Github
+
+        public static int _processedMainBranchCount;
+        public static int _processedAllBranchesCount;
+        public static int _downloadedMainBranchFileCount;
+        public static int _downloadedAllBranchesFileCount;
         
         // Set Global variables for cleanup
         public static int _totalBackupsIsDeleted; // count of total backups deleted

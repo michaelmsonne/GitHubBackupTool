@@ -38,8 +38,8 @@ namespace GithubBackup.Class
                 // Make email body data
                 mailBody =
                     $"<hr><h2>Your {Globals.AppName} of organization/for user '{Globals._Name}' is: {emailStatusMessage}</h2><hr><p><h3>Details:</h3><p>" +
-                    $"<p>Processed Git project(s) in GitHub (total): <b>{repoCount}</b><br>" +
-                    $"Processed Git repos in project(s) a backup is made of from GitHub: <b>{repoItemsCount}</b><p>" +
+                    $"<p>Processed Git repositories in GitHub (total): <b>{repoCount}</b><br>" +
+                    $"Processed Git repos in repositories a backup is made of from GitHub: <b>{repoItemsCount}</b><p>" +
                     $"See the attached logfile for the backup(s) today: <b>{Globals.AppName} Log " + DateTime.Today.ToString("dd-MM-yyyy") + ".log</b>.<p>" +
                     $"Total Run Time is: \"{elapsedTime}\"<br>" +
                     $"Backup start Time: \"{startTime}\"<br>" +
