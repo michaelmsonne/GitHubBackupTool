@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Mail;
+using static GithubBackup.Class.FileLogger;
 
 namespace GithubBackup.Class
 {
@@ -37,6 +38,8 @@ namespace GithubBackup.Class
         public static int _processedAllBranchesCount;
         public static int _downloadedMainBranchFileCount;
         public static int _downloadedAllBranchesFileCount;
+        public static int _octokitFileCount;
+        public static int _downloadedFilesCount;
         
         // Set Global variables for cleanup
         public static int _totalBackupsIsDeleted; // count of total backups deleted
@@ -68,12 +71,14 @@ namespace GithubBackup.Class
             // Log start of program
             //Message($"Welcome to {Globals.AppName}, v." + Globals._vData + " by " + Globals._companyName, EventType.Information, 1000);
             Console.WriteLine($"\nWelcome to {Globals.AppName}, v." + Globals._vData + " by " + Globals._companyName + "\n");
+            Message($"Welcome to {Globals.AppName}, v." + Globals._vData + " by " + Globals._companyName, EventType.Information, 1000);
         }
         public static void ApplicationEndMessage()
         {
             // Log end of program
             //Message($"End of application - {Globals.AppName}, v." + Globals._vData, EventType.Information, 1000);
-            Console.WriteLine($"\nEnd of application - {Globals.AppName}, v. {Globals._vData}\n");
+            Console.WriteLine($"\nEnd of application - {Globals.AppName} v. {Globals._vData}\n");
+            Message($"End of application - {Globals.AppName} v. {Globals._vData}", EventType.Information, 1000);
         }
     }
 }
