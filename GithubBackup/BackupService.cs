@@ -72,7 +72,7 @@ namespace GithubBackup
             Globals._backupFolderName = Destination;
 
             // Log backup folder name
-            Message("Output folder is: '" + Destination + "'.", EventType.Information, 1000);
+            Message("Backup folder is set to: '" + Destination + "'.", EventType.Information, 1000);
             
             // Set credentials for Github
             Credentials = credentials;
@@ -347,15 +347,17 @@ namespace GithubBackup
                             string clonedRepoPath = Path.Combine(repoDestination, branchName.Name); // Create a folder for the branch
                             LibGit2Sharp.Repository.Clone(repo.CloneUrl, clonedRepoPath, cloneOptions);
 
-                            Message($"Processed repository '{repo.FullName}' - Options: ALL branches: saved data for branch '{branchName.Name}' to disk", EventType.Information, 1000);
+                            Message($"Processed repository '{repo.FullName}' for backup - Options: ALL branches: saved data for branch '{branchName.Name}' to disk", EventType.Information, 1000);
                             //Console.WriteLine($"Processed repository {repo.FullName} - ALL branch: saved data for branch {branchName.Name} to disk");
 
                             Globals.repoitemscountelements.Add($"Repository Name: '{repo.Name}', Branch: '{branchName.Name}', Owner: '{repo.Owner.Login}'");
 
+                            Globals._repoBackupedCount++; // Increment the _repoCount integer for count of repos in total
+
                             // Count repos processed
                             lock (lockObject)
                             {
-                                Globals._repoBackupedCount++; // Increment the _repoCount integer for count of repos in total
+                                //Globals._repoBackupedCount++; // Increment the _repoCount integer for count of repos in total
                             }
                         }
                     }
@@ -364,19 +366,20 @@ namespace GithubBackup
                         // Backup only the default branch for the current repository selected for backup (default branch) - this is the default option
                         LibGit2Sharp.Repository.Clone(repo.CloneUrl, repoDestination, cloneOptions);
 
-                        Message($"Processed repository: '{repo.Name}' for DefaultBranch '{repo.DefaultBranch}' - saved data to disk", EventType.Information, 1000);
+                        Message($"Processed repository: '{repo.FullName}' for backup, DefaultBranch '{repo.DefaultBranch}' - saved data to disk", EventType.Information, 1000);
                     
                         Globals.repoitemscountelements.Add($"Repository Name: '{repo.Name}', DefaultBranch: '{repo.DefaultBranch}', Owner: '{repo.Owner.Login}'");
+
+                        Globals._repoBackupedCount++; // Increment the _repoCount integer for count of repos in total
 
                         // Count repos processed
                         lock (lockObject)
                         {
-                            Globals._repoBackupedCount++; // Increment the _repoCount integer for count of repos in total
+                            //Globals._repoBackupedCount++; // Increment the _repoCount integer for count of repos in total
                         }
                     }
                 }
                 catch (LibGit2SharpException libGit2SharpException)
-                //catch (Exception ex)
                 {
                     if (libGit2SharpException.Message == "this remote has never connected")
                     {

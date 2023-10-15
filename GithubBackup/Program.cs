@@ -24,8 +24,6 @@ namespace GithubBackup
             builder.RegisterType<Credentials>().AsSelf();
 
             _container = builder.Build();
-
-            Globals.ApplicationStartMessage();
         }
 
         static int Main(string[] args)
@@ -47,7 +45,9 @@ namespace GithubBackup
             WriteToEventLog = false;
             WriteToFile = true;
 
-            Message("Loaded log configuration into the program: " + Globals.AppName, EventType.Information, 1000);
+            ApplicationEndStatus.ApplicationStartMessage();
+
+            Message("Loaded log configuration into the program: " + Globals.AppName , EventType.Information, 1000);
 
             // Start timer for runtime of tool
             //Globals._elapsedTime = null;

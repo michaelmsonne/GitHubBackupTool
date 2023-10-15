@@ -207,9 +207,9 @@ namespace GithubBackup.Commands
                             if (Globals._daysToKeepBackup != 30)
                             {
                                 // Log
-                                Message($"Argument -daystokeepbackup is not default (30), it is set to {Globals._daysToKeepBackup} days", EventType.Information, 1000);
+                                Message($"Argument -daystokeepbackup is not default (30), it is set to {Globals._daysToKeepBackup} day(s)", EventType.Information, 1000);
                                 Console.ForegroundColor = ConsoleColor.Yellow;
-                                Console.WriteLine($"Argument -daystokeepbackup is not default (30), it is set to {Globals._daysToKeepBackup} days");
+                                Console.WriteLine($"Argument -daystokeepbackup is not default (30), it is set to {Globals._daysToKeepBackup} day(s)");
                                 Console.ResetColor();
 
                                 // Set status text for email
@@ -231,8 +231,6 @@ namespace GithubBackup.Commands
                     }
                     else
                     {
-                        //Console.WriteLine("TEST daysToKeepBackupOption - FALSE");
-
                         // Log
                         Message($"Argument -daystokeepbackup does not exits - using default backups to keep (30 days)!", EventType.Information, 1000);
                         Console.ForegroundColor = ConsoleColor.Yellow;
@@ -245,8 +243,6 @@ namespace GithubBackup.Commands
 
                     // Count backups in backup folder
                     Backups.CountCurrentNumersOfBackup(destinationFolder);
-
-                    //Console.WriteLine("Globals._currentBackupsInBackupFolderCount: " + Globals._currentBackupsInBackupFolderCount);
 
                     // Create the backup and parse the arguments
                     backupService.CreateBackup();
