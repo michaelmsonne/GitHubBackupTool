@@ -33,6 +33,7 @@ namespace GithubBackup.Class
         public static int _errors; // count errors
         public static int _repoCount; // count repos from Github
         public static int _repoItemsCount; // count repo items from Github
+        public static int _backupFileCount; // count repos from Github
 
         public static int _processedMainBranchCount;
         public static int _processedAllBranchesCount;

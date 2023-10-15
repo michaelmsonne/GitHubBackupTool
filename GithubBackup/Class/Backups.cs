@@ -164,5 +164,32 @@ namespace GithubBackup.Class
             // Save count
             Globals._currentBackupsInBackupFolderCount = folderCount;
         }
+
+        public static int CountFilesInRepoBackupFolder(string folderPath)
+        {
+            int fileCount = 0;
+
+            try
+            {
+                // Count files in the current folder
+                fileCount += Directory.GetFiles(folderPath).Length;
+
+                // Recursively count files in subfolders
+                foreach (var subfolder in Directory.GetDirectories(folderPath))
+                {
+                    fileCount += CountFilesInRepoBackupFolder(subfolder);
+                }
+            }
+            catch (UnauthorizedAccessException)
+            {
+                // Handle unauthorized access to folders if needed
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+
+            return fileCount;
+        }
     }
 }

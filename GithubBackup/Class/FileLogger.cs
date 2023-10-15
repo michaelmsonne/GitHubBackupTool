@@ -111,7 +111,7 @@ namespace GithubBackup.Class
             }
             catch (UnauthorizedAccessException)
             {
-                Message("Unable to create folder to store the log files: " + Files.LogFilePath + "'. Make sure the account you use to run this tool has write rights to this location.", EventType.Error, 1001);
+                Message("Unable to create folder to store the log files: '" + Files.LogFilePath + "'. Make sure the account you use to run this tool has write rights to this location.", EventType.Error, 1001);
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Unable to create folder to store the log files: ´'" + Files.LogFilePath + "'. Make sure the account you use to run this tool has write rights to this location.");
                 Console.ResetColor();
