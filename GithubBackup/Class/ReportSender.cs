@@ -69,13 +69,13 @@ namespace GithubBackup.Class
                 $"<td style=\"width: 10%; height: 18px;\"><b>{repoCount}</b></td>" +
                 $"<td style=\"width: 33.3333%; height: 18px;\">{repoCountStatusText}</td></tr><tr style=\"height: 18px;\">" +
                 $"<td style=\"width: 33%; height: 18px;\">Processed Git repos in project(s) a backup is made of from GitHub (all branches):</td>" +
-                $"<td style=\"width: 10%; height: 18px;\"><b>{repoItemsCount}</b></td>" +
+                $"<td style=\"width: 10%; height: 18px;\"><b>{Globals._repoBackupedCount}</b></td>" +
                 $"<td style=\"width: 33.3333%; height: 18px;\">{repoItemsCountStatusText}</td></tr><tr style=\"height: 18px;\">" +
-                $"<td style=\"width: 33%; height: 18px;\">Processed files to backup from Git repos (total unzipped if specified):</td>" +
-                $"<td style=\"width: 10%; height: 18px;\"><b>{Globals._downloadedAllBranchesFileCount}</b></td>" +
+                $"<td style=\"width: 33%; height: 18px;\">Processed files to backup from Git repos (total files) (all branches)::</td>" +
+                $"<td style=\"width: 10%; height: 18px;\"><b>{Globals._backupFileCount}</b></td>" +
                 $"<td style=\"width: 33.3333%; height: 18px;\">XXXXXXXXXXXXXXXXXX</td></tr><tr style=\"height: 18px;\">" +
-                $"<td style=\"width: 33%; height: 18px;\">Processed files to backup from Git repos (blob files (.zip files)) (all branches):</td>" +
-                $"<td style=\"width: 10%; height: 18px;\"><b>XXXXXXXXXXXXXXXXXX</b></td>" +
+                $"<td style=\"width: 33%; height: 18px;\">Processed files to backup from Git repos (total folders) (all branches):</td>" +
+                $"<td style=\"width: 10%; height: 18px;\"><b>{Globals._backupFolderCount}</b></td>" +
                 $"<td style=\"width: 33.3333%; height: 18px;\">XXXXXXXXXXXXXXXXXX</td></tr><tr>" +
                 $"<td style=\"width: 33%;\">Processed files to backup from Git repos (tree files (.json files)) (all branches):</td>" +
                 $"<td style=\"width: 10%;\"><b>XXXXXXXXXXXXXXXXXX</b></td>" +
