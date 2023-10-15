@@ -99,7 +99,7 @@ namespace GithubBackup.Class
                 $"<td style=\"width: 21%; height: 18px;\">Old backup(s) deleted in backup folder:</td>" +
                 $"<td style=\"width: 22%; height: 18px;\"><b>{totalBackupsIsDeleted}</b></td>" +
                 $"<td style=\"width: 33.3333%; height: 18px;\">{totalBackupsIsDeletedStatusText}</td></tr></table>" +
-                $"<p>See the attached logfile for the backup(s) today: <b>{Globals.AppName} Log " + DateTime.Today.ToString("dd-MM-yyyy") + ".log</b>.<o:p></o:p></p>" +
+                $"<p>See the attached logfile for the backup(s) today: <b>'{Globals.AppName} Log " + DateTime.Today.ToString("dd-MM-yyyy") + ".log'</b>.<o:p></o:p></p>" +
                 $"<p>Total Run Time is: \"{elapsedTime}\"<br>" +
                 $"Backup start Time: \"{startTime}\"<br>" +
                 $"Backup end Time: \"{endTime}\"</p><hr/>" +

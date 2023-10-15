@@ -71,13 +71,15 @@ Use it in a scheduled task to backup your repositories every day or week or mont
 
 # Console use:
 
-**Help menu:**
+**Help and info menu:**
 
-![Screenshot](docs/help-menu.png)
+Main menu:
 
-**About menu:**
+![Screenshot](docs/pictures/help-menu.png)
 
-![Screenshot](docs/help-about.png)
+Sub menu:
+
+![Screenshot](docs/pictures/help-token-menu.png)
 
 # To-do list:
 > Add branch filter option/parameter (done)
