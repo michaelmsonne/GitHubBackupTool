@@ -79,14 +79,14 @@ namespace GithubBackup
         }
 
         // Separate method to print repository details and log them
-        private static void PrintRepositoryDetails(Repository repo)
-        {
-            // Print repository details to console
-            Console.WriteLine($"Repository Name: '{repo.Name}', Owner: '{repo.Owner.Login}', DefaultBranch: '{repo.DefaultBranch}', Fork: '{repo.Fork}'\n  (Permissions: Admin: '{repo.Permissions.Admin}', Pull: '{repo.Permissions.Pull}', Push: '{repo.Permissions.Push}')");
-            
-            // Log repository details
-            Message($"Repository Name: '{repo.Name}', Owner: '{repo.Owner.Login}', DefaultBranch: '{repo.DefaultBranch}', Fork: '{repo.Fork}', (Permissions: Admin: '{repo.Permissions.Admin}', Pull: '{repo.Permissions.Pull}', Push: '{repo.Permissions.Push}')", EventType.Information, 1000);
-        }
+        // private static void PrintRepositoryDetails(Repository repo)
+        // {
+        //     // Print repository details to console
+        //     Console.WriteLine($"Repository Name: '{repo.Name}', Owner: '{repo.Owner.Login}', DefaultBranch: '{repo.DefaultBranch}', Fork: '{repo.Fork}'\n  (Permissions: Admin: '{repo.Permissions.Admin}', Pull: '{repo.Permissions.Pull}', Push: '{repo.Permissions.Push}')");
+        //     
+        //     // Log repository details
+        //     Message($"Repository Name: '{repo.Name}', Owner: '{repo.Owner.Login}', DefaultBranch: '{repo.DefaultBranch}', Fork: '{repo.Fork}', (Permissions: Admin: '{repo.Permissions.Admin}', Pull: '{repo.Permissions.Pull}', Push: '{repo.Permissions.Push}')", EventType.Information, 1000);
+        // }
 
         public void CreateBackup()
         {
@@ -224,10 +224,7 @@ namespace GithubBackup
                 }
 
                 // Print repository details to console
-                PrintRepositoryDetails(repo);
-
-                //Console.WriteLine($"Repository Name: {repo.Name}, Owner: {repo.Owner.Login}, Fork: {repo.Fork}, (Permissions: Admin: {repo.Permissions.Admin}, Pull: {repo.Permissions.Pull}, Push: {repo.Permissions.Push})");
-                //Message($"Repository Name: {repo.Name}, Owner: {repo.Owner.Login}, Fork: {repo.Fork}, (Permissions: Admin: {repo.Permissions.Admin}, Pull: {repo.Permissions.Pull}, Push: {repo.Permissions.Push})", EventType.Information, 1000);
+                RepositoryDetails.PrintRepositoryDetails(repo);
 
                 // List name for projects to list for email report list
                 Globals.repocountelements.Add($"Repository Name: '{repo.Name}', DefaultBranch: '{repo.DefaultBranch}', Owner: '{repo.Owner.Login}'");
