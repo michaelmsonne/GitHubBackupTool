@@ -182,6 +182,8 @@ namespace GithubBackup
             task.Wait();
             var allRepos = task.Result;
 
+            Globals._repoCount = 0; // Reset the _repoCount integer for count of repos in total
+
             IReadOnlyList<Repository> filteredRepos = null;
 
             if (Globals._AllRepos)
@@ -209,6 +211,9 @@ namespace GithubBackup
 
             foreach (var repo in allRepos)
             {
+                
+                Globals._repoCount++; // Increment the _repoCount integer for count of repos in total
+
                 // Get branch names for the current repository
                 var branchNames = GetBranchNamesForRepository(client, repo.Owner.Login, repo.Name);
 
