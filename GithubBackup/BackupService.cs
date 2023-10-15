@@ -132,8 +132,13 @@ namespace GithubBackup
             Console.WriteLine($"Starting to clone all repositories into backup folder: '{Destination}'...");
             Message($"Starting to clone all repositories into backup folder: '{Destination}'...", EventType.Information, 1000);
 
+            // Clone all repositories into backup folder specified
             var exceptions = CloneRepos(repos);
 
+            int fileCount = Backups.CountFilesInRepoBackupFolder(Destination);
+            Globals._backupFileCount = fileCount;
+
+            // Show errors if any
             if (exceptions.Any())
             {
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -161,6 +166,9 @@ namespace GithubBackup
                     // Handle errors
                     Console.WriteLine("Errors: " + Globals._errors);
                     Message("Errors: " + Globals._errors, EventType.Error, 1001);
+
+                    // Handle errors
+                    ApplicationEndStatus.ApplicationEndBackupError();
                 }
                 else
                 {

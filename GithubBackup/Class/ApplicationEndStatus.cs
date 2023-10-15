@@ -40,6 +40,9 @@ namespace GithubBackup.Class
             Message("Backup end Time: " + Globals._endTime, EventType.Information, 1000);
             Message("Errors: " + Globals._errors, EventType.Information, 1000);
 
+            // Log total number of files in backup folder
+            Message($"Total number of files in '{Globals._backupFolderName}' and its subfolders: '{Globals._backupFileCount}'", EventType.Information, 1000);
+
             // Send email report if email options is set
             if (Globals._emailOptionsIsSet)
             {
@@ -110,6 +113,9 @@ namespace GithubBackup.Class
             Message("Backup start Time: " + Globals._startTime, EventType.Information, 1000);
             Message("Backup end Time: " + Globals._endTime, EventType.Information, 1000);
             Message("Errors: " + Globals._errors, EventType.Information, 1000);
+
+            // Log total number of files in backup folder
+            Message($"Total number of files in '{Globals._backupFolderName}' and its subfolders: '{Globals._backupFileCount}' (but not complete as there was some error(s) when backup - check log for mere information)", EventType.Information, 1000);
 
             // Send email report if email options is set
             if (Globals._emailOptionsIsSet)

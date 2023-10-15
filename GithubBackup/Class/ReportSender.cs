@@ -151,7 +151,7 @@ namespace GithubBackup.Class
                     Globals._fileAttachedIneMailReport = file;
 
                     // Log
-                    Message("Found logfile for today:", EventType.Information, 1000);
+                    Message("Found logfile for today", EventType.Information, 1000);
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Found logfile for today:");
                     Console.ForegroundColor = ConsoleColor.White;
@@ -163,23 +163,23 @@ namespace GithubBackup.Class
 
                     // Get File Name
                     var justFileName = fi.Name;
-                    Console.WriteLine("File name: " + justFileName);
-                    Message("File name: " + justFileName, EventType.Information, 1000);
+                    Console.WriteLine("File name: '" + justFileName + "'");
+                    Message("File name: '" + justFileName + "'", EventType.Information, 1000);
 
                     // Get file name with full path
                     var fullFileName = fi.FullName;
-                    Console.WriteLine("Full file name: " + fullFileName);
-                    Message("Full file name: " + fullFileName, EventType.Information, 1000);
+                    Console.WriteLine("Full file name: '" + fullFileName + "'");
+                    Message("Full file name: '" + fullFileName + "'", EventType.Information, 1000);
 
                     // Get file extension
                     var extn = fi.Extension;
-                    Console.WriteLine("File Extension: " + extn);
-                    Message("File Extension: " + extn, EventType.Information, 1000);
+                    Console.WriteLine("File Extension: '" + extn + "'");
+                    Message("File Extension: '" + extn + "'", EventType.Information, 1000);
 
                     // Get directory name
                     var directoryName = fi.DirectoryName;
-                    Console.WriteLine("Directory name: " + directoryName);
-                    Message("Directory name: " + directoryName, EventType.Information, 1000);
+                    Console.WriteLine("Directory name: '" + directoryName + "'");
+                    Message("Directory name: '" + directoryName + "'", EventType.Information, 1000);
 
                     // File Exists ?
                     var exists = fi.Exists;
@@ -227,9 +227,9 @@ namespace GithubBackup.Class
                     // TODO logfile is not locked from here - you can add logs to logfile again from here!
 
                     // Log
-                    Message("Email notification is send to " + emailTo + " at " + DateTime.Now.ToString("dd-MM-yyyy (HH-mm)") + " with priority " + Globals.EmailPriority + "!", EventType.Information, 1000);
+                    Message("Email notification is send to '" + emailTo + "' at " + DateTime.Now.ToString("dd-MM-yyyy (HH-mm)") + " with priority " + Globals.EmailPriority + "!", EventType.Information, 1000);
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("Email notification is send to " + emailTo + " at " + DateTime.Now.ToString("dd-MM-yyyy (HH-mm)") + " with priority " + Globals.EmailPriority + "!");
+                    Console.WriteLine("Email notification is send to '" + emailTo + "' at " + DateTime.Now.ToString("dd-MM-yyyy (HH-mm)") + " with priority " + Globals.EmailPriority + "!");
                     Console.ResetColor();
                 }
                 catch (Exception ex)
