@@ -135,8 +135,12 @@ namespace GithubBackup
             // Clone all repositories into backup folder specified
             var exceptions = CloneRepos(repos);
 
-            int fileCount = Backups.CountFilesInRepoBackupFolder(Destination);
+            // Count number of files and folders in backup folder
+            Backups.CountFilesAndFoldersInFolder(Globals._backupFolderName, out var fileCount, out var folderCount);
+
+            // Save count of files and folders in backup folder to global variables
             Globals._backupFileCount = fileCount;
+            Globals._backupFolderCount = folderCount;
 
             // Show errors if any
             if (exceptions.Any())

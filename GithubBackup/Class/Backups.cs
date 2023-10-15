@@ -165,19 +165,24 @@ namespace GithubBackup.Class
             Globals._currentBackupsInBackupFolderCount = folderCount;
         }
 
-        public static int CountFilesInRepoBackupFolder(string folderPath)
+        internal static void CountFilesAndFoldersInFolder(string folderPath, out int fileCount, out int folderCount)
         {
-            int fileCount = 0;
+            fileCount = 0;
+            folderCount = 0;
 
             try
             {
-                // Count files in the current folder
+                // Count files and folders in the current folder
                 fileCount += Directory.GetFiles(folderPath).Length;
+                folderCount += Directory.GetDirectories(folderPath).Length;
 
-                // Recursively count files in subfolders
+                // Recursively count files and folders in subfolders
                 foreach (var subfolder in Directory.GetDirectories(folderPath))
                 {
-                    fileCount += CountFilesInRepoBackupFolder(subfolder);
+                    int subfolderFileCount, subfolderFolderCount;
+                    CountFilesAndFoldersInFolder(subfolder, out subfolderFileCount, out subfolderFolderCount);
+                    fileCount += subfolderFileCount;
+                    folderCount += subfolderFolderCount;
                 }
             }
             catch (UnauthorizedAccessException)
@@ -188,8 +193,6 @@ namespace GithubBackup.Class
             {
                 Console.WriteLine($"Error: {ex.Message}");
             }
-
-            return fileCount;
         }
     }
 }

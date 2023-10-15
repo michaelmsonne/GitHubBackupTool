@@ -42,6 +42,7 @@ namespace GithubBackup.Class
 
             // Log total number of files in backup folder
             Message($"Total number of files in backup folder '{Globals._backupFolderName}' and its subfolders is: '{Globals._backupFileCount}'", EventType.Information, 1000);
+            Message($"Total number of folders in backup folder '{Globals._backupFolderName}' is: '{Globals._backupFolderCount}'", EventType.Information, 1000);
 
             // Send email report if email options is set
             if (Globals._emailOptionsIsSet)
