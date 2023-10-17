@@ -6,6 +6,18 @@
   <a href="https://github.com/michaelmsonne/GitHubBackupTool"><img src="https://img.shields.io/github/downloads/michaelmsonne/GitHubBackupTool/total.svg"></a>
 </p>
 
+## Table of Contents
+- [Introduction](#introduction)
+- [Features](#features)
+- [Download](#download)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Usage](#usage)
+- [Examples](#examples)
+- [Contributing](#contributing)
+- [License](#license)
+
 # Introduction
 This tool creates a local backup of repositories of a given GitHub user with some options to filter based on some conditions.
 You can also use it to backup all repositories of an organization of you created a personal access token with the right permissions under there.
@@ -18,11 +30,31 @@ While your code is perfectly safe on the GitHub infrastructure, there are cases 
 
 ![GitHubBackupTool screenshot](screenshot.png?raw=true "GitHubBackupTool screenshot")
 
+## Features
+- Backup Git repos from GitHub via token
+- Supports user token and Org token
+- Send email report with status
+- Set custom path for backup location
+
 ## Download
 
 [Download the latest version](../../releases/latest)
 
 [Version History](CHANGELOG.md)
+
+## Getting Started
+### Prerequisites
+- [.NET Core SDK](https://dotnet.microsoft.com/download) installed on your system.
+
+### Access token:
+
+You can create a personal access token here: https://github.com/settings/tokens/new
+
+Access: Read access to repositories who needs backup and read access to user profile.
+
+
+### Installation
+You can either clone this repository and build the project yourself.
 
 ## Usage
 
@@ -34,12 +66,6 @@ etc.:
 ```bash
 GitHubBackupTool token-based XXX... "D:\Backup\GitHub\" -allowner -mailto "mail-to@domain.com" -mailfrom "mail-from@domain.com" -mailserver "mailserver.domain.com" -mailport "25" -priority "high" -daystokeepbackup 50
 ```
-
-### Needed:
-
-You can create a personal access token here: https://github.com/settings/tokens/new
-
-Access: Read access to repositories who needs backup and read access to user profile.
 
 </br>
 
@@ -97,3 +123,9 @@ So far I tested the application only for win10-x64 systems, but it might also wo
 [Autofac](https://github.com/autofac/Autofac)
 
 [ShellProgressBar](https://github.com/Mpdreamz/shellprogressbar)
+
+# Contributing
+If you want to contribute to this project, please open an issue or submit a pull request. I welcome contributions :)
+
+# License
+This project is licensed under the MIT License - see the LICENSE file for details.
