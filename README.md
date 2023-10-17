@@ -81,10 +81,6 @@ Sub menu:
 
 ![Screenshot](docs/pictures/help-token-menu.png)
 
-# To-do list:
-> Add branch filter option/parameter (done)
-
-
 ## Building
 
 ```bash
