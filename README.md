@@ -28,6 +28,8 @@ If you don´t provide a destination folder in the argument, the backup will be c
 
 While your code is perfectly safe on the GitHub infrastructure, there are cases where a centralized local backup of all projects and repositories is needed. These might include Corporate Policies, Disaster Recovery and Business Continuity Plans.
 
+By using the GitHubBackupTool, you can automate the process of creating backups of your GitHub repositories, ensuring that your valuable code is safe and easily recoverable.
+
 ![GitHubBackupTool screenshot](screenshot.png?raw=true "GitHubBackupTool screenshot")
 
 ## Features
@@ -67,7 +69,21 @@ etc.:
 GitHubBackupTool token-based XXX... "D:\Backup\GitHub\" -allowner -mailto "mail-to@domain.com" -mailfrom "mail-from@domain.com" -mailserver "mailserver.domain.com" -mailport "25" -priority "high" -daystokeepbackup 50
 ```
 
-</br>
+Paramenters (**NOT FINAL**):
+
+- YOUR_ACCESS_TOKEN: Replace this with your GitHub personal access token.
+- "D:\Backup\GitHub\": Specify the local directory where you want to store the GitHub repository backups.
+- -allowner: Use this option to back up repositories owned by the token holder.
+- -all: Use this option to back up all repositories the token have access to.
+- -allnf: Use this option to back up repositories owned by the token holder and exclude forked repositories..
+- -allowner: Use this option to back up repositories owned by the token holder.
+- -allbranches: Use this option to back up all branches of repositories (default only DefaultBranch) by the token holder.
+- -mailto "mail-to@domain.com": Provide an email address where backup completion notifications will be sent.
+- -mailfrom "mail-from@domain.com": Specify the sender's email address for the notification emails.
+- -mailserver "mailserver.domain.com": Define the SMTP server for sending email notifications.
+- -mailport "25": Set the SMTP server port (default is 25).
+- -priority "high": Specify the email priority for notifications (e.g., high, normal, low).
+- -daystokeepbackup 50: Set the number of days to retain backup files before automatic removal.
 
 # Final thoughts
 This is not an exhaustive method to retrieve every artifact on GitHub. There’s a lot more to be done to make this a complete solution.
