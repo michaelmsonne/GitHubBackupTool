@@ -16,11 +16,7 @@ If you don´t provide a destination folder in the argument, the backup will be c
 
 While your code is perfectly safe on the GitHub infrastructure, there are cases where a centralized local backup of all projects and repositories is needed. These might include Corporate Policies, Disaster Recovery and Business Continuity Plans.
 
-</br>
-
 ![GitHubBackupTool screenshot](screenshot.png?raw=true "GitHubBackupTool screenshot")
-
-</br>
 
 ## Download
 
