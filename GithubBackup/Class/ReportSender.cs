@@ -32,12 +32,48 @@ namespace GithubBackup.Class
                 emailStatusMessage += " - but with warning(s)";
             }
 
-
             // Text if no Git projects to backup
             if (Globals._noProjectsToBackup)
             {
                 emailStatusMessage = "No projects to backup!";
             }
+            
+            // Old backup(s) deleted in backup folder:
+            if (Globals._totalBackupsIsDeleted != 0)
+            {
+                totalBackupsIsDeletedStatusText = "Good - deleted " + Globals._totalBackupsIsDeleted + " old backup(s) from backup folder";
+
+                // Log
+                Message($"Old backup(s) deleted in backup folder: status: " + totalBackupsIsDeletedStatusText, EventType.Information, 1000);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"Old backup(s) deleted in backup folder: status: " + totalBackupsIsDeletedStatusText);
+                Console.ResetColor();
+            }
+            else
+            {
+                if (Globals._isBackupOk)
+                {
+                    totalBackupsIsDeletedStatusText = "Good - no old backup(s) to delete from backup folder";
+
+                    // Log
+                    Message($"Old backup(s) deleted in backup folder status: " + totalBackupsIsDeletedStatusText, EventType.Information, 1000);
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"Old backup(s) deleted in backup folder status: " + totalBackupsIsDeletedStatusText);
+                    Console.ResetColor();
+                }
+                else
+                {
+                    totalBackupsIsDeletedStatusText = "Warning!";
+
+                    // Log
+                    Message($"Old backup(s) deleted in backup folder status: " + totalBackupsIsDeletedStatusText, EventType.Warning, 1001);
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine($"Old backup(s) deleted in backup folder status: " + totalBackupsIsDeletedStatusText);
+                    Console.ResetColor();
+                }
+            }
+            // TODO - CLEANUP LATER
+            // Globals._totalBackupsIsDeletedStatusText = totalBackupsIsDeletedStatusText;
 
 
             // If args is set to old mail report layout
