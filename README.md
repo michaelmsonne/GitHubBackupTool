@@ -30,7 +30,7 @@ While your code is perfectly safe on the GitHub infrastructure, there are cases 
 
 By using the GitHubBackupTool, you can automate the process of creating backups of your GitHub repositories, ensuring that your valuable code is safe and easily recoverable.
 
-![GitHubBackupTool screenshot](screenshot.png?raw=true "GitHubBackupTool screenshot")
+![GitHubBackupTool screenshot](docs/pictures/screenshot.png?raw=true "GitHubBackupTool screenshot")
 
 ## Features
 - Backup Git repos from GitHub via token
