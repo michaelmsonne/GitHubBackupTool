@@ -107,8 +107,7 @@ namespace GithubBackup.Class
                     $"Old backups deleted in backup folder: <b>{totalBackupsIsDeleted}</b><br>" +
                     listrepocountelements + "<br>" +
                     listitemscountelements + "</p><br><hr>" +
-                    $"<h3>From Your {Globals.AppName} tool!</h3></b><br>" +
-                    Globals._copyrightData + ", v." + Globals._vData;
+                    $"<h3>From Your {Globals.AppName} tool!<o:p></o:p></h3>" + Globals._copyrightData + ", v." + Globals._vData;
             }
             else
             {
