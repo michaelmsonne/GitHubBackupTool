@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Mail;
+using Octokit;
 using static GithubBackup.Class.FileLogger;
 
 namespace GithubBackup.Class
@@ -39,6 +40,7 @@ namespace GithubBackup.Class
         public static bool _isBackupOk; // check if backup is ok or not state
         public static string _repoCountStatusText; // text to display in email report
         public static string _isDaysToKeepNotDefaultStatusText; // text to display in email report if days to keep backup is not default value (30 days)
+        public static string _totalBackupsIsDeletedStatusText; // text to display in email report if backups is deleted
 
         public static int _processedMainBranchCount;
         public static int _processedAllBranchesCount;
