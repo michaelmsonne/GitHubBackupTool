@@ -26,10 +26,15 @@ namespace GithubBackup.Class
             var letOverJsonFiles = 0;
             var letOverZipFiles = 0;
             
-            // It error count is over 0 add warning in email subject
-            if (errors > 0)
+            // Get email status text from job status
+            if (Globals._isBackupOk)
             {
-                emailStatusMessage += " - but with warning(s)";
+                // If unzipped or not
+                emailStatusMessage = "Success";
+            }
+            else
+            {
+                emailStatusMessage = "Failed!";
             }
 
             // Text if no Git projects to backup
@@ -37,7 +42,13 @@ namespace GithubBackup.Class
             {
                 emailStatusMessage = "No projects to backup!";
             }
-            
+
+            // It error count is over 0 add warning in email subject
+            if (errors > 0)
+            {
+                emailStatusMessage += " - but with warning(s)";
+            }
+
             // Old backup(s) deleted in backup folder:
             if (Globals._totalBackupsIsDeleted != 0)
             {
@@ -168,8 +179,10 @@ namespace GithubBackup.Class
 
             // ReSharper disable once UnusedVariable
             //var isParsable = (serverPortStr, out var serverPortNumber);
-            using (var client = new SmtpClient(serverAddress, serverPortStr) { EnableSsl = true, UseDefaultCredentials = true })
+            using (var client = new SmtpClient(serverAddress, serverPortStr))
             {
+                client.EnableSsl = true;
+                client.UseDefaultCredentials = true;
                 Message("Created email report and parsed data", EventType.Information, 1000);
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Created email report and parsed data");
