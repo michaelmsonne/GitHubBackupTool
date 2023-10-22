@@ -227,7 +227,6 @@ namespace GithubBackup.Commands
                             // Set default
                             Backups.DaysToKeepBackupsDefault(destinationFolder);
                         }
-
                     }
                     else
                     {
