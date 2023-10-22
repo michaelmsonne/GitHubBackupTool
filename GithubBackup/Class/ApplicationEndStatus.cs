@@ -7,6 +7,11 @@ namespace GithubBackup.Class
 {
     internal class ApplicationEndStatus
     {
+        // todo merge ApplicationEndBackupSuccess and ApplicationEndBackupError into one method
+
+        // merge ApplicationEndBackupSuccess and ApplicationEndBackupError into one method
+
+
         public static void ApplicationEndBackupSuccess()
         {
             Console.ForegroundColor = ConsoleColor.White;
@@ -136,11 +141,11 @@ namespace GithubBackup.Class
                     Globals._errors,
                     Globals._totalBackupsIsDeleted,
                     Globals._daysToKeepBackup,
-                    "TEST",
+                    Globals._repoCountStatusText,
                     "TEST",
                     "TEST",
                     Globals._useSimpleMailReportLayout,
-                    "TEST",
+                    Globals._isDaysToKeepNotDefaultStatusText,
                     Globals._startTime,
                     Globals._endTime);
             }
