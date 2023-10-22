@@ -110,7 +110,7 @@ namespace GithubBackup.Class
 
             // Create mail
             var message = new MailMessage(emailFrom, emailTo);
-            message.Subject = "[" + emailStatusMessage + $"] - {Globals.AppName} status - (" + "XXXXXXXXXXXXXXXXXX" +
+            message.Subject = "[" + emailStatusMessage + $"] - {Globals.AppName} status - (" + Globals._repoBackupedCount +
                               " Git projects backed up), " + errors + " issues(s) - (backups to keep (days): " + daysToKeep +
                               ", backup(s) deleted: " + totalBackupsIsDeleted + ")";
             message.Body = mailBody;
