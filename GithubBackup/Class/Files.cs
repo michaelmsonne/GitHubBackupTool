@@ -29,15 +29,15 @@ namespace GithubBackup.Class
             }
         }
 
-        // public static string TokenFilePath
-        // {
-        //     get
-        //     {
-        //         // Root folder for log files
-        //         var tokenFilePathvar = ProgramDataFilePath + @"\token.bin";
-        //         return tokenFilePathvar;
-        //     }
-        // }
+        public static string TokenFilePath
+        {
+            get
+            {
+                // Root folder for log files
+                var tokenFilePathvar = ProgramDataFilePath + @"\token.bin";
+                return tokenFilePathvar;
+            }
+        }
 
         // If args is set to delete original downloaded .zip and .json files
         // Get output folder from backup with date for folder to backup to
