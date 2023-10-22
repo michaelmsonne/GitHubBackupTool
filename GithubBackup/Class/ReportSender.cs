@@ -23,8 +23,6 @@ namespace GithubBackup.Class
             //Parse data to list from list of repo.name
             var listrepocountelements = "<h3>List of Git repositories in GitHub (the API key give access to):</h3>∘ " + string.Join("<br>∘ ", repoCountElements);
             var listitemscountelements = "<h3>List of Git repositories in GitHub a backup is performed of (based on arguments for backup type):</h3>∘ " + string.Join("<br>∘ ", repoItemsCountElements);
-            var letOverJsonFiles = 0;
-            var letOverZipFiles = 0;
             
             // Get email status text from job status
             if (Globals._isBackupOk)
