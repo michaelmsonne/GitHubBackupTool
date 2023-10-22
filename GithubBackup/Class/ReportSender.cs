@@ -32,6 +32,14 @@ namespace GithubBackup.Class
                 emailStatusMessage += " - but with warning(s)";
             }
 
+
+            // Text if no Git projects to backup
+            if (Globals._noProjectsToBackup)
+            {
+                emailStatusMessage = "No projects to backup!";
+            }
+
+
             // If args is set to old mail report layout
             if (useSimpleMailReportLayout)
             {

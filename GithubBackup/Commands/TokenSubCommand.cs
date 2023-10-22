@@ -92,12 +92,18 @@ namespace GithubBackup.Commands
                         // Set backup to keep days to the value provided
                         Globals._daysToKeepBackup = int.Parse(daysToKeepBackupOption.Value());
 
+                        // Set status text for email
+                        Globals._isDaysToKeepNotDefaultStatusText = "Custom number of old backup(s) set to keep in backup folder (days)";
+
                         Message("Days to keep backups is set to: " + Globals._daysToKeepBackup, EventType.Information, 1000);
                     }
                     else
                     {
                         // Set backup to keep days to default value
                         Globals._daysToKeepBackup = 30;
+
+                        // Set status text for email
+                        Globals._isDaysToKeepNotDefaultStatusText = "Default number of old backup(s) set to keep in backup folder (days)";
 
                         Message("Days to keep backups is set to: " + Globals._daysToKeepBackup + " (default value as no argument is set)", EventType.Information, 1000);
                     }

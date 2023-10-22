@@ -108,6 +108,16 @@ namespace GithubBackup
             Console.ForegroundColor = ConsoleColor.White;
             var repos = GetRepos();
 
+            // if repos is empty - set state to no projects to backup
+            if (repos.Count == 0)
+            {
+                Globals._noProjectsToBackup = true;
+            }
+            else
+            {
+                Globals._noProjectsToBackup = false;
+            }
+
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Got all repos the API key has access to - getting what meets the arguments for backup...");
             Message("Got all repos the API key has access to - getting what meets the arguments for backup...", EventType.Information, 1000);
@@ -163,6 +173,11 @@ namespace GithubBackup
             {
                 if (Globals._errors > 0)
                 {
+                    //Set backup status
+                    Globals._isBackupOk = false;
+
+                    Globals._repoCountStatusText = "Warning!";
+
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("\nBackup finished with error(s) - see log for more information");
                     Message($"Backup finished with error(s) - see log for more information", EventType.Error, 1001);
@@ -176,6 +191,11 @@ namespace GithubBackup
                 }
                 else
                 {
+                    //Set backup status
+                    Globals._isBackupOk = true;
+
+                    Globals._repoCountStatusText = "Good";
+
                     // No errors counted - backup should be finished successfully
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("\nBackup finished successfully - see log for more information");

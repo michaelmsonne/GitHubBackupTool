@@ -35,6 +35,10 @@ namespace GithubBackup.Class
         public static int _repoBackupedCount; // count repo items from Github
         public static int _backupFileCount; // 
         public static int _backupFolderCount;
+        public static bool _noProjectsToBackup; // check if there is any projects to backup or not
+        public static bool _isBackupOk; // check if backup is ok or not state
+        public static string _repoCountStatusText; // text to display in email report
+        public static string _isDaysToKeepNotDefaultStatusText; // text to display in email report if days to keep backup is not default value (30 days)
 
         public static int _processedMainBranchCount;
         public static int _processedAllBranchesCount;
