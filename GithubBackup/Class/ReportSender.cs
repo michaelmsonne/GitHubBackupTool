@@ -94,14 +94,14 @@ namespace GithubBackup.Class
                 mailBody =
                     $"<hr><h2>Your {Globals.AppName} of organization/for user '{Globals._Name}' is: {emailStatusMessage}</h2><hr><p><h3>Details:</h3><p>" +
                     $"<p>Processed Git repositories in GitHub API key gives access to (total): <b>{repoCount}</b><br>" +
-                    $"Processed Git repos in repositories a backup is made of from GitHub: <b>{repoItemsCount}</b><p>" +
+                    $"Processed Git repos in repositories a backup is made of from GitHub: <b>{Globals._repoBackupedCount}</b><p>" +
                     $"See the attached logfile for the backup(s) today: <b>{Globals.AppName} Log " + DateTime.Today.ToString("dd-MM-yyyy") + ".log</b>.<p>" +
                     $"Total Run Time is: \"{elapsedTime}\"<br>" +
                     $"Backup start Time: \"{startTime}\"<br>" +
                     $"Backup end Time: \"{endTime}\"<br>" +
-                    "<h3>Download cleanup (if specified):</h3><p>" +
-                    $"Leftovers for original downloaded <b>.zip</b> files in backup folder (error(s) when try to delete): <b>{letOverZipFiles}</b><br>" +
-                    $"Leftovers for original downloaded <b>.json</b> files in backup folder (error(s) when try to delete): <b>{letOverJsonFiles}</b><p>" +
+                    //"<h3>Download cleanup (if specified):</h3><p>" +
+                    //$"Leftovers for original downloaded <b>.zip</b> files in backup folder (error(s) when try to delete): <b>{letOverZipFiles}</b><br>" +
+                    //$"Leftovers for original downloaded <b>.json</b> files in backup folder (error(s) when try to delete): <b>{letOverJsonFiles}</b><p>" +
                     $"<h3>Backup location:</h3><p>Backed up in folder: <b>\"{outDir}\"</b> on host/server: <b>{Environment.MachineName}</b><br>" +
                     $"Old backups set to keep in backup folder (days): <b>{daysToKeep}</b><br>" +
                     $"Old backups deleted in backup folder: <b>{totalBackupsIsDeleted}</b><br>" +
