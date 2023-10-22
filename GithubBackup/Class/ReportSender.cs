@@ -115,7 +115,7 @@ namespace GithubBackup.Class
                 $"<td style=\"width: 33%; height: 18px;\">Processed Git repos in project(s) a backup is made of from GitHub (all branches):</td>" +
                 $"<td style=\"width: 10%; height: 18px;\"><b>{Globals._repoBackupedCount}</b></td>" +
                 $"<td style=\"width: 33.3333%; height: 18px;\">{repoItemsCountStatusText}</td></tr><tr style=\"height: 18px;\">" +
-                $"<td style=\"width: 33%; height: 18px;\">Processed files to backup from Git repos (total files) (all branches)::</td>" +
+                $"<td style=\"width: 33%; height: 18px;\">Processed files to backup from Git repos (total files) (all branches):</td>" +
                 $"<td style=\"width: 10%; height: 18px;\"><b>{Globals._backupFileCount}</b></td>" +
                 $"<td style=\"width: 33.3333%; height: 18px;\">XXXXXXXXXXXXXXXXXX</td></tr><tr style=\"height: 18px;\">" +
                 $"<td style=\"width: 33%; height: 18px;\">Processed files to backup from Git repos (total folders) (all branches):</td>" +
