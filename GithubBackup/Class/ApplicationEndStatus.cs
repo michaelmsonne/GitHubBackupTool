@@ -63,10 +63,10 @@ namespace GithubBackup.Class
                     Globals._totalBackupsIsDeleted,
                     Globals._daysToKeepBackup,
                     "TEST",
-                    "TEST",
+                    Globals._repoCountStatusText,
                     "TEST",
                     Globals._useSimpleMailReportLayout,
-                    "TEST",
+                    Globals._isDaysToKeepNotDefaultStatusText,
                     Globals._startTime,
                     Globals._endTime);
             }
