@@ -83,8 +83,7 @@ namespace GithubBackup.Class
             }
             // TODO - CLEANUP LATER
             // Globals._totalBackupsIsDeletedStatusText = totalBackupsIsDeletedStatusText;
-
-
+            
             // If args is set to old mail report layout
             if (useSimpleMailReportLayout)
             {
