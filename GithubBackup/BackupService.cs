@@ -187,7 +187,9 @@ namespace GithubBackup
                     Message("Errors: " + Globals._errors, EventType.Error, 1001);
 
                     // Handle errors
-                    ApplicationEndStatus.ApplicationEndBackupError();
+                    ApplicationEndStatus.ApplicationEndBackup(false);
+
+                    //ApplicationEndStatus.ApplicationEndBackupError();
                 }
                 else
                 {
@@ -202,7 +204,8 @@ namespace GithubBackup
                     Message("Backup finished successfully - see log for more information", EventType.Information, 1000);
 
                     // Handle success
-                    ApplicationEndStatus.ApplicationEndBackupSuccess();
+                    ApplicationEndStatus.ApplicationEndBackup(true);
+                    //ApplicationEndStatus.ApplicationEndBackupSuccess();
                 }
             }
         }
@@ -347,13 +350,13 @@ namespace GithubBackup
                 {
                     // Set credentials for Github - basic
                     cloneOptions.CredentialsProvider = (url, user, cred)
-                        => new LibGit2Sharp.UsernamePasswordCredentials { Username = Credentials.Login, Password = Credentials.Password };
+                        => new UsernamePasswordCredentials { Username = Credentials.Login, Password = Credentials.Password };
                 }
                 else if (Credentials.AuthenticationType == AuthenticationType.Oauth)
                 {
                     // Set credentials for Github - oauth
                     cloneOptions.CredentialsProvider = (url, user, cred)
-                        => new LibGit2Sharp.UsernamePasswordCredentials { Username = Credentials.GetToken(), Password = string.Empty };
+                        => new UsernamePasswordCredentials { Username = Credentials.GetToken(), Password = string.Empty };
                 }
 
                 try

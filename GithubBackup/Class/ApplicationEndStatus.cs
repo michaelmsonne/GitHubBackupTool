@@ -7,11 +7,103 @@ namespace GithubBackup.Class
 {
     internal class ApplicationEndStatus
     {
+        public static void ApplicationEndBackup(bool isSuccess)
+        {
+            if (isSuccess)
+            {
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+            }
+
+            // Stop timer for runtime of tool
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Stop();
+            DateTime endTime = DateTime.Now; // get the current time as the end time for the tool
+
+            // Set start time and end time for the tool - convert to a string and save to global variables
+            Globals._endTime = endTime.ToString("dd-MM-yyyy HH:mm:ss"); // convert end time to a string
+
+            // Format and display the TimeSpan value.
+            // Parse the start and end times into DateTime objects
+            DateTime startTime = DateTime.ParseExact(Globals._startTime, "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+            endTime = DateTime.ParseExact(Globals._endTime, "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+
+            // Calculate the elapsed time as a TimeSpan
+            TimeSpan elapsedTime = endTime - startTime;
+            Globals._elapsedTime = elapsedTime;
+
+            // Display the TimeSpan value to the console
+            Console.WriteLine("\nBackup Run Time: " + Globals._elapsedTime);
+            Console.WriteLine("Backup start Time: " + Globals._startTime);
+            Console.WriteLine("Backup end Time: " + Globals._endTime);
+            Console.WriteLine("Errors: " + Globals._errors);
+
+            // Log the TimeSpan value to the log file
+            Message("Backup Run Time: " + Globals._elapsedTime, EventType.Information, 1000);
+            Message("Backup start Time: " + Globals._startTime, EventType.Information, 1000);
+            Message("Backup end Time: " + Globals._endTime, EventType.Information, 1000);
+            Message("Errors: " + Globals._errors, EventType.Information, 1000);
+
+            // Log total number of files in the backup folder
+            if (isSuccess)
+            {
+                Message($"Total number of files in backup folder '{Globals._backupFolderName}' and its subfolders is: '{Globals._backupFileCount}'", EventType.Information, 1000);
+            }
+            else
+            {
+                Message($"Total number of files in '{Globals._backupFolderName}' and its subfolders: '{Globals._backupFileCount}' (but not complete as there was some error(s) when backup - check log for more information)", EventType.Information, 1000);
+            }
+
+            // Send email report if email options are set
+            if (Globals._emailOptionsIsSet)
+            {
+                string emailStatus = isSuccess ? "DONE" : "ERROR";
+
+                // Call method to send email report with the status of backup
+                ReportSender.SendEmail(
+                    Globals._mailserver,
+                    Globals._mailport,
+                    Globals._mailfrom,
+                    Globals._mailto,
+                    emailStatus,
+                    Globals.repocountelements,
+                    Globals.repoitemscountelements,
+                    Globals._repoCount,
+                    0,
+                    Globals._backupFolderName,
+                    Globals._elapsedTime,
+                    Globals._errors,
+                    Globals._totalBackupsIsDeleted,
+                    Globals._daysToKeepBackup,
+                    isSuccess ? "TEST" : Globals._repoCountStatusText,
+                    isSuccess ? Globals._repoCountStatusText : "TEST",
+                    isSuccess ? "TEST" : Globals._isDaysToKeepNotDefaultStatusText,
+                    Globals._useSimpleMailReportLayout,
+                    Globals._isDaysToKeepNotDefaultStatusText,
+                    Globals._startTime,
+                    Globals._endTime);
+            }
+            else
+            {
+                Message("Not set to send an email report - skipping", EventType.Information, 1000);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Not set to send an email report - skipping");
+                Console.ResetColor();
+            }
+
+            // Call method to end the program
+            ApplicationEndStatus.ApplicationEndMessage();
+        }
+
+
         // todo merge ApplicationEndBackupSuccess and ApplicationEndBackupError into one method
 
         // merge ApplicationEndBackupSuccess and ApplicationEndBackupError into one method
-
-
+        
+        /*
         public static void ApplicationEndBackupSuccess()
         {
             Console.ForegroundColor = ConsoleColor.White;
@@ -159,7 +251,7 @@ namespace GithubBackup.Class
             
             // Call method to end program
             ApplicationEndStatus.ApplicationEndMessage();
-        }
+        }*/
 
         public static void ApplicationStartMessage()
         {
