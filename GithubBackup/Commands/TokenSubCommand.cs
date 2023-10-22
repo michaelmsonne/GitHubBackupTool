@@ -185,12 +185,10 @@ namespace GithubBackup.Commands
                     // Check if the daysToKeepBackup option is set
                     if (daysToKeepBackupOption.HasValue())
                     {
-                        //Console.WriteLine("TEST daysToKeepBackupOption - TRUE");
-                        
                         // Check if data is not null
                         if (Globals._daysToKeepBackup != null)
                         {
-                            // If set to 30 (default) show it - other text if --daystokeepbackup is not set
+                            // If set to 30 (default) show it - other text if -daystokeepbackup is not set
                             if (Globals._daysToKeepBackup == 30)
                             {
                                 // Log
@@ -199,17 +197,11 @@ namespace GithubBackup.Commands
                                 Console.WriteLine($"Argument -daystokeepbackup is set to (default) {Globals._daysToKeepBackup}");
                                 Console.ResetColor();
 
-                                // Set status text for email
-                                //isDaysToKeepNotDefaultStatusText = "Default number of old backup(s) set to keep in backup folder (days)";
-
-                                // Log
-                                //Message(isDaysToKeepNotDefaultStatusText, EventType.Information, 1000);
-
                                 // Do work
                                 Backups.DaysToKeepBackupsDefault(destinationFolder);
                             }
 
-                            // If --daystokeepbackup is not set to default 30 - show it and do work
+                            // If -daystokeepbackup is not set to default 30 - show it and do work
                             if (Globals._daysToKeepBackup != 30)
                             {
                                 // Log
@@ -217,12 +209,6 @@ namespace GithubBackup.Commands
                                 Console.ForegroundColor = ConsoleColor.Yellow;
                                 Console.WriteLine($"Argument -daystokeepbackup is not default (30), it is set to {Globals._daysToKeepBackup} day(s)");
                                 Console.ResetColor();
-
-                                // Set status text for email
-                                //isDaysToKeepNotDefaultStatusText = "Custom number of old backup(s) set to keep in backup folder (days)";
-
-                                // Log
-                                //Message(isDaysToKeepNotDefaultStatusText, EventType.Information, 1000);
 
                                 // Do work
                                 Backups.DaysToKeepBackups(destinationFolder, Globals._daysToKeepBackup);
