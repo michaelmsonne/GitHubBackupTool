@@ -51,10 +51,14 @@ namespace GithubBackup.Class
             if (isSuccess)
             {
                 Message($"Total number of files in backup folder '{Globals._backupFolderName}' and its subfolders is: '{Globals._backupFileCount}'", EventType.Information, 1000);
+
+                Console.WriteLine($"Total number of files in backup folder '{Globals._backupFolderName}' and its subfolders is: '{Globals._backupFileCount}'");
             }
             else
             {
                 Message($"Total number of files in '{Globals._backupFolderName}' and its subfolders: '{Globals._backupFileCount}' (but not complete as there was some error(s) when backup - check log for more information)", EventType.Information, 1000);
+
+                Console.WriteLine($"Total number of files in '{Globals._backupFolderName}' and its subfolders: '{Globals._backupFileCount}' (but not complete as there was some error(s) when backup - check log for more information)");
             }
 
             // Send email report if email options are set
@@ -88,17 +92,16 @@ namespace GithubBackup.Class
             }
             else
             {
-                Message("Not set to send an email report - skipping", EventType.Information, 1000);
+                Message("Not set to send an email report - skipping this step for now", EventType.Information, 1000);
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Not set to send an email report - skipping");
+                Console.WriteLine("Not set to send an email report - skipping this step for now");
                 Console.ResetColor();
             }
 
             // Call method to end the program
-            ApplicationEndStatus.ApplicationEndMessage();
+            ApplicationEndMessage();
         }
-
-
+        
         // todo merge ApplicationEndBackupSuccess and ApplicationEndBackupError into one method
 
         // merge ApplicationEndBackupSuccess and ApplicationEndBackupError into one method
