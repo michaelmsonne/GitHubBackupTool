@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using System.Management;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using static GithubBackup.Class.FileLogger;
 
 namespace GithubBackup.Class
@@ -104,7 +102,7 @@ namespace GithubBackup.Class
                 }
             }
         }
-        /*public static string GetComputerId()
+        public static string GetComputerId()
         {
             string processorId = "", motherboardId = "";
             ManagementObjectSearcher searcher = new ManagementObjectSearcher("select ProcessorId from Win32_Processor");
@@ -130,6 +128,6 @@ namespace GithubBackup.Class
                 }
                 return sb.ToString();
             }
-        }*/
+        }
     }
 }
