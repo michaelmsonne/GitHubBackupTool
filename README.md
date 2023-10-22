@@ -38,6 +38,8 @@ By using the GitHubBackupTool, you can automate the process of creating backups 
 - Send email report with status
 - Set custom path for backup location
 
+The code is as much I can the same functions as my [Azure DevOps Backup tool](https://github.com/michaelmsonne/AzureDevOpsBackupTool), but with some changes to support the GitHub API. Some functions/data/API data is not the same, so some features//stat/status checks is not here at the movemt (we hope in the future).
+
 ## Download
 
 [Download the latest version](../../releases/latest)
