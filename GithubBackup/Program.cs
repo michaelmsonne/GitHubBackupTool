@@ -49,9 +49,6 @@ namespace GithubBackup
 
             Message("Loaded log configuration into the program: " + Globals.AppName , EventType.Information, 1000);
 
-            // Start timer for runtime of tool
-            //Globals._elapsedTime = null;
-
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
             DateTime startTime = DateTime.Now; // get current time as start time for tool
