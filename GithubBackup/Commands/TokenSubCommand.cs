@@ -185,39 +185,30 @@ namespace GithubBackup.Commands
                     // Check if the daysToKeepBackup option is set
                     if (daysToKeepBackupOption.HasValue())
                     {
-                        // Check if data is not null
-                        if (Globals._daysToKeepBackup != null)
+                        // If set to 30 (default) show it - other text if -daystokeepbackup is not set
+                        if (Globals._daysToKeepBackup == 30)
                         {
-                            // If set to 30 (default) show it - other text if -daystokeepbackup is not set
-                            if (Globals._daysToKeepBackup == 30)
-                            {
-                                // Log
-                                Message($"Argument -daystokeepbackup is set to (default) {Globals._daysToKeepBackup}", EventType.Information, 1000);
-                                Console.ForegroundColor = ConsoleColor.Green;
-                                Console.WriteLine($"Argument -daystokeepbackup is set to (default) {Globals._daysToKeepBackup}");
-                                Console.ResetColor();
+                            // Log
+                            Message($"Argument -daystokeepbackup is set to (default) {Globals._daysToKeepBackup}", EventType.Information, 1000);
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine($"Argument -daystokeepbackup is set to (default) {Globals._daysToKeepBackup}");
+                            Console.ResetColor();
 
-                                // Do work
-                                Backups.DaysToKeepBackupsDefault(destinationFolder);
-                            }
-
-                            // If -daystokeepbackup is not set to default 30 - show it and do work
-                            if (Globals._daysToKeepBackup != 30)
-                            {
-                                // Log
-                                Message($"Argument -daystokeepbackup is not default (30), it is set to {Globals._daysToKeepBackup} day(s)", EventType.Information, 1000);
-                                Console.ForegroundColor = ConsoleColor.Yellow;
-                                Console.WriteLine($"Argument -daystokeepbackup is not default (30), it is set to {Globals._daysToKeepBackup} day(s)");
-                                Console.ResetColor();
-
-                                // Do work
-                                Backups.DaysToKeepBackups(destinationFolder, Globals._daysToKeepBackup);
-                            }
-                        }
-                        else
-                        {
-                            // Set default
+                            // Do work
                             Backups.DaysToKeepBackupsDefault(destinationFolder);
+                        }
+
+                        // If -daystokeepbackup is not set to default 30 - show it and do work
+                        if (Globals._daysToKeepBackup != 30)
+                        {
+                            // Log
+                            Message($"Argument -daystokeepbackup is not default (30), it is set to {Globals._daysToKeepBackup} day(s)", EventType.Information, 1000);
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.WriteLine($"Argument -daystokeepbackup is not default (30), it is set to {Globals._daysToKeepBackup} day(s)");
+                            Console.ResetColor();
+
+                            // Do work
+                            Backups.DaysToKeepBackups(destinationFolder, Globals._daysToKeepBackup);
                         }
                     }
                     else
