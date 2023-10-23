@@ -54,6 +54,12 @@ The code is as much I can the same functions as my [Azure DevOps Backup tool](ht
 
 You can create a personal access token here: https://github.com/settings/tokens/new
 
+**Recommended scopes and use is for better security**: https://github.com/settings/personal-access-tokens/new
+
+- Repository access: All repositories
+- Contents: Read-only
+- Metadata: Read-only
+
 Access: Read access to repositories who needs backup and read access to user profile.
 
 
@@ -147,3 +153,12 @@ If you want to contribute to this project, please open an issue or submit a pull
 
 # License
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+# Sponsors
+## Advanced Installer
+The installer is created from a Free Advanced Installer License for Open-Source from <a href="https://www.advancedinstaller.com/" target="_blank">https://www.advancedinstaller.com/</a> - check it out!
+
+[<img src="https://cdn.advancedinstaller.com/svg/pressinfo/AiLogoColor.svg" title="Advanced Installer" alt="Advanced Instzaller" height="120"/>](https://www.advancedinstaller.com/)
+
+## SAST Tools
+[PVS-Studio](https://pvs-studio.com/en/pvs-studio/?utm_source=github&utm_medium=organic&utm_campaign=open_source) - static analyzer for C, C++, C#, and Java code.
