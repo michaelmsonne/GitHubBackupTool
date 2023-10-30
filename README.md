@@ -6,8 +6,17 @@
   <a href="https://github.com/michaelmsonne/GitHubBackupTool"><img src="https://img.shields.io/github/downloads/michaelmsonne/GitHubBackupTool/total.svg"></a>
 </p>
 
+<div align="center">
+  <a href="https://github.com/michaelmsonne/GitHubBackupTool/issues/new?assignees=&labels=bug&template=01_BUG_REPORT.md&title=bug%3A+">Report a Bug</a>
+  ·
+  <a href="https://github.com/michaelmsonne/GitHubBackupTool/issues/new?assignees=&labels=enhancement&template=02_FEATURE_REQUEST.md&title=feat%3A+">Request a Feature</a>
+  .
+  <a href="https://github.com/michaelmsonne/GitHubBackupTool/discussions">Ask a Question</a>
+</div>
+
 ## Table of Contents
 - [Introduction](#introduction)
+- [Contents](#contents)
 - [Features](#features)
 - [Download](#download)
 - [Getting Started](#getting-started)
@@ -17,6 +26,20 @@
 - [Examples](#examples)
 - [Contributing](#contributing)
 - [License](#license)
+
+## Contents
+
+Outline the file contents of the repository. It helps users navigate the codebase, build configuration and any related assets.
+
+| File/folder       | Description                                 |
+|-------------------|---------------------------------------------|
+| `\  `             | Source code.                                |
+| `.gitignore`      | Define what to ignore at commit time.       |
+| `CHANGELOG.md`    | List of changes to the sample.              |
+| `CONTRIBUTING.md` | Guidelines for contributing to the TEMPLATE.|
+| `README.md`       | This README file.                           |
+| `SECURITY.md`     | This README file.                           |
+| `LICENSE`         | The license for the TEMPLATE.               |
 
 # Introduction
 This tool creates a local backup of repositories of a given GitHub user with some options to filter based on some conditions.
