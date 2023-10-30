@@ -7,7 +7,13 @@
     <Copyright>Copyright © Michael Morten Sonne</Copyright>
     <Authors>Michael Morten Sonne</Authors>
     <Product>GitHub Backup</Product>
+    <ApplicationIcon>Resources\github_git_icon.ico</ApplicationIcon>
+    <PackageIcon>github_git_icon.ico</PackageIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\github_git_icon.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="7.1.0" />
@@ -16,6 +22,13 @@
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="7.0.5" />
     <PackageReference Include="Octokit" Version="8.1.1" />
     <PackageReference Include="ShellProgressBar" Version="5.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\github_git_icon.ico">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <!-- Define a post-build target for Release configuration -->
