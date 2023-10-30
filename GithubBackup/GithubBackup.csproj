@@ -1,8 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>GitHubBackupTool</AssemblyName>
     <Copyright>Copyright © Michael Morten Sonne</Copyright>
     <Authors>Michael Morten Sonne</Authors>
@@ -10,31 +9,26 @@
     <ApplicationIcon>Resources\github_git_icon.ico</ApplicationIcon>
     <PackageIcon>github_git_icon.ico</PackageIcon>
   </PropertyGroup>
-
   <ItemGroup>
     <Content Include="Resources\github_git_icon.ico" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Autofac" Version="7.1.0" />
     <PackageReference Include="LibGit2Sharp" Version="0.27.2" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.1.0" />
-    <PackageReference Include="Microsoft.Windows.Compatibility" Version="7.0.5" />
     <PackageReference Include="Octokit" Version="8.1.1" />
     <PackageReference Include="ShellProgressBar" Version="5.2.0" />
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="7.0.5" />
   </ItemGroup>
-
   <ItemGroup>
     <None Update="Resources\github_git_icon.ico">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
-
   <!-- Define a post-build target for Release configuration -->
   <Target Name="PostBuildRelease" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
     <Exec Command="&quot;C:\Program Files (x86)\Windows Kits\10\App Certification Kit\signtool.exe&quot; sign /n &quot;Michael Morten Sonne&quot; /fd sha256 /tr http://timestamp.sectigo.com /td sha256 /as /v &quot;$(TargetPath)&quot;" />
     <Exec Command="&quot;C:\Program Files (x86)\Windows Kits\10\App Certification Kit\signtool.exe&quot; sign /n &quot;Michael Morten Sonne&quot; /fd sha256 /tr http://timestamp.sectigo.com /td sha256 /as /v &quot;$(TargetDir)$(AssemblyName).exe&quot;" />
   </Target>
-
 </Project>
