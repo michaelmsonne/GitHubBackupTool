@@ -8,7 +8,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6762D427-44B6-45D1-BD69-9F007975C95C}"
 	ProjectSection(SolutionItems) = preProject
 		CHANGELOG.MD = CHANGELOG.MD
+		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
+		LICENSE.md = LICENSE.md
 		README.md = README.md
+		SECURITY.md = SECURITY.md
 	EndProjectSection
 EndProject
 Global
