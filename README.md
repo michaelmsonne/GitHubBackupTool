@@ -174,7 +174,7 @@ So far I tested the application only for win10-x64 systems, but it might also wo
 # Contributing
 If you want to contribute to this project, please open an issue or submit a pull request. I welcome contributions :)
 
-See [CONTRIBUTING](CONTRIBUTING) for more information.
+See [CONTRIBUTING](CONTRIBUTING.md) for more information.
 
 First off, thanks for taking the time to contribute! Contributions are what makes the open-source community such an amazing place to learn, inspire, and create. Any contributions you make will benefit everybody else and are **greatly appreciated**.
 Feel free to send pull requests or fill out issues when you encounter them. I'm also completely open to adding direct maintainers/contributors and working together! :)
@@ -190,7 +190,7 @@ Please try to create bug reports that are:
 
 Reach out to the maintainer at one of the following places:
 
-- [GitHub discussions](https://github.com/michaelmsonne/TEMPLATE/discussions)
+- [GitHub discussions](https://github.com/michaelmsonne/GitHubBackupTool/discussions)
 - The email which is located [in GitHub profile](https://github.com/michaelmsonne)
 
 # License
