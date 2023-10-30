@@ -67,7 +67,7 @@ The code is as much I can the same functions as my [Azure DevOps Backup tool](ht
 
 [Download the latest version](../../releases/latest)
 
-[Version History](CHANGELOG.md)
+[Version History](CHANGELOG.MD)
 
 ## Getting Started
 ### Prerequisites
