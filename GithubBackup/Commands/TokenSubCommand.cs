@@ -26,7 +26,9 @@ namespace GithubBackup.Commands
             {
                 tokenBasedCmd.Description = "Using a token-based authentication.";
                 tokenBasedCmd.UnrecognizedArgumentHandling = UnrecognizedArgumentHandling.Throw;
-                
+
+                #region Set/show arguments used for token-based backup
+
                 // Define options for backup types
                 var allReposOption = tokenBasedCmd.Option("-all", "Backup all repositories.", CommandOptionType.NoValue);
                 var allReposnotForksOption = tokenBasedCmd.Option("-allnf", "Exclude forked repositories.", CommandOptionType.NoValue);
@@ -52,11 +54,15 @@ namespace GithubBackup.Commands
                 var tokenArgument = tokenBasedCmd.Argument("Token", "A valid github token.").IsRequired();
                 var destinationArgument = tokenBasedCmd.Argument("Destination", "The destination folder for the backup.");
 
+                #endregion Set/show arguments used for token-based backup
+
                 // Define the action to take when the command is invoked
                 tokenBasedCmd.OnExecute(() =>
                 {
+                    #region Set email options
+                    
                     // Check the email priority option
-                    string emailPriorityString = priorityOption.Value() ?? "normal"; // Default to "normal" if not specified
+                    var emailPriorityString = priorityOption.Value() ?? "normal"; // Default to "normal" if not specified
                     
                     // Check if the email options are provided and use them
                     if (mailToOption.HasValue() && mailFromOption.HasValue() && mailServerOption.HasValue() && mailPortOption.HasValue())
@@ -87,6 +93,10 @@ namespace GithubBackup.Commands
                         Globals._emailOptionsIsSet = false;
                     }
 
+                    #endregion Set email options
+
+                    #region Set options for backup to keep
+
                     // Parse data for daysToKeepBackup
                     if (daysToKeepBackupOption.HasValue())
                     {
@@ -109,11 +119,15 @@ namespace GithubBackup.Commands
                         Message("Days to keep backups is set to: " + Globals._daysToKeepBackup + " (default value as no argument is set)", EventType.Information, 1000);
                     }
 
+                    #endregion Set options for backup to keep
+
                     var credentials = CredentialsFactory(tokenArgument.Value);
                     var currentFolder = Directory.GetCurrentDirectory();
                     var destinationFolder = string.IsNullOrWhiteSpace(destinationArgument.Value) ? currentFolder : destinationArgument.Value;
                     var backupService = BackupServiceFactory(credentials, destinationFolder);
 
+                    #region Check backup folder location and create it if not exists
+                    
                     // Check if the destination folder exists and create it if not exists
                     if (!Directory.Exists(destinationFolder))
                     {
@@ -146,6 +160,10 @@ namespace GithubBackup.Commands
                             //throw;
                         }
                     }
+
+                    #endregion Check backup folder location and create it if not exists
+
+                    #region Set options for backup type
 
                     // Set the backup type based on options
                     if (allReposOption.HasValue())
@@ -182,6 +200,10 @@ namespace GithubBackup.Commands
                         // Set the backup type to all branches for repos
                         Globals._AllBranches = false;
                     }
+
+                    #endregion Set options for backup type
+
+                    #region Do options for backup to keep
                     
                     // Check if the daysToKeepBackup option is set
                     if (daysToKeepBackupOption.HasValue())
@@ -226,6 +248,8 @@ namespace GithubBackup.Commands
 
                     // Count backups in backup folder
                     Backups.CountCurrentNumersOfBackup(destinationFolder);
+
+                    #endregion Do options for backup to keep
 
                     // Create the backup and parse the arguments
                     backupService.CreateBackup();
