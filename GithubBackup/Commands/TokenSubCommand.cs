@@ -64,7 +64,7 @@ namespace GithubBackup.Commands
                         Globals._mailto = mailToOption.Value();
                         Globals._mailfrom = mailFromOption.Value();
                         Globals._mailserver = mailServerOption.Value();
-                        Globals._mailport = int.Parse(mailPortOption.Value());
+                        Globals._mailport = int.Parse(mailPortOption.Value() ?? string.Empty);
 
                         // Set the email options are set to true
                         Globals._emailOptionsIsSet = true;
@@ -91,7 +91,7 @@ namespace GithubBackup.Commands
                     if (daysToKeepBackupOption.HasValue())
                     {
                         // Set backup to keep days to the value provided
-                        Globals._daysToKeepBackup = int.Parse(daysToKeepBackupOption.Value());
+                        Globals._daysToKeepBackup = int.Parse(daysToKeepBackupOption.Value() ?? string.Empty);
 
                         // Set status text for email
                         Globals._isDaysToKeepNotDefaultStatusText = "Custom number of old backup(s) set to keep in backup folder (days)";
