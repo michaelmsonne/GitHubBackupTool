@@ -27,7 +27,9 @@ namespace GithubBackup.Commands
                                         $"\n  -mailfrom \"mail-from@domain.com\" -mailserver \"mailserver.domain.com\" -mailport \"25\" -priority high" +
                                         $"\n  -daystokeepbackup 50\n\n" +
                                         $"My Website:" +
-                                        $"\n  https://sonnes.cloud\n";
+                                        $"\n  https://sonnes.cloud\n\n" +
+                                        $"My blog:" +
+                                        $"\n  https://blog.sonnes.cloud\n";
             Command.HelpOption(true);
             
             // Define the token sub-command and execute it
