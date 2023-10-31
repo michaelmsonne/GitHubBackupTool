@@ -17,7 +17,7 @@ namespace GithubBackup.Class
             Globals._copyrightData = copyright.Copyright;
 
             // Get application data to later use in tool and log
-            Globals._vData = Assembly.GetEntryAssembly()?.GetName().Version.ToString();
+            Globals._vData = Assembly.GetEntryAssembly()?.GetName().Version?.ToString();
             var attributes = typeof(Program).GetTypeInfo().Assembly.GetCustomAttributes(typeof(AssemblyTitleAttribute));
             var assemblyTitleAttribute = attributes.SingleOrDefault() as AssemblyTitleAttribute;
 
