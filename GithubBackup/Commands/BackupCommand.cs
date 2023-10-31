@@ -6,11 +6,10 @@ namespace GithubBackup.Commands
 {
     public class BackupCommand
     {
-        public CommandLineApplication Command { get; set; }
+        public CommandLineApplication Command { get; set; } = new();
 
         public BackupCommand(Func<CommandLineApplication, TokenSubCommand> tokenCmdWrapperFactory)
         {
-            Command = new CommandLineApplication();
             Command.UnrecognizedArgumentHandling = UnrecognizedArgumentHandling.Throw;
             Command.Name = "GitHubBackupTool";
             Command.Description = "GitHub Backup for Git Projects and is using the API for GitHub.";

@@ -42,8 +42,10 @@ namespace GithubBackup.Core
 
         private GitHubClient CreateGithubClient()
         {
-            var client = new GitHubClient(new ProductHeaderValue(Credentials.Login));
-            client.Credentials = Credentials;
+            var client = new GitHubClient(new ProductHeaderValue(Credentials.Login))
+            {
+                Credentials = Credentials
+            };
             return client;
         }
 
@@ -305,44 +307,45 @@ namespace GithubBackup.Core
                 ChildProgressBar progressBar = null;
                 Exception cloneException = null;
 
-                var cloneOptions = new CloneOptions();
-                cloneOptions.RecurseSubmodules = true;
-                cloneOptions.OnTransferProgress = (progress) =>
+                var cloneOptions = new CloneOptions
                 {
-                    if (progressBar == null)
+                    RecurseSubmodules = true,
+                    OnTransferProgress = (progress) =>
+                    {
+                        if (progressBar == null)
 
-                        if (Globals._AllBranches)
-                        {
-                            // If all branches is selected for backup (all branches option) - show branches in progressbar
-                            foreach (var branchName in branchNames)
+                            if (Globals._AllBranches)
                             {
-                                progressBar = rootProgressBar.Spawn(progress.TotalObjects, repo.Name + ", Branch: '" + branchName.Name + "'", new ProgressBarOptions
+                                // If all branches is selected for backup (all branches option) - show branches in progressbar
+                                foreach (var branchName in branchNames)
+                                {
+                                    progressBar = rootProgressBar.Spawn(progress.TotalObjects, repo.Name + ", Branch: '" + branchName.Name + "'", new ProgressBarOptions
+                                    {
+                                        CollapseWhenFinished = true,
+                                        ForegroundColorDone = ConsoleColor.Green,
+                                        ForegroundColor = ConsoleColor.Yellow
+                                    });
+                                }
+                            }
+                            else
+                            {
+                                // If only default branch is selected for backup (default option)
+                                progressBar = rootProgressBar.Spawn(progress.TotalObjects, repo.Name + ", Branch: 'DefaultBranch'", new ProgressBarOptions
                                 {
                                     CollapseWhenFinished = true,
                                     ForegroundColorDone = ConsoleColor.Green,
                                     ForegroundColor = ConsoleColor.Yellow
                                 });
                             }
-                        }
-                        else
-                        {
-                            // If only default branch is selected for backup (default option)
-                            progressBar = rootProgressBar.Spawn(progress.TotalObjects, repo.Name + ", Branch: 'DefaultBranch'", new ProgressBarOptions
-                            {
-                                CollapseWhenFinished = true,
-                                ForegroundColorDone = ConsoleColor.Green,
-                                ForegroundColor = ConsoleColor.Yellow
-                            });
-                        }
 
-                    progressBar.Tick(progress.ReceivedObjects);
-                    return true;
-                };
-
-                cloneOptions.RepositoryOperationCompleted = (context) =>
-                {
-                    // Dispose the progressbar
-                    progressBar?.Dispose();
+                        progressBar.Tick(progress.ReceivedObjects);
+                        return true;
+                    },
+                    RepositoryOperationCompleted = (context) =>
+                    {
+                        // Dispose the progressbar
+                        progressBar?.Dispose();
+                    }
                 };
 
                 // Set credentials for Github - basic or oauth
