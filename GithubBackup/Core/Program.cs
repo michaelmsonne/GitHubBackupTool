@@ -49,7 +49,7 @@ namespace GithubBackup.Core
 
             Message("Loaded log configuration into the program: " + Globals.AppName, EventType.Information, 1000);
 
-            Stopwatch stopWatch = new Stopwatch();
+            Stopwatch stopWatch = new();
             stopWatch.Start();
             DateTime startTime = DateTime.Now; // get current time as start time for tool
 
