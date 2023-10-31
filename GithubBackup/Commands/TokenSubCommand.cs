@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using GithubBackup.Class;
+using GithubBackup.Core;
 using McMaster.Extensions.CommandLineUtils;
 using Octokit;
 using static GithubBackup.Class.FileLogger;
