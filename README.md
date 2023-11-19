@@ -204,7 +204,7 @@ Reach out to the maintainer at one of the following places:
 # License
 This project is licensed under the **MIT License** - see the LICENSE file for details.
 
-See [LICENSE](LICENSE) for more information.
+See [LICENSE](LICENSE.md) for more information.
 
 # Sponsors
 ## Advanced Installer
