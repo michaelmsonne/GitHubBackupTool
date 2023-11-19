@@ -22,6 +22,14 @@
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GithubBackup\GithubBackup.csproj">
+      <Name>GithubBackup</Name>
+      <Project>{9e9f41c9-bfee-4352-ac76-a81090120fe3}</Project>
+      <Private>True</Private>
+      <OutputsToImport>PublishOutput#FolderProfile#bin\Release\publish\net7.0\#Release#Any CPU#FileSystem#net7.0##false###</OutputsToImport>
+    </ProjectReference>
+  </ItemGroup>
   <Target Name="Build">
     <Error Text="This project requires Advanced Installer tool. Please download it from https://www.advancedinstaller.com/download.html" />
   </Target>
