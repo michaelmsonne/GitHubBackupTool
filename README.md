@@ -78,7 +78,7 @@ The tools and code in it can as much of the same features as my [Azure DevOps Ba
 - Get [Visual Studio 2022](https://visualstudio.microsoft.com/vs/community/) (Community Edition is fine)
 - Install ".NET desktop development" workload  
   ![dotnet-desktop-develoment.png](docs/pictures/dotnet-desktop-develoment.png)
-- Remember to select: Install .NET Core
+- Remember to select: Install .NET 7.0 Runtime
 - Build the solution in Visual Studio
 
 ### Access token:
