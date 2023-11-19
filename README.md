@@ -73,6 +73,14 @@ The code is as much I can the same functions as my [Azure DevOps Backup tool](ht
 ### Prerequisites
 - [.NET Core SDK](https://dotnet.microsoft.com/download) installed on your system.
 
+### How to build
+
+- Get [Visual Studio 2022](https://visualstudio.microsoft.com/vs/community/) (Community Edition is fine)
+- Install ".NET desktop development" workload  
+  ![dotnet-desktop-develoment.png](docs/pictures/dotnet-desktop-develoment.png)
+- Remember to select: Install .NET Core
+- Build the solution in Visual Studio
+
 ### Access token:
 
 You can create a personal access token here: https://github.com/settings/tokens/new
@@ -134,9 +142,9 @@ Use it in a scheduled task to backup your repositories every day or week or mont
 
 ![Screenshot](docs/email-report-full.png)
 
-**Simpel layout:**
+**Simple layout:**
 
-![Screenshot](docs/email-report-simpel.png)
+![Screenshot](docs/email-report-simple.png)
 
 # Console use:
 

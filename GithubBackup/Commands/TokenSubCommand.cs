@@ -31,8 +31,8 @@ namespace GithubBackup.Commands
 
                 // Define options for backup types
                 var allReposOption = tokenBasedCmd.Option("-all", "Backup all repositories.", CommandOptionType.NoValue);
-                var allReposnotForksOption = tokenBasedCmd.Option("-allnf", "Exclude forked repositories.", CommandOptionType.NoValue);
-                var allReposownerOption = tokenBasedCmd.Option("-allowner", "Backup repositories where you are the owner (default).", CommandOptionType.NoValue);
+                var allReposNotForksOption = tokenBasedCmd.Option("-allnf", "Exclude forked repositories.", CommandOptionType.NoValue);
+                var allReposOwnerOption = tokenBasedCmd.Option("-allowner", "Backup repositories where you are the owner (default).", CommandOptionType.NoValue);
                 var allBranchesOption = tokenBasedCmd.Option("-allbranches", "Backup all branches of repositories (default only DefaultBranch).\n", CommandOptionType.NoValue);
                 
                 // Define options for email when using token-based backup
@@ -48,7 +48,7 @@ namespace GithubBackup.Commands
                 var daysToKeepBackupOption = tokenBasedCmd.Option("-daystokeepbackup <days>", "Number of days to keep backups for. Backups older than this will be deleted (default is 30 days).", CommandOptionType.SingleValue);
 
                 // Define an option for simple email report layout
-                var mailSimpelReport = tokenBasedCmd.Option("-simpelreport", "If set the email report layout there is send is simple, if not set it use the default report layout", CommandOptionType.NoValue);
+                var mailSimpleReport = tokenBasedCmd.Option("-simpelreport", "If set the email report layout there is send is simple, if not set it use the default report layout", CommandOptionType.NoValue);
                 
                 // Define arguments for token-based backup
                 var tokenArgument = tokenBasedCmd.Argument("Token", "A valid github token.").IsRequired();
@@ -79,7 +79,7 @@ namespace GithubBackup.Commands
                         Globals.EmailPriority = ReportSenderOptions.ParseEmailPriority(emailPriorityString);
 
                         // Check if the simple email report layout option is set
-                        if (mailSimpelReport.HasValue())
+                        if (mailSimpleReport.HasValue())
                         {
                             Globals._useSimpleMailReportLayout = true;
                         }
@@ -171,14 +171,14 @@ namespace GithubBackup.Commands
                         // Set the backup type to all repos the token have access to (including forks)
                         Globals._AllRepos = true;
                     }
-                    else if (allReposnotForksOption.HasValue())
+                    else if (allReposNotForksOption.HasValue())
                     {
                         // Set the backup type to all repos not forks
                         Globals._AllReposNotForks = true;
                     }
 
                     // Set the backup type based on options for owner
-                    else if (allReposownerOption.HasValue())
+                    else if (allReposOwnerOption.HasValue())
                     {
                         // Set the backup type to all repos not forks and is owner
                         Globals._AllReposNotForksAndIsOwner = true;
