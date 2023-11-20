@@ -21,7 +21,20 @@ namespace GithubBackup.Class
             var assemblyTitleAttribute = attributes.SingleOrDefault() as AssemblyTitleAttribute;
 
             // Set application name in code and log
-            Globals.AppName = assemblyTitleAttribute?.Title;
+            // Get the base application name from assemblyTitleAttribute?.Title
+            string baseAppName = assemblyTitleAttribute?.Title;
+
+            // Check if the base application name contains "Tool"
+            if (baseAppName != null && baseAppName.Contains("Tool"))
+            {
+                // Remove "Tool" from the application name
+                baseAppName = baseAppName.Replace("Tool", string.Empty).Trim();
+            }
+
+            // Set the modified application name
+            Globals.AppName = baseAppName;
+
+            // Globals.AppName = assemblyTitleAttribute?.Title;
 
             // Set exe file name in code and log
             Globals._currentExeFileName = Path.GetFileName(Process.GetCurrentProcess().MainModule?.FileName);
