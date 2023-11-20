@@ -370,6 +370,9 @@ namespace GithubBackup.Core
                         foreach (var branchName in branchNames)
                         {
                             // Clone the specific branch
+
+                            // TODO Fix "/" in branchName.Name - as in Windows a subfolder is created
+
                             string clonedRepoPath = Path.Combine(repoDestination, branchName.Name); // Create a folder for the branch
                             LibGit2Sharp.Repository.Clone(repo.CloneUrl, clonedRepoPath, cloneOptions);
 
