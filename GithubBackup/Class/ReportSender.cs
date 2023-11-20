@@ -21,7 +21,7 @@ namespace GithubBackup.Class
             //if (mailBody == null) throw new ArgumentNullException(nameof(mailBody));
 
             //Parse data to list from list of repo.name
-            var listrepocountelements = "<h3>List of Git repositories in GitHub (the API key give access to):</h3>∘ " + string.Join("<br>∘ ", repoCountElements);
+            var listrepocountelements = "<h3>List of Git repositories in GitHub (the API key give access to (showing only main branch here)):</h3>∘ " + string.Join("<br>∘ ", repoCountElements);
             var listitemscountelements = "<h3>List of Git repositories in GitHub a backup is performed of (based on arguments for backup type):</h3>∘ " + string.Join("<br>∘ ", repoItemsCountElements);
             
             // Get email status text from job status
@@ -162,7 +162,7 @@ namespace GithubBackup.Class
             // Create mail
             var message = new MailMessage(emailFrom, emailTo);
             message.Subject = "[" + emailStatusMessage + $"] - {Globals._appName} status - (" + Globals._repoBackupPerformedCount +
-                              " Git projects backed up), " + errors + " issues(s) - (backups to keep (days): " + daysToKeep +
+                              " Git projects (" + Globals._repoBackupPerformedBranchCount + " branches) backed up), " + errors + " issues(s) - (backups to keep (days): " + daysToKeep +
                               ", backup(s) deleted: " + totalBackupsIsDeleted + ")";
             message.Body = mailBody;
             message.BodyEncoding = Encoding.UTF8;

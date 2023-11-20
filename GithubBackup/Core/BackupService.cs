@@ -248,8 +248,8 @@ namespace GithubBackup.Core
 
             foreach (var repo in allRepos)
             {
-
-                Globals._repoCount++; // Increment the _repoCount integer for count of repos in total
+                // Increment the _repoCount integer for count of repos in total
+                Globals._repoCount++;
 
                 // Get branch names for the current repository
                 var branchNames = GetBranchNamesForRepository(client, repo.Owner.Login, repo.Name);
@@ -380,10 +380,14 @@ namespace GithubBackup.Core
 
                             Globals._repoBackupPerformedCount++; // Increment the _repoCount integer for count of repos in total
 
+                            Globals._repoBackupPerformedBranchCount++; // Increment the BranchCount
+
                             // Count repos processed
                             lock (lockObject)
                             {
                                 //Globals._repoBackupedCount++; // Increment the _repoCount integer for count of repos in total
+                                //Globals._repoBackupPerformedCount++;
+                                //Globals._repoBackupPerformedBranchCount++; // Confirm if this count should be increased here
                             }
                         }
                     }
@@ -398,10 +402,14 @@ namespace GithubBackup.Core
 
                         Globals._repoBackupPerformedCount++; // Increment the _repoCount integer for count of repos in total
 
+                        Globals._repoBackupPerformedBranchCount++; // Increment the BranchCount
+
                         // Count repos processed
                         lock (lockObject)
                         {
                             //Globals._repoBackupedCount++; // Increment the _repoCount integer for count of repos in total
+                            //Globals._repoBackupPerformedCount++;
+                            //Globals._repoBackupPerformedBranchCount++; // Confirm if this count should be increased here
                         }
                     }
                 }
