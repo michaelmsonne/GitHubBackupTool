@@ -34,6 +34,7 @@ namespace GithubBackup.Class
         public static int _errors; // count errors
         public static int _repoCount; // count repos from Github
         public static int _repoBackupPerformedCount; // count repo items from Github
+        public static int _repoBackupPerformedBranchCount; // count repo (branches) items from Github
         public static int _backupFileCount; // 
         public static int _backupFolderCount;
         public static bool _noProjectsToBackup; // check if there is any projects to backup or not
