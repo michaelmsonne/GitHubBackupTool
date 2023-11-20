@@ -12,20 +12,20 @@ namespace GithubBackup.Class
         public static string _currentExeFileName; // name of current exe file
         public static string _vData; // version of current exe file
         public static string _companyName; // company name of application from exe file
-        public static string AppName; // name of application from exe file
+        public static string _appName; // name of application from exe file
         public static string _copyrightData; // copyright data from exe file
-        public static string _Name; // name of application from exe file
+        public static string _name; // name of application from exe file
 
         public static TimeSpan _elapsedTime; // time for tool to run
         public static string _startTime; // start time for tool
         public static string _endTime; // end time for tool
 
         // Set Global variables for backup
-        public static bool _AllBranches; // backup all branches from repo if true - default is false
-        public static bool _AllRepos; // backup all repos from Github if true - default is false
-        public static bool _AllReposNotForks; // backup all repos from Github if true - default is false
-        public static bool _AllReposNotForksAndIsOwner; // backup all repos from Github if true - default is true as most common use case is to backup own repos and not forks from others repos
-        public static int _BackupType;
+        public static bool _allBranches; // backup all branches from repo if true - default is false
+        public static bool _allRepos; // backup all repos from Github if true - default is false
+        public static bool _allReposNotForks; // backup all repos from Github if true - default is false
+        public static bool _allReposNotForksAndIsOwner; // backup all repos from Github if true - default is true as most common use case is to backup own repos and not forks from others repos
+        public static int _backupType;
         
         public static bool _emailOptionsIsSet; // check if email options is set and have required values
         public static string _backupFolderName; // name of backup folder
@@ -33,7 +33,7 @@ namespace GithubBackup.Class
         public static int _currentBackupsInBackupFolderCount;
         public static int _errors; // count errors
         public static int _repoCount; // count repos from Github
-        public static int _repoBackupedCount; // count repo items from Github
+        public static int _repoBackupPerformedCount; // count repo items from Github
         public static int _backupFileCount; // 
         public static int _backupFolderCount;
         public static bool _noProjectsToBackup; // check if there is any projects to backup or not
@@ -59,7 +59,7 @@ namespace GithubBackup.Class
         public static string _mailfrom; // email address to send email from
         public static string _mailserver; // email server to use for sending email
         public static int _mailport; // email port to use for sending email
-        public static MailPriority EmailPriority = MailPriority.Normal; // email priority to use for sending email - default is normal priority
+        public static MailPriority _emailPriority = MailPriority.Normal; // email priority to use for sending email - default is normal priority
         public static bool _useSimpleMailReportLayout; // use simple mail report layout if true - default is false
         public static string _fileAttachedIneMailReport; // file to attach to email report - default is current log file of the day
         

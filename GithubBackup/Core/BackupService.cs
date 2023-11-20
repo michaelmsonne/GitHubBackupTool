@@ -95,7 +95,7 @@ namespace GithubBackup.Core
             // Get user data from Github
             var user = GetUserData();
 
-            Globals._Name = user.Name;
+            Globals._name = user.Name;
 
             // Show user data to console (name)
             Console.ForegroundColor = ConsoleColor.Green;
@@ -223,16 +223,16 @@ namespace GithubBackup.Core
 
             IReadOnlyList<Repository> filteredRepos = null;
 
-            if (Globals._AllRepos)
+            if (Globals._allRepos)
             {
                 filteredRepos = allRepos;
             }
-            else if (Globals._AllReposNotForks)
+            else if (Globals._allReposNotForks)
             {
                 // Filter out forked repositories
                 filteredRepos = allRepos.Where(repo => !repo.Fork).ToList();
             }
-            else if (Globals._AllReposNotForksAndIsOwner)
+            else if (Globals._allReposNotForksAndIsOwner)
             {
                 // Filter out forked and collaborator repositories
                 filteredRepos = allRepos
@@ -242,7 +242,7 @@ namespace GithubBackup.Core
             else
             {
                 // Use default filter - all repositories where you have access
-                Globals._AllRepos = true;
+                Globals._allRepos = true;
                 filteredRepos = allRepos;
             }
 
@@ -314,7 +314,7 @@ namespace GithubBackup.Core
                     {
                         if (progressBar == null)
 
-                            if (Globals._AllBranches)
+                            if (Globals._allBranches)
                             {
                                 // If all branches is selected for backup (all branches option) - show branches in progressbar
                                 foreach (var branchName in branchNames)
@@ -364,7 +364,7 @@ namespace GithubBackup.Core
 
                 try
                 {
-                    if (Globals._AllBranches)
+                    if (Globals._allBranches)
                     {
                         // Backup all branches for the current repository selected for backup
                         foreach (var branchName in branchNames)
@@ -378,7 +378,7 @@ namespace GithubBackup.Core
 
                             Globals.repoitemscountelements.Add($"Repository Name: '{repo.Name}', Branch: '{branchName.Name}', Owner: '{repo.Owner.Login}'");
 
-                            Globals._repoBackupedCount++; // Increment the _repoCount integer for count of repos in total
+                            Globals._repoBackupPerformedCount++; // Increment the _repoCount integer for count of repos in total
 
                             // Count repos processed
                             lock (lockObject)
@@ -396,7 +396,7 @@ namespace GithubBackup.Core
 
                         Globals.repoitemscountelements.Add($"Repository Name: '{repo.Name}', DefaultBranch: '{repo.DefaultBranch}', Owner: '{repo.Owner.Login}'");
 
-                        Globals._repoBackupedCount++; // Increment the _repoCount integer for count of repos in total
+                        Globals._repoBackupPerformedCount++; // Increment the _repoCount integer for count of repos in total
 
                         // Count repos processed
                         lock (lockObject)

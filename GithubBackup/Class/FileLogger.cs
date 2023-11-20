@@ -25,7 +25,7 @@ namespace GithubBackup.Class
         // Get logfile path
         public static string GetLogPath(string df)
         {
-            return Files.LogFilePath + @"\" + Globals.AppName + " Log " + df + ".log";
+            return Files.LogFilePath + @"\" + Globals._appName + " Log " + df + ".log";
         }
 
         // Get datetime

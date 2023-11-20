@@ -76,7 +76,7 @@ namespace GithubBackup.Commands
                         Globals._emailOptionsIsSet = true;
 
                         // Convert the string to MailPriority enum using a function
-                        Globals.EmailPriority = ReportSenderOptions.ParseEmailPriority(emailPriorityString);
+                        Globals._emailPriority = ReportSenderOptions.ParseEmailPriority(emailPriorityString);
 
                         // Check if the simple email report layout option is set
                         if (mailSimpleReport.HasValue())
@@ -169,36 +169,36 @@ namespace GithubBackup.Commands
                     if (allReposOption.HasValue())
                     {
                         // Set the backup type to all repos the token have access to (including forks)
-                        Globals._AllRepos = true;
+                        Globals._allRepos = true;
                     }
                     else if (allReposNotForksOption.HasValue())
                     {
                         // Set the backup type to all repos not forks
-                        Globals._AllReposNotForks = true;
+                        Globals._allReposNotForks = true;
                     }
 
                     // Set the backup type based on options for owner
                     else if (allReposOwnerOption.HasValue())
                     {
                         // Set the backup type to all repos not forks and is owner
-                        Globals._AllReposNotForksAndIsOwner = true;
+                        Globals._allReposNotForksAndIsOwner = true;
                     }
                     else
                     {
                         // Set the backup type to all repos not forks and is owner
-                        Globals._AllReposNotForksAndIsOwner = true;
+                        Globals._allReposNotForksAndIsOwner = true;
                     }
 
                     // Set the backup type based on options for branches
                     if (allBranchesOption.HasValue())
                     {
                         // Set the backup type to all branches for repos
-                        Globals._AllBranches = true;
+                        Globals._allBranches = true;
                     }
                     else
                     {
                         // Set the backup type to all branches for repos
-                        Globals._AllBranches = false;
+                        Globals._allBranches = false;
                     }
 
                     #endregion Set options for backup type
