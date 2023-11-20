@@ -47,7 +47,7 @@ namespace GithubBackup.Core
 
             ApplicationEndStatus.ApplicationStartMessage();
 
-            Message("Loaded log configuration into the program: " + Globals.AppName, EventType.Information, 1000);
+            Message("Loaded log configuration into the program: " + Globals._appName, EventType.Information, 1000);
 
             Stopwatch stopWatch = new();
             stopWatch.Start();

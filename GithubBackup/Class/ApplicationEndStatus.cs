@@ -259,14 +259,14 @@ namespace GithubBackup.Class
         public static void ApplicationStartMessage()
         {
             // Log start of program
-            Console.WriteLine($"\nWelcome to {Globals.AppName}, v." + Globals._vData + " by " + Globals._companyName + "\n");
-            Message($"Welcome to {Globals.AppName}, v." + Globals._vData + " by " + Globals._companyName, EventType.Information, 1000);
+            Console.WriteLine($"\nWelcome to {Globals._appName}, v." + Globals._vData + " by " + Globals._companyName + "\n");
+            Message($"Welcome to {Globals._appName}, v." + Globals._vData + " by " + Globals._companyName, EventType.Information, 1000);
         }
         public static void ApplicationEndMessage()
         {
             // Log end of program
-            Console.WriteLine($"\nEnd of application - {Globals.AppName} v. {Globals._vData}\n");
-            Message($"End of application - {Globals.AppName} v. {Globals._vData}", EventType.Information, 1000);
+            Console.WriteLine($"\nEnd of application - {Globals._appName} v. {Globals._vData}\n");
+            Message($"End of application - {Globals._appName} v. {Globals._vData}", EventType.Information, 1000);
         }
     }
 }

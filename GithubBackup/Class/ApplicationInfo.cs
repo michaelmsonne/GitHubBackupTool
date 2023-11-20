@@ -32,7 +32,7 @@ namespace GithubBackup.Class
             }
 
             // Set the modified application name
-            Globals.AppName = baseAppName;
+            Globals._appName = baseAppName;
 
             // Globals.AppName = assemblyTitleAttribute?.Title;
 
