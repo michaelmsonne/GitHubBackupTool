@@ -131,7 +131,7 @@ namespace GithubBackup.Class
                 $"<td style=\"width: 33%;\">Processed branches for backup from Git repos (all branches):</td>" +
                 $"<td style=\"width: 10%;\"><b>XXXXXXXXXXXXXXXXXX</b></td>" +
                 $"<td style=\"width: 33.3333%;\">XXXXXXXXXXXXXXXXXX</td></tr></tbody></table><br><table style=\"border-collapse: collapse; width: 100%; height: 108px;\" border=\"1\"><tbody><tr style=\"height: 18px;\">" +
-                $"<td style=\"width: 33.3333%; height: 18px;\">XXXXXXXXXXXXXXXXXX</td></tr></tbody></table><br><table style=\"border-collapse: collapse; width: 100%; height: 108px;\" border=\"1\"><tr>" +
+                // $"<td style=\"width: 33.3333%; height: 18px;\">XXXXXXXXXXXXXXXXXX</td></tr></tbody></table><br><table style=\"border-collapse: collapse; width: 100%; height: 108px;\" border=\"1\"><tr>" +
                 $"<td style=\"width: 21%; height: 18px;\"><strong>Backup:</strong></td>" +
                 $"<td style=\"width: 22%; height: 18px;\"><strong>Info:</strong></td>" +
                 $"<td style=\"width: 33%; height: 18px;\"><strong>Status:</strong></td></tr><tr style=\"height: 18px;\">" +
