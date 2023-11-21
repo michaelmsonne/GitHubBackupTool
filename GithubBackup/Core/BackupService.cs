@@ -370,13 +370,20 @@ namespace GithubBackup.Core
                         foreach (var branchName in branchNames)
                         {
                             // Clone the specific branch
+                            
+                            // Replacing "\" with "-" in the branch name
+                            string sanitizedBranchName = branchName.Name.Replace("/", "-");
 
-                            // TODO Fix "/" in branchName.Name - as in Windows a subfolder is created
+                            // Create a folder path for the branch
+                            string clonedRepoPath = Path.Combine(repoDestination, sanitizedBranchName);
 
-                            string clonedRepoPath = Path.Combine(repoDestination, branchName.Name); // Create a folder for the branch
+                            // Clone the specific branch
                             LibGit2Sharp.Repository.Clone(repo.CloneUrl, clonedRepoPath, cloneOptions);
 
-                            Message($"Processed repository '{repo.FullName}' for backup - Options: ALL branches: saved data for branch '{branchName.Name}' to disk", EventType.Information, 1000);
+                            // string clonedRepoPath = Path.Combine(repoDestination, branchName.Name); // Create a folder for the branch
+                            // LibGit2Sharp.Repository.Clone(repo.CloneUrl, clonedRepoPath, cloneOptions);
+
+                            Message($"Processed repository '{repo.FullName}' for backup - Options: ALL branches: saved data for branch '{branchName.Name}' to disk: " + clonedRepoPath, EventType.Information, 1000);
                             //Console.WriteLine($"Processed repository {repo.FullName} - ALL branch: saved data for branch {branchName.Name} to disk");
 
                             Globals.repoitemscountelements.Add($"Repository Name: '{repo.Name}', Branch: '{branchName.Name}', Owner: '{repo.Owner.Login}'");
