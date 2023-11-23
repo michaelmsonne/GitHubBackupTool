@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Mail;
-using Octokit;
-using static GithubBackup.Class.FileLogger;
 
 namespace GithubBackup.Class
 {
