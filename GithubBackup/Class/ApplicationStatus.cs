@@ -5,17 +5,17 @@ using static GithubBackup.Class.FileLogger;
 
 namespace GithubBackup.Class
 {
-    internal class ApplicationEndStatus
+    internal class ApplicationStatus
     {
         public static void ApplicationEndBackup(bool isSuccess)
         {
             if (isSuccess)
             {
-                Console.ForegroundColor = ConsoleColor.White;
+                SetConsoleColorDefaultAndError(true);
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Red;
+                SetConsoleColorDefaultAndError(false);
             }
 
             // Stop timer for runtime of tool
@@ -46,6 +46,15 @@ namespace GithubBackup.Class
             Message("Backup start Time: " + Globals._startTime, EventType.Information, 1000);
             Message("Backup end Time: " + Globals._endTime, EventType.Information, 1000);
             Message("Errors: " + Globals._errors, EventType.Information, 1000);
+
+            if (isSuccess)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+            }
 
             // Log total number of files in the backup folder
             if (isSuccess)
@@ -267,6 +276,16 @@ namespace GithubBackup.Class
             // Log end of program
             Console.WriteLine($"\nEnd of application - {Globals._appName} v. {Globals._vData}\n");
             Message($"End of application - {Globals._appName} v. {Globals._vData}", EventType.Information, 1000);
+        }
+
+        private static void SetConsoleColorDefaultAndError(bool isSuccess)
+        {
+            Console.ForegroundColor = isSuccess ? ConsoleColor.White : ConsoleColor.Red;
+        }
+
+        private static void SetConsoleColorGreenAndRed(bool isSuccess)
+        {
+            Console.ForegroundColor = isSuccess ? ConsoleColor.Green : ConsoleColor.Red;
         }
     }
 }
