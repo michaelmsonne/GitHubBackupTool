@@ -247,7 +247,7 @@ namespace GithubBackup.Core
                 // Print branch names
                 foreach (var branchName in branchNames)
                 {
-                    Console.WriteLine($"Repository Name: '{repo.Name}', Branch: '{branchName}'");
+                    Console.WriteLine($"  Repository Name: '{repo.Name}', Branch: '{branchName}'");
                 }
 
                 // Print repository details to console

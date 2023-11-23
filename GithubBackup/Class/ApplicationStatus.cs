@@ -91,7 +91,7 @@ namespace GithubBackup.Class
                     Globals._errors,
                     Globals._totalBackupsIsDeleted,
                     Globals._daysToKeepBackup,
-                    isSuccess ? "TEST" : Globals._repoCountStatusText,
+                    Globals._repoCountStatusText, //isSuccess ? "TEST" : Globals._repoCountStatusText,
                     isSuccess ? Globals._repoCountStatusText : "TEST",
                     isSuccess ? "TEST" : Globals._isDaysToKeepNotDefaultStatusText,
                     Globals._useSimpleMailReportLayout,

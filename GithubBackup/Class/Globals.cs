@@ -42,13 +42,6 @@ namespace GithubBackup.Class
         public static string _repoCountStatusText; // text to display in email report
         public static string _isDaysToKeepNotDefaultStatusText; // text to display in email report if days to keep backup is not default value (30 days)
         public static string _totalBackupsIsDeletedStatusText; // text to display in email report if backups is deleted
-
-        public static int _processedMainBranchCount;
-        public static int _processedAllBranchesCount;
-        public static int _downloadedMainBranchFileCount;
-        public static int _downloadedAllBranchesFileCount;
-        public static int _octokitFileCount;
-        public static int _downloadedFilesCount;
         
         // Set Global variables for cleanup
         public static int _totalBackupsIsDeleted; // count of total backups deleted
