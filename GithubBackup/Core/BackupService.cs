@@ -139,8 +139,17 @@ namespace GithubBackup.Core
             var exceptions = CloneRepos(repos);
 
             // Count number of branches in backup folder for the current repository (main or all)
+            // Log
+            Console.WriteLine("Starting counting of branches in backup folder...");
+            Message($"Starting counting of branches in backup folder...", EventType.Information, 1000);
+
+            // Do work to count branches in backup folder
             Globals._repoBackupPerformedBranchCount = Folders.GetSubfolderCountForBranchFolders(Globals._backupFolderName, 3);
-            
+
+            // Log
+            Console.WriteLine("Counted branches in backup folder.");
+            Message("Counted branches in backup folder.", EventType.Information, 1000);
+
             // Count number of files and folders in backup folder
             Backups.CountFilesAndFoldersInFolder(Globals._backupFolderName, out var fileCount, out var folderCount);
 
