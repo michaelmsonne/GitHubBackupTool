@@ -119,17 +119,17 @@ namespace GithubBackup.Class
                 $"<td style=\"width: 33%; height: 18px;\">Processed Git repositories in GitHub API key gives access to (total):</td>" +
                 $"<td style=\"width: 10%; height: 18px;\"><b>{repoCount}</b></td>" +
                 $"<td style=\"width: 33.3333%; height: 18px;\">{repoCountStatusText}</td></tr><tr style=\"height: 18px;\">" +
-                $"<td style=\"width: 33%; height: 18px;\">Processed Git repos in project(s) a backup is made of from GitHub (all branches):</td>" +
+                $"<td style=\"width: 33%; height: 18px;\">Processed Git repos in GitHub a backup is made of from GitHub:</td>" +
                 $"<td style=\"width: 10%; height: 18px;\"><b>{Globals._repoBackupPerformedCount}</b></td>" +
                 $"<td style=\"width: 33.3333%; height: 18px;\">{repoItemsCountStatusText}</td></tr><tr style=\"height: 18px;\">" +
-                $"<td style=\"width: 33%; height: 18px;\">Processed files to backup from Git repos (total files) (all branches):</td>" +
-                $"<td style=\"width: 10%; height: 18px;\"><b>{Globals._backupFileCount}</b></td>" +
+                $"<td style=\"width: 33%; height: 18px;\">Processed branches for backup from Git repos (all branches):</td>" +
+                $"<td style=\"width: 10%; height: 18px;\"><b>{Globals._repoBackupPerformedBranchCount}</b></td>" +
                 $"<td style=\"width: 33.3333%; height: 18px;\">XX</td></tr><tr style=\"height: 18px;\">" +
                 $"<td style=\"width: 33%; height: 18px;\">Processed folders to backup from Git repos (total folders) (all branches):</td>" +
                 $"<td style=\"width: 10%; height: 18px;\"><b>{Globals._backupFolderCount}</b></td>" +
                 $"<td style=\"width: 33.3333%; height: 18px;\">XX</td></tr><tr>" +
-                $"<td style=\"width: 33%;\">Processed branches for backup from Git repos (all branches):</td>" +
-                $"<td style=\"width: 10%;\"><b>{Globals._repoBackupPerformedBranchCount}</b></td>" +
+                $"<td style=\"width: 33%;\">Processed files to backup from Git repos (total files) (all branches):</td>" +
+                $"<td style=\"width: 10%;\"><b>{Globals._backupFileCount}</b></td>" +
                 $"<td style=\"width: 33.3333%;\">XX</td></tr></tbody></table><br><table style=\"border-collapse: collapse; width: 100%; height: 108px;\" border=\"1\"><tbody><tr style=\"height: 18px;\">" +
                 // $"<td style=\"width: 33.3333%; height: 18px;\">XXXXXXXXXXXXXXXXXX</td></tr></tbody></table><br><table style=\"border-collapse: collapse; width: 100%; height: 108px;\" border=\"1\"><tr>" +
                 $"<td style=\"width: 21%; height: 18px;\"><strong>Backup:</strong></td>" +
