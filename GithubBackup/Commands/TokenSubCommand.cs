@@ -251,6 +251,8 @@ namespace GithubBackup.Commands
 
                     #endregion Do options for backup to keep
 
+                    //CheckConsole.GetCurrentParentProcessId();
+
                     // Create the backup and parse the arguments
                     backupService.CreateBackup();
                 });
