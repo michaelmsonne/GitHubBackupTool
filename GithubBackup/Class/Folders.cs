@@ -43,22 +43,28 @@ namespace GithubBackup.Class
         {
             // This method counts the number of subfolders in a folder, at a given depth used for branch folders
 
+            // Checks if the depth is less than 1 or the root folder does not exist.
+            // If so, returns 0 as there are no subfolders to count.
             if (depth < 1 || !Directory.Exists(rootFolderPath))
             {
                 return 0;
             }
 
-            int count = 0;
+            int count = 0; // Initialize count to keep track of the number of subfolders.
 
             try
             {
                 if (depth == 1)
                 {
+                    // If the depth is 1, count the immediate subfolders in the root folder.
                     string[] subfolders = Directory.GetDirectories(rootFolderPath);
                     count += subfolders.Length;
                 }
                 else
                 {
+                    // If the depth is greater than 1, iterate through the immediate subfolders of the root folder.
+                    // For each subfolder, recursively call the GetSubfolderCountForBranchFolders method
+                    // to count the subfolders at the specified depth within each subfolder.
                     string[] subfolders = Directory.GetDirectories(rootFolderPath);
                     foreach (string subfolder in subfolders)
                     {
@@ -68,14 +74,17 @@ namespace GithubBackup.Class
             }
             catch (UnauthorizedAccessException e)
             {
+                // Handles an UnauthorizedAccessException if access is denied to a folder.
                 Console.WriteLine($"Access denied: {e.Message}");
             }
             catch (DirectoryNotFoundException e)
             {
+                // Handles a DirectoryNotFoundException if a directory is not found.
                 Console.WriteLine($"Directory not found: {e.Message}");
             }
 
-            return count;
+            return count; // Returns the total count of subfolders at the specified depth within the root folder.
+
         }
     }
 }
