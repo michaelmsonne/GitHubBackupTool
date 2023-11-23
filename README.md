@@ -201,6 +201,10 @@ Reach out to the maintainer at one of the following places:
 - [GitHub discussions](https://github.com/michaelmsonne/GitHubBackupTool/discussions)
 - The email which is located [in GitHub profile](https://github.com/michaelmsonne)
 
+# To do list
+
+- [ ] Cleanup for classes and methods
+
 # License
 This project is licensed under the **MIT License** - see the LICENSE file for details.
 
