@@ -189,7 +189,7 @@ namespace GithubBackup.Core
                     Message("Errors: " + Globals._errors, EventType.Error, 1001);
 
                     // Handle errors
-                    ApplicationEndStatus.ApplicationEndBackup(false);
+                    ApplicationStatus.ApplicationEndBackup(false);
 
                     //ApplicationEndStatus.ApplicationEndBackupError();
                 }
@@ -206,7 +206,7 @@ namespace GithubBackup.Core
                     Message("Backup finished successfully - see log for more information", EventType.Information, 1000);
 
                     // Handle success
-                    ApplicationEndStatus.ApplicationEndBackup(true);
+                    ApplicationStatus.ApplicationEndBackup(true);
                     //ApplicationEndStatus.ApplicationEndBackupSuccess();
                 }
             }

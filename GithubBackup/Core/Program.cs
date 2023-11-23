@@ -45,7 +45,7 @@ namespace GithubBackup.Core
             WriteToEventLog = false;
             WriteToFile = true;
 
-            ApplicationEndStatus.ApplicationStartMessage();
+            ApplicationStatus.ApplicationStartMessage();
 
             Message("Loaded log configuration into the program: " + Globals._appName, EventType.Information, 1000);
 
