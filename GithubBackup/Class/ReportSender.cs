@@ -102,8 +102,8 @@ namespace GithubBackup.Class
                     $"<h3>Backup location:</h3><p>Backed up in folder: <b>\"{outDir}\"</b> on host/server: <b>{Environment.MachineName}</b><br>" +
                     $"Old backups set to keep in backup folder (days): <b>{daysToKeep}</b><br>" +
                     $"Old backups deleted in backup folder: <b>{totalBackupsIsDeleted}</b><br>" +
-                    listrepocountelements + "<br>" +
-                    listitemscountelements + "</p><br><hr>" +
+                    listitemscountelements + "<br>" +
+                    listrepocountelements + "</p><br><hr>" +
                     $"<h3>From Your {Globals._appName} tool!<o:p></o:p></h3>" + Globals._copyrightData + ", v." + Globals._vData;
             }
             else
@@ -154,8 +154,8 @@ namespace GithubBackup.Class
                 $"<p>Total Run Time is: \"{elapsedTime}\"<br>" +
                 $"Backup start Time: \"{startTime}\"<br>" +
                 $"Backup end Time: \"{endTime}\"</p><hr/>" +
-                listrepocountelements + "<br>" +
-                listitemscountelements + "</p><br><hr>" +
+                listitemscountelements + "<br>" +
+                listrepocountelements + "</p><br><hr>" +
                 $"<h3>From Your {Globals._appName} tool!<o:p></o:p></h3>" + Globals._copyrightData + ", v." + Globals._vData;
             }
 
