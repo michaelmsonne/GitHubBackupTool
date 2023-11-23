@@ -13,6 +13,7 @@ using static GithubBackup.Class.FileLogger;
 using Branch = Octokit.Branch;
 using Credentials = Octokit.Credentials;
 using Repository = Octokit.Repository;
+// ReSharper disable AccessToDisposedClosure
 
 namespace GithubBackup.Core
 {
@@ -211,7 +212,7 @@ namespace GithubBackup.Core
 
             Globals._repoCount = 0; // Reset the _repoCount integer for count of repos in total
 
-            IReadOnlyList<Repository> filteredRepos = null;
+            IReadOnlyList<Repository> filteredRepos;
 
             if (Globals._allRepos)
             {
@@ -328,7 +329,7 @@ namespace GithubBackup.Core
                                 });
                             }
 
-                        progressBar.Tick(progress.ReceivedObjects);
+                        if (progressBar != null) progressBar.Tick(progress.ReceivedObjects);
                         return true;
                     },
                     RepositoryOperationCompleted = (context) =>
@@ -393,7 +394,7 @@ namespace GithubBackup.Core
                     else
                     {
                         // Create a folder path for the branch
-                        string clonedRepoPath = Path.Combine(repoDestination, repo.DefaultBranch);
+                        var clonedRepoPath = Path.Combine(repoDestination, repo.DefaultBranch);
 
                         // Backup only the default branch for the current repository selected for backup (default branch) - this is the default option
                         LibGit2Sharp.Repository.Clone(repo.CloneUrl, clonedRepoPath, cloneOptions);
@@ -441,15 +442,6 @@ namespace GithubBackup.Core
                     }
                 }
             });
-
-
-
-
-
-            // // Count number of branches in backup folder for the current repository
-            // Folders.CountImmediateSubfoldersForBranchNumbersInBackup(Globals._backupFolderName);
-
-
 
             rootProgressBar.Dispose();
 

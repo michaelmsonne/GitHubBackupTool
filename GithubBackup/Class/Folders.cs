@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using static GithubBackup.Class.FileLogger;
 
 namespace GithubBackup.Class
 {
@@ -76,15 +77,20 @@ namespace GithubBackup.Class
             {
                 // Handles an UnauthorizedAccessException if access is denied to a folder.
                 Console.WriteLine($"Access denied: {e.Message}");
+                
+                // Log
+                Message($"Access denied: {e.Message}", EventType.Error, 1001);
             }
             catch (DirectoryNotFoundException e)
             {
                 // Handles a DirectoryNotFoundException if a directory is not found.
                 Console.WriteLine($"Directory not found: {e.Message}");
+
+                // Log
+                Message($"Directory not found: {e.Message}", EventType.Error, 1001);
             }
 
             return count; // Returns the total count of subfolders at the specified depth within the root folder.
-
         }
     }
 }
