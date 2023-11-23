@@ -10,8 +10,19 @@ namespace GithubBackup.Class
         public static void PrintRepositoryDetails(Repository repo)
         {
             // Print repository details to console
-            Console.WriteLine($"Repository Name: '{repo.Name}', Owner: '{repo.Owner.Login}', DefaultBranch: '{repo.DefaultBranch}', Fork: '{repo.Fork}'\nRepository Name: '{repo.Name}', Permissions: Admin: '{repo.Permissions.Admin}', Pull: '{repo.Permissions.Pull}', Push: '{repo.Permissions.Push}'");
+            Console.Write($"Repository Name: '{repo.Name}', Owner: ");
+
+            // Change console foreground color for the 'Owner' information
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write($"'{repo.Owner.Login}'");
+            Console.ForegroundColor = ConsoleColor.White;
+
+            // Print the remaining details
+            Console.Write($", DefaultBranch: '{repo.DefaultBranch}', Fork: '{repo.Fork}'\n");
+            Console.WriteLine($"Repository Name: '{repo.Name}', Permissions: Admin: '{repo.Permissions.Admin}', Pull: '{repo.Permissions.Pull}', Push: '{repo.Permissions.Push}'");
             
+            // Console.WriteLine($"Repository Name: '{repo.Name}', Owner: '{repo.Owner.Login}', DefaultBranch: '{repo.DefaultBranch}', Fork: '{repo.Fork}'\nRepository Name: '{repo.Name}', Permissions: Admin: '{repo.Permissions.Admin}', Pull: '{repo.Permissions.Pull}', Push: '{repo.Permissions.Push}'");
+
             // Log repository details
             Message($"Repository Name: '{repo.Name}', Owner: '{repo.Owner.Login}', DefaultBranch: '{repo.DefaultBranch}', Fork: '{repo.Fork}', (Permissions: Admin: '{repo.Permissions.Admin}', Pull: '{repo.Permissions.Pull}', Push: '{repo.Permissions.Push}')", EventType.Information, 1000);
         }
