@@ -80,16 +80,6 @@ namespace GithubBackup.Core
             Credentials = credentials;
         }
 
-        // Separate method to print repository details and log them
-        // private static void PrintRepositoryDetails(Repository repo)
-        // {
-        //     // Print repository details to console
-        //     Console.WriteLine($"Repository Name: '{repo.Name}', Owner: '{repo.Owner.Login}', DefaultBranch: '{repo.DefaultBranch}', Fork: '{repo.Fork}'\n  (Permissions: Admin: '{repo.Permissions.Admin}', Pull: '{repo.Permissions.Pull}', Push: '{repo.Permissions.Push}')");
-        //     
-        //     // Log repository details
-        //     Message($"Repository Name: '{repo.Name}', Owner: '{repo.Owner.Login}', DefaultBranch: '{repo.DefaultBranch}', Fork: '{repo.Fork}', (Permissions: Admin: '{repo.Permissions.Admin}', Pull: '{repo.Permissions.Pull}', Push: '{repo.Permissions.Push}')", EventType.Information, 1000);
-        // }
-
         public void CreateBackup()
         {
             // Get user data from Github
@@ -190,8 +180,6 @@ namespace GithubBackup.Core
 
                     // Handle errors
                     ApplicationStatus.ApplicationEndBackup(false);
-
-                    //ApplicationEndStatus.ApplicationEndBackupError();
                 }
                 else
                 {
@@ -207,7 +195,6 @@ namespace GithubBackup.Core
 
                     // Handle success
                     ApplicationStatus.ApplicationEndBackup(true);
-                    //ApplicationEndStatus.ApplicationEndBackupSuccess();
                 }
             }
         }
