@@ -137,6 +137,9 @@ namespace GithubBackup.Core
             // Clone all repositories into backup folder specified
             var exceptions = CloneRepos(repos);
 
+            // Count number of branches in backup folder for the current repository (main or all)
+            Globals._repoBackupPerformedBranchCount = Folders.GetSubfolderCountForBranchFolders(Globals._backupFolderName, 3);
+            
             // Count number of files and folders in backup folder
             Backups.CountFilesAndFoldersInFolder(Globals._backupFolderName, out var fileCount, out var folderCount);
 
@@ -375,9 +378,8 @@ namespace GithubBackup.Core
 
                             Globals.repoitemscountelements.Add($"Repository Name: '{repo.Name}', Branch: '{branchName.Name}', Owner: '{repo.Owner.Login}'");
 
-                            Globals._repoBackupPerformedCount++; // Increment the _repoCount integer for count of repos in total
-
-                            Globals._repoBackupPerformedBranchCount++; // Increment the BranchCount
+                            //Globals._repoBackupPerformedCount++; // Increment the _repoCount integer for count of repos in total
+                            //Globals._repoBackupPerformedBranchCount++; // Increment the BranchCount
 
                             // Count repos processed
                             lock (lockObject)
@@ -390,16 +392,18 @@ namespace GithubBackup.Core
                     }
                     else
                     {
+                        // Create a folder path for the branch
+                        string clonedRepoPath = Path.Combine(repoDestination, repo.DefaultBranch);
+
                         // Backup only the default branch for the current repository selected for backup (default branch) - this is the default option
-                        LibGit2Sharp.Repository.Clone(repo.CloneUrl, repoDestination, cloneOptions);
+                        LibGit2Sharp.Repository.Clone(repo.CloneUrl, clonedRepoPath, cloneOptions);
 
                         Message($"Processed repository: '{repo.FullName}' for backup, DefaultBranch '{repo.DefaultBranch}' - saved data to disk", EventType.Information, 1000);
 
                         Globals.repoitemscountelements.Add($"Repository Name: '{repo.Name}', DefaultBranch: '{repo.DefaultBranch}', Owner: '{repo.Owner.Login}'");
 
-                        Globals._repoBackupPerformedCount++; // Increment the _repoCount integer for count of repos in total
-
-                        Globals._repoBackupPerformedBranchCount++; // Increment the BranchCount
+                        //Globals._repoBackupPerformedCount++; // Increment the _repoCount integer for count of repos in total
+                        //Globals._repoBackupPerformedBranchCount++; // Increment the BranchCount
 
                         // Count repos processed
                         lock (lockObject)
@@ -409,6 +413,9 @@ namespace GithubBackup.Core
                             //Globals._repoBackupPerformedBranchCount++; // Confirm if this count should be increased here
                         }
                     }
+
+                    // Increment the _repoCount integer for count of repos in total
+                    Globals._repoBackupPerformedCount++;
                 }
                 catch (LibGit2SharpException libGit2SharpException)
                 {
@@ -434,6 +441,15 @@ namespace GithubBackup.Core
                     }
                 }
             });
+
+
+
+
+
+            // // Count number of branches in backup folder for the current repository
+            // Folders.CountImmediateSubfoldersForBranchNumbersInBackup(Globals._backupFolderName);
+
+
 
             rootProgressBar.Dispose();
 

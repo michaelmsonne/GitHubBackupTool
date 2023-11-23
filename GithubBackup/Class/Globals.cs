@@ -74,6 +74,5 @@ namespace GithubBackup.Class
         // Hold Git project details from project to backup
         public static List<string> repocountelements = new List<string>(); // list of repos to backup from Github - used for email report
         public static List<string> repoitemscountelements = new List<string>(); // list of repo items to backup from Github - used for email report
-        
     }
 }
