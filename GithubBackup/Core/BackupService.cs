@@ -264,7 +264,8 @@ namespace GithubBackup.Core
                 RepositoryDetails.PrintRepositoryDetails(repo);
 
                 // List name for projects to list for email report list
-                Globals.repocountelements.Add($"Repository Name: '{repo.Name}', DefaultBranch: '{repo.DefaultBranch}', Owner: '{repo.Owner.Login}'");
+                //Globals.repocountelements.Add($"Repository Name: '{repo.Name}', DefaultBranch: '{repo.DefaultBranch}', Owner: '{repo.Owner.Login}'");
+                Globals.repocountelements.Add($"{repo.Name}, ('{repo.DefaultBranch}' branch), Owner: '{repo.Owner.Login}'");
             }
 
             // Return the filtered repositories, or all repositories if none of the conditions are met
@@ -386,7 +387,10 @@ namespace GithubBackup.Core
                             Message($"Processed repository '{repo.FullName}' for backup - Options: ALL branches: saved data for branch '{branchName.Name}' to disk: " + clonedRepoPath, EventType.Information, 1000);
                             //Console.WriteLine($"Processed repository {repo.FullName} - ALL branch: saved data for branch {branchName.Name} to disk");
 
-                            Globals.repoitemscountelements.Add($"Repository Name: '{repo.Name}', Branch: '{branchName.Name}', Owner: '{repo.Owner.Login}'");
+                            //Globals.repoitemscountelements.Add($"Repository Name: '{repo.Name}', Branch: '{branchName.Name}', Owner: '{repo.Owner.Login}'"); 
+
+                            // Used for email report list - list name for projects to list for email report list
+                            Globals.repoitemscountelements.Add($"{repo.Name}, ('{branchName.Name}' branch), Owner: '{repo.Owner.Login}'");
 
                             //Globals._repoBackupPerformedCount++; // Increment the _repoCount integer for count of repos in total
                             //Globals._repoBackupPerformedBranchCount++; // Increment the BranchCount
@@ -410,7 +414,10 @@ namespace GithubBackup.Core
 
                         Message($"Processed repository: '{repo.FullName}' for backup, DefaultBranch '{repo.DefaultBranch}' - saved data to disk", EventType.Information, 1000);
 
-                        Globals.repoitemscountelements.Add($"Repository Name: '{repo.Name}', DefaultBranch: '{repo.DefaultBranch}', Owner: '{repo.Owner.Login}'");
+                        //Globals.repoitemscountelements.Add($"Repository Name: '{repo.Name}', DefaultBranch: '{repo.DefaultBranch}', Owner: '{repo.Owner.Login}'");
+
+                        // Used for email report list - list name for projects to list for email report list
+                        Globals.repoitemscountelements.Add($"{repo.Name}, ('{repo.DefaultBranch}' Default Branch), Owner: '{repo.Owner.Login}'");
 
                         //Globals._repoBackupPerformedCount++; // Increment the _repoCount integer for count of repos in total
                         //Globals._repoBackupPerformedBranchCount++; // Increment the BranchCount
