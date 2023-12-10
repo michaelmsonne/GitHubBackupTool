@@ -29,28 +29,29 @@ namespace GithubBackup.Commands
 
                 #region Set/show arguments used for token-based backup
 
-                // Define options for backup types
+                // Define options for backup types when using token-based backup
+                // Set the backup type based on options for repos (all, all not forks, all not forks and is owner and so on...)
                 var allReposOption = tokenBasedCmd.Option("-all", "Backup all repositories.", CommandOptionType.NoValue);
                 var allReposNotForksOption = tokenBasedCmd.Option("-allnf", "Exclude forked repositories.", CommandOptionType.NoValue);
                 var allReposOwnerOption = tokenBasedCmd.Option("-allowner", "Backup repositories where you are the owner (default).", CommandOptionType.NoValue);
                 var allBranchesOption = tokenBasedCmd.Option("-allbranches", "Backup all branches of repositories (default only DefaultBranch).\n", CommandOptionType.NoValue);
                 
-                // Define options for email when using token-based backup
+                // Define options for email when using token-based backup for sending report to email address (if set)
                 var mailToOption = tokenBasedCmd.Option("-mailto <email>", "Specify the email address to send backup notifications to.", CommandOptionType.SingleValue);
                 var mailFromOption = tokenBasedCmd.Option("-mailfrom  <email>", "Specify the email address to send backup notifications from.", CommandOptionType.SingleValue);
                 var mailServerOption = tokenBasedCmd.Option("-mailserver <server>", "Specify the IP address or DNS name of the SMTP server to use for sending notifications.", CommandOptionType.SingleValue);
                 var mailPortOption = tokenBasedCmd.Option("-mailport <port>", "Specify the port to use for the email server.\n", CommandOptionType.SingleValue);
                 
-                // Define an option for email priority
+                // Define an option for email priority (if set) - if not set it use default priority (normal)
                 var priorityOption = tokenBasedCmd.Option("-priority <priority>", "Set the email report priority (low/normal/high) (if not set default is normal).", CommandOptionType.SingleValue);
 
-                // Define an option for days to keep backup
-                var daysToKeepBackupOption = tokenBasedCmd.Option("-daystokeepbackup <days>", "Number of days to keep backups for. Backups older than this will be deleted (default is 30 days).", CommandOptionType.SingleValue);
-
-                // Define an option for simple email report layout
+                // Define an option for simple email report layout (if set) - if not set it use default report layout (more advanced)
                 var mailSimpleReport = tokenBasedCmd.Option("-simpelreport", "If set the email report layout there is send is simple, if not set it use the default report layout", CommandOptionType.NoValue);
+
+                // Define an option for days to keep backup in backup folder before deleting it (default is 30 days) - if not set it use default value
+                var daysToKeepBackupOption = tokenBasedCmd.Option("-daystokeepbackup <days>", "Number of days to keep backups for. Backups older than this will be deleted (default is 30 days).", CommandOptionType.SingleValue);
                 
-                // Define arguments for token-based backup
+                // Define arguments for token-based backup (token and destination folder)
                 var tokenArgument = tokenBasedCmd.Argument("Token", "A valid github token.").IsRequired();
                 var destinationArgument = tokenBasedCmd.Argument("Destination", "The destination folder for the backup.");
 
@@ -59,7 +60,7 @@ namespace GithubBackup.Commands
                 // Define the action to take when the command is invoked
                 tokenBasedCmd.OnExecute(() =>
                 {
-                    #region Set email options
+                    #region Set email options and check if they are set and have required values
                     
                     // Check the email priority option
                     var emailPriorityString = priorityOption.Value() ?? "normal"; // Default to "normal" if not specified
