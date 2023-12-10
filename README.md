@@ -140,11 +140,11 @@ Use it in a scheduled task to backup your repositories every day or week or mont
 
 **Full layout:**
 
-![Screenshot](docs/email-report-full.png)
+![Screenshot](docs/pictures/email-report-full.png)
 
 **Simple layout:**
 
-![Screenshot](docs/email-report-simple.png)
+![Screenshot](docs/pictures/email-report-simple.png)
 
 # Console use:
 
