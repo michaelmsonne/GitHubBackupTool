@@ -12,7 +12,7 @@ namespace GithubBackup.Class
     internal class ReportSender
     {
         public static void SendEmail(string serverAddress, int serverPort, string emailFrom, string emailTo, string emailStatusMessage,
-            List<string> repoCountElements, List<string> repoItemsCountElements, int repoCount, int repoItemsCount, string outDir, TimeSpan elapsedTime, int errors,
+            List<string> listOfReposInGitHubElements, List<string> listOfReposInGitHubBackupIsCreatedElements, int repoCount, int repoItemsCount, string outDir, TimeSpan elapsedTime, int errors,
             int totalBackupsIsDeleted, int daysToKeep, string repoCountStatusText, string repoItemsCountStatusText,
             string totalBackupsIsDeletedStatusText, bool useSimpleMailReportLayout, string isDaysToKeepNotDefaultStatusText, string startTime, string endTime)
         {
@@ -26,9 +26,13 @@ namespace GithubBackup.Class
             // Mail body text - HTML format
             string mailBody;
 
-            //Parse data to list from list of repo.name
-            var listOfReposInGitHub = "<h3>List of Git repositories in GitHub (the API key give access to (showing only main branch here)):</h3>∘ " + string.Join("<br>∘ ", repoCountElements);
-            var listOfReposInGitHubBackupIsCreated = "<h3>List of Git repositories in GitHub a backup is performed of (based on arguments for backup type):</h3>∘ " + string.Join("<br>∘ ", repoItemsCountElements);
+            // Parse data to list from list of repo.name and list of repo.name.backup (backup is created) - HTML format - for email report body
+            var listOfReposInGitHub =
+                "<h3>List of Git repositories in GitHub (the provided API key give access to (showing main branch of repo)):</h3>∘ " +
+                string.Join("<br>∘ ", listOfReposInGitHubElements);
+            var listOfReposInGitHubBackupIsCreated =
+                "<h3>List of Git repositories in GitHub a backup is performed of (based on arguments for backup type):</h3>∘ " +
+                string.Join("<br>∘ ", listOfReposInGitHubBackupIsCreatedElements);
             
             // Get email status text from job status
             emailStatusMessage = Globals._isBackupOk ? "Success" : "Failed!";
