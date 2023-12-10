@@ -16,24 +16,22 @@ namespace GithubBackup.Class
             int totalBackupsIsDeleted, int daysToKeep, string repoCountStatusText, string repoItemsCountStatusText,
             string totalBackupsIsDeletedStatusText, bool useSimpleMailReportLayout, string isDaysToKeepNotDefaultStatusText, string startTime, string endTime)
         {
+            if (emailStatusMessage == null) throw new ArgumentNullException(nameof(emailStatusMessage));
+            if (totalBackupsIsDeletedStatusText == null)
+                throw new ArgumentNullException(nameof(totalBackupsIsDeletedStatusText));
+
+            // Convert server port to string for mail client
             var serverPortStr = serverPort;
+
+            // Mail body text - HTML format
             string mailBody;
-            //if (mailBody == null) throw new ArgumentNullException(nameof(mailBody));
 
             //Parse data to list from list of repo.name
-            var listrepocountelements = "<h3>List of Git repositories in GitHub (the API key give access to (showing only main branch here)):</h3>∘ " + string.Join("<br>∘ ", repoCountElements);
-            var listitemscountelements = "<h3>List of Git repositories in GitHub a backup is performed of (based on arguments for backup type):</h3>∘ " + string.Join("<br>∘ ", repoItemsCountElements);
+            var listOfReposInGitHub = "<h3>List of Git repositories in GitHub (the API key give access to (showing only main branch here)):</h3>∘ " + string.Join("<br>∘ ", repoCountElements);
+            var listOfReposInGitHubBackupIsCreated = "<h3>List of Git repositories in GitHub a backup is performed of (based on arguments for backup type):</h3>∘ " + string.Join("<br>∘ ", repoItemsCountElements);
             
             // Get email status text from job status
-            if (Globals._isBackupOk)
-            {
-                // If unzipped or not
-                emailStatusMessage = "Success";
-            }
-            else
-            {
-                emailStatusMessage = "Failed!";
-            }
+            emailStatusMessage = Globals._isBackupOk ? "Success" : "Failed!";
 
             // Text if no Git projects to backup
             if (Globals._noProjectsToBackup)
@@ -60,6 +58,7 @@ namespace GithubBackup.Class
             }
             else
             {
+                // If no old backups to delete
                 if (Globals._isBackupOk)
                 {
                     totalBackupsIsDeletedStatusText = "Good - no old backup(s) to delete from backup folder";
@@ -102,8 +101,8 @@ namespace GithubBackup.Class
                     $"<h3>Backup location:</h3><p>Backed up in folder: <b>\"{outDir}\"</b> on host/server: <b>{Environment.MachineName}</b><br>" +
                     $"Old backups set to keep in backup folder (days): <b>{daysToKeep}</b><br>" +
                     $"Old backups deleted in backup folder: <b>{totalBackupsIsDeleted}</b><br>" +
-                    listitemscountelements + "<br>" +
-                    listrepocountelements + "</p><br><hr>" +
+                    listOfReposInGitHubBackupIsCreated + "<br>" +
+                    listOfReposInGitHub + "</p><br><hr>" +
                     $"<h3>From Your {Globals._appName} tool!<o:p></o:p></h3>" + Globals._copyrightData + ", v." + Globals._vData;
             }
             else
@@ -154,29 +153,33 @@ namespace GithubBackup.Class
                 $"<p>Total Run Time is: \"{elapsedTime}\"<br>" +
                 $"Backup start Time: \"{startTime}\"<br>" +
                 $"Backup end Time: \"{endTime}\"</p><hr/>" +
-                listitemscountelements + "<br>" +
-                listrepocountelements + "</p><br><hr>" +
+                listOfReposInGitHubBackupIsCreated + "<br>" +
+                listOfReposInGitHub + "</p><br><hr>" +
                 $"<h3>From Your {Globals._appName} tool!<o:p></o:p></h3>" + Globals._copyrightData + ", v." + Globals._vData;
             }
 
-            // Create mail
-            var message = new MailMessage(emailFrom, emailTo);
-            message.Subject = "[" + emailStatusMessage + $"] - {Globals._appName} status - (" + Globals._repoBackupPerformedCount +
+            // Create mail message object and set properties - email body, subject, etc.
+            var message = new MailMessage(emailFrom, emailTo)
+            {
+                Body = mailBody,
+                BodyEncoding = Encoding.UTF8,
+                IsBodyHtml = true,
+                Subject = "[" + emailStatusMessage + $"] - {Globals._appName} status - (" + Globals._repoBackupPerformedCount +
                               " Git projects (" + Globals._repoBackupPerformedBranchCount + " branches) backed up), " + errors + " issues(s) - (backups to keep (days): " + daysToKeep +
-                              ", backup(s) deleted: " + totalBackupsIsDeleted + ")";
-            message.Body = mailBody;
-            message.BodyEncoding = Encoding.UTF8;
-            message.IsBodyHtml = true;
+                              ", backup(s) deleted: " + totalBackupsIsDeleted + ")",
 
-            // Set email priority level based on command-line argument
-            message.Priority = Globals._emailPriority;
-            message.DeliveryNotificationOptions = DeliveryNotificationOptions.None;
-            message.BodyTransferEncoding = TransferEncoding.QuotedPrintable;
+                // Set email priority level based on command-line argument
+                Priority = Globals._emailPriority,
+                DeliveryNotificationOptions = DeliveryNotificationOptions.None,
+                BodyTransferEncoding = TransferEncoding.QuotedPrintable
+            };
 
-            // ReSharper disable once UnusedVariable
+            // Set mail client            
             using var client = new SmtpClient(serverAddress, serverPortStr);
             client.EnableSsl = true;
             client.UseDefaultCredentials = true;
+
+            // Log
             Message("Created email report and parsed data", EventType.Information, 1000);
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Created email report and parsed data");
@@ -185,18 +188,18 @@ namespace GithubBackup.Class
             // Get all the files in the log dir for today
 
             // Log
-            Message("Finding logfile for today to attach in email report...", EventType.Information, 1000);
+            Message("Looking for the logfile for today to attach in email report...", EventType.Information, 1000);
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Finding logfile for today to attach in email report...");
+            Console.WriteLine("Looking for the logfile for today to attach in email report...");
             Console.ResetColor();
 
-            // Get filename to find
+            // Get filename to find in log dir for today - get all files in log dir
             var filePaths = Directory.GetFiles(Files.LogFilePath, $"{Globals._appName} Log " + DateTime.Today.ToString("dd-MM-yyyy") + "*.*");
 
-            // Get the files that their extension are .log or .txt
+            // Get the files that their extension are .log or .txt (log files) - filter out other files
             var files = filePaths.Where(filePath => Path.GetExtension(filePath).Contains(".log") || Path.GetExtension(filePath).Contains(".txt"));
 
-            // Loop through the files enumeration and attach each file in the mail.
+            // Loop through the files enumeration and attach each file in the mail message
             foreach (var file in files)
             {
                 Globals._fileAttachedIneMailReport = file;
@@ -206,13 +209,12 @@ namespace GithubBackup.Class
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Found logfile for today:");
                 Console.ForegroundColor = ConsoleColor.White;
-                //Console.ResetColor();
 
-                // Full file name
+                // Full file name with path
                 var fileName = Globals._fileAttachedIneMailReport;
                 var fi = new FileInfo(fileName);
 
-                // Get File Name
+                // Get File Name without path
                 var justFileName = fi.Name;
                 Console.WriteLine("File name: '" + justFileName + "'");
                 Message("File name: '" + justFileName + "'", EventType.Information, 1000);
@@ -232,12 +234,15 @@ namespace GithubBackup.Class
                 Console.WriteLine("Directory name: '" + directoryName + "'");
                 Message("Directory name: '" + directoryName + "'", EventType.Information, 1000);
 
-                // File Exists ?
+                // Get file exists or not (bool)
                 var exists = fi.Exists;
-                Console.WriteLine("File exists: " + exists);
-                Message("File exists: " + exists, EventType.Information, 1000);
+                
+                // If file exists get more info about file
                 if (fi.Exists)
                 {
+                    Console.WriteLine("File exists: " + exists);
+                    Message("File exists: " + exists, EventType.Information, 1000);
+
                     // Get file size
                     var size = fi.Length;
                     Console.WriteLine("File Size in Bytes: " + size);
@@ -267,14 +272,15 @@ namespace GithubBackup.Class
                 message.Attachments.Add(attachment);
             }
 
-            //Try to send email status email
+            //Try to send email status email report
             try
             {
-                // Send the email
+                // Send the email message to the server for delivery
                 client.Send(message);
 
-                // Release files for the email
+                // Release files for the email report - close file
                 message.Dispose();
+
                 // TODO logfile is not locked from here - you can add logs to logfile again from here!
 
                 // Log
