@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using static GithubBackup.Class.FileLogger;
 
 namespace GithubBackup.Class
