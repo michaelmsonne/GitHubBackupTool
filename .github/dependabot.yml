@@ -10,10 +10,10 @@ updates:
     schedule:
       interval: "daily"
     open-pull-requests-limit: 10
-        # ignore:
-        # - dependency-name: Microsoft.Web.Xdt
-        #   versions:
-        #   - "> 2.1.2"
+         ignore:
+         - dependency-name: LibGit2Sharp
+           versions:
+           - "> 0.28.0"
         # Keep our GitHub actions up to date.
       #- package-ecosystem: "github-actions"
       #  directory: "/"
