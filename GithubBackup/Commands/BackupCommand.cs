@@ -10,6 +10,7 @@ namespace GithubBackup.Commands
 
         public BackupCommand(Func<CommandLineApplication, TokenSubCommand> tokenCmdWrapperFactory)
         {
+            // Define the main command and options for it and execute it if no sub-command is specified
             Command.UnrecognizedArgumentHandling = UnrecognizedArgumentHandling.Throw;
             Command.Name = "GitHubBackupTool";
             Command.Description = "GitHub Backup for Git Projects and is using the API for GitHub.";
@@ -34,13 +35,17 @@ namespace GithubBackup.Commands
             // Define the token sub-command and execute it
             Command.OnExecute(() =>
             {
+                // Show help if no sub-command is specified
                 Command.ShowHelp();
                 Console.WriteLine();
                 Console.WriteLine("Please specify the authentication mode via the appropriate sub-command.");
                 Console.WriteLine();
+
+                // Return error exit code
                 return 1;
             });
 
+            // Define the token sub-command and execute it
             tokenCmdWrapperFactory(Command);
         }
     }
