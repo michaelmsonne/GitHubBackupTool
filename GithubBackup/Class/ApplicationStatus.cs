@@ -47,14 +47,7 @@ namespace GithubBackup.Class
             Message("Backup end Time: " + Globals._endTime, EventType.Information, 1000);
             Message("Errors: " + Globals._errors, EventType.Information, 1000);
 
-            if (isSuccess)
-            {
-                Console.ForegroundColor = ConsoleColor.Green;
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-            }
+            Console.ForegroundColor = isSuccess ? ConsoleColor.Green : ConsoleColor.Red;
 
             // Log total number of files in the backup folder
             if (isSuccess)
@@ -73,7 +66,7 @@ namespace GithubBackup.Class
             // Send email report if email options are set
             if (Globals._emailOptionsIsSet)
             {
-                string emailStatus = isSuccess ? "DONE" : "ERROR";
+                var emailStatus = isSuccess ? "DONE" : "ERROR";
 
                 // Call method to send email report with the status of backup
                 ReportSender.SendEmail(
