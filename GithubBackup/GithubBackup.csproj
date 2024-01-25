@@ -16,7 +16,7 @@
     <PackageReference Include="Autofac" Version="7.1.0" />
     <PackageReference Include="LibGit2Sharp" Version="0.28.0" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.1.0" />
-    <PackageReference Include="Octokit" Version="9.0.0" />
+    <PackageReference Include="Octokit" Version="9.1.1" />
     <PackageReference Include="ShellProgressBar" Version="5.2.0" />
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.0" />
   </ItemGroup>
