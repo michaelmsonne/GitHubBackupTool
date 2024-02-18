@@ -90,7 +90,8 @@ namespace GithubBackup.Class
                     Globals._useSimpleMailReportLayout,
                     Globals._isDaysToKeepNotDefaultStatusText,
                     Globals._startTime,
-                    Globals._endTime);
+                    Globals._endTime,
+                    Folders.GetTotalSize(Globals._backupFolderName));
             }
             else
             {

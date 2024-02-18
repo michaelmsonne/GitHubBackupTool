@@ -18,6 +18,47 @@ namespace GithubBackup.Class
         //     }
         // }
 
+        public static string GetTotalSize(string folderPath)
+        {
+            long totalSize = 0;
+
+            try
+            {
+                // Get all files in the specified folder and its subfolders
+                string[] files = Directory.GetFiles(folderPath, "*", SearchOption.AllDirectories);
+
+                // Calculate the total size
+                foreach (var filePath in files)
+                {
+                    FileInfo fileInfo = new FileInfo(filePath);
+                    totalSize += fileInfo.Length;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                // Handle the exception as needed
+            }
+
+            return FormatBytes(totalSize);
+        }
+
+        // Helper function to format bytes into human-readable size
+        static string FormatBytes(long bytes)
+        {
+            string[] suffixes = { "B", "KB", "MB", "GB", "TB" };
+            int index = 0;
+            double size = bytes;
+
+            while (size >= 1024 && index < suffixes.Length - 1)
+            {
+                size /= 1024;
+                index++;
+            }
+
+            return $"{size:n2} {suffixes[index]}";
+        }
+
         public static void DeleteDirectory(string path)
         {
             foreach (string directory in Directory.GetDirectories(path))
