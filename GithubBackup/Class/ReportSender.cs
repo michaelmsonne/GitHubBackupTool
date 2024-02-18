@@ -103,7 +103,7 @@ namespace GithubBackup.Class
                     //$"Leftovers for original downloaded <b>.zip</b> files in backup folder (error(s) when try to delete): <b>{letOverZipFiles}</b><br>" +
                     //$"Leftovers for original downloaded <b>.json</b> files in backup folder (error(s) when try to delete): <b>{letOverJsonFiles}</b><p>" +
                     $"<h3>Backup location:</h3><p>Backed up in folder: <b>\"{outDir}\"</b> on host/server: <b>{Environment.MachineName}</b><br>" +
-                    $"Backup size: <b>{totalBackupFolderSize}</b><br>" +
+                    $"Total backup size is: <b>{totalBackupFolderSize}</b><br>" +
                     $"Old backups set to keep in backup folder (days): <b>{daysToKeep}</b><br>" +
                     $"Old backups deleted in backup folder: <b>{totalBackupsIsDeleted}</b><br>" +
                     listOfReposInGitHubBackupIsCreated + "<br>" +
@@ -141,7 +141,7 @@ namespace GithubBackup.Class
                 $"<td style=\"width: 33%; height: 18px;\"><strong>Status:</strong></td></tr><tr style=\"height: 18px;\">" +
                 $"<td style=\"width: 21%; height: 18px;\">Backup folder:</td>" +
                 $"<td style=\"width: 22%; height: 18px;\"><strong><b>\"{outDir}\"</b></b></td>" +
-                $"<td style=\"width: 33.3333%; height: 18px;\">Backup size: \"{totalBackupFolderSize}\"</td></tr><tr style=\"height: 18px;\">" +
+                $"<td style=\"width: 33.3333%; height: 18px;\">Total backup size is: \"{totalBackupFolderSize}\"</td></tr><tr style=\"height: 18px;\">" +
                 $"<td style=\"width: 21%; height: 18px;\">Backup server:</td>" +
                 $"<td style=\"width: 22%; height: 18px;\"><b>{Environment.MachineName}</b></td>" +
                 $"<td style=\"width: 33.3333%; height: 18px;\">  </td></tr><tr style=\"height: 18px;\">" +
