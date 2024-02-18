@@ -128,13 +128,13 @@ namespace GithubBackup.Class
                 $"<td style=\"width: 33.3333%; height: 18px;\">{repoItemsCountStatusText}</td></tr><tr style=\"height: 18px;\">" +
                 $"<td style=\"width: 33%; height: 18px;\">Processed branches for backup from Git repos (all branches):</td>" +
                 $"<td style=\"width: 10%; height: 18px;\"><b>{Globals._repoBackupPerformedBranchCount}</b></td>" +
-                $"<td style=\"width: 33.3333%; height: 18px;\">XX</td></tr><tr style=\"height: 18px;\">" +
+                $"<td style=\"width: 33.3333%; height: 18px;\"> </td></tr><tr style=\"height: 18px;\">" +
                 $"<td style=\"width: 33%; height: 18px;\">Processed folders to backup from Git repos (total folders) (all branches):</td>" +
                 $"<td style=\"width: 10%; height: 18px;\"><b>{Globals._backupFolderCount}</b></td>" +
-                $"<td style=\"width: 33.3333%; height: 18px;\">XX</td></tr><tr>" +
+                $"<td style=\"width: 33.3333%; height: 18px;\"> </td></tr><tr>" +
                 $"<td style=\"width: 33%;\">Processed files to backup from Git repos (total files) (all branches):</td>" +
                 $"<td style=\"width: 10%;\"><b>{Globals._backupFileCount}</b></td>" +
-                $"<td style=\"width: 33.3333%;\">XX</td></tr></tbody></table><br><table style=\"border-collapse: collapse; width: 100%; height: 108px;\" border=\"1\"><tbody><tr style=\"height: 18px;\">" +
+                $"<td style=\"width: 33.3333%;\"> </td></tr></tbody></table><br><table style=\"border-collapse: collapse; width: 100%; height: 108px;\" border=\"1\"><tbody><tr style=\"height: 18px;\">" +
                 // $"<td style=\"width: 33.3333%; height: 18px;\">XXXXXXXXXXXXXXXXXX</td></tr></tbody></table><br><table style=\"border-collapse: collapse; width: 100%; height: 108px;\" border=\"1\"><tr>" +
                 $"<td style=\"width: 21%; height: 18px;\"><strong>Backup:</strong></td>" +
                 $"<td style=\"width: 22%; height: 18px;\"><strong>Info:</strong></td>" +
