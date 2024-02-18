@@ -30,7 +30,6 @@ Global
 		{9E9F41C9-BFEE-4352-AC76-A81090120FE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E9F41C9-BFEE-4352-AC76-A81090120FE3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D9CE2A50-9DCC-4772-B751-AFBBDFF5D592}.Debug|Any CPU.ActiveCfg = DefaultBuild
-		{D9CE2A50-9DCC-4772-B751-AFBBDFF5D592}.Debug|Any CPU.Build.0 = DefaultBuild
 		{D9CE2A50-9DCC-4772-B751-AFBBDFF5D592}.DefaultBuild|Any CPU.ActiveCfg = DefaultBuild
 		{D9CE2A50-9DCC-4772-B751-AFBBDFF5D592}.DefaultBuild|Any CPU.Build.0 = DefaultBuild
 		{D9CE2A50-9DCC-4772-B751-AFBBDFF5D592}.Release|Any CPU.ActiveCfg = DefaultBuild
