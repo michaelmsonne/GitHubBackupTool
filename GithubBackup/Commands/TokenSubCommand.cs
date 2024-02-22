@@ -34,7 +34,8 @@ namespace GithubBackup.Commands
                 var allReposOption = tokenBasedCmd.Option("-all", "Backup all repositories.", CommandOptionType.NoValue);
                 var allReposNotForksOption = tokenBasedCmd.Option("-allnf", "Exclude forked repositories.", CommandOptionType.NoValue);
                 var allReposOwnerOption = tokenBasedCmd.Option("-allowner", "Backup repositories where you are the owner (default).", CommandOptionType.NoValue);
-                var allBranchesOption = tokenBasedCmd.Option("-allbranches", "Backup all branches of repositories (default only DefaultBranch).\n", CommandOptionType.NoValue);
+                var allBranchesOption = tokenBasedCmd.Option("-allbranches", "Backup all branches of repositories (default only DefaultBranch).", CommandOptionType.NoValue);
+                var excludeBranchDependabot = tokenBasedCmd.Option("-excludebranchdependabot", "Exclude branches with 'dependabot' in it from backup.\n", CommandOptionType.NoValue);
                 
                 // Define options for email when using token-based backup for sending report to email address (if set)
                 var mailToOption = tokenBasedCmd.Option("-mailto <email>", "Specify the email address to send backup notifications to.", CommandOptionType.SingleValue);
@@ -202,10 +203,23 @@ namespace GithubBackup.Commands
                         Globals._allBranches = false;
                     }
 
+                    // Set the backup type based on options for branches
+                    if (excludeBranchDependabot.HasValue())
+                    {
+                        // Set the backup type to all branches for repos excluding branches with "dependabot" in it
+                        Globals._excludeBranchDependabot = true;
+                    }
+                    else
+                    {
+                        // Set the backup type to all branches for repos excluding branches with "dependabot" in it
+                        Globals._excludeBranchDependabot = false;
+                    }
+
+
                     #endregion Set options for backup type
 
                     #region Do options for backup to keep
-                    
+
                     // Check if the daysToKeepBackup option is set
                     if (daysToKeepBackupOption.HasValue())
                     {
