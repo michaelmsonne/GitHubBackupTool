@@ -55,7 +55,27 @@ namespace GithubBackup.Core
         {
             var branchesTask = client.Repository.Branch.GetAll(repo.Owner.Login, repo.Name);
             branchesTask.Wait();
-            return branchesTask.Result;
+
+            // Filter out branches with "dependabot" in the name if the option is set
+            if (Globals._excludeBranchDependabot)
+            {
+                // Filter out branches with "dependabot" in the name
+                var filteredBranches = branchesTask.Result
+                    .Where(branch => !branch.Name.Contains("dependabot", StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+
+                // Return the filtered branches
+                return filteredBranches;
+            }
+            else 
+            {
+                // Return the branches
+                return branchesTask.Result;
+            }
+
+            //var branchesTask = client.Repository.Branch.GetAll(repo.Owner.Login, repo.Name);
+            //branchesTask.Wait();
+            //return branchesTask.Result;
         }
 
         private static List<string> GetBranchNamesForRepository(GitHubClient client, string owner, string repoName)
@@ -223,16 +243,17 @@ namespace GithubBackup.Core
 
             IReadOnlyList<Repository> filteredRepos;
 
-            if (Globals._allRepos)
+            // Filter repositories based on the selected options - If none of the conditions are met, all repositories will be returned by default
+            if (Globals._allRepos) // Set to all repositories - no filter
             {
                 filteredRepos = allRepos;
             }
-            else if (Globals._allReposNotForks)
+            else if (Globals._allReposNotForks) // Filter out forked repositories
             {
                 // Filter out forked repositories
                 filteredRepos = allRepos.Where(repo => !repo.Fork).ToList();
             }
-            else if (Globals._allReposNotForksAndIsOwner)
+            else if (Globals._allReposNotForksAndIsOwner) // Filter out forked and collaborator repositories
             {
                 // Filter out forked and collaborator repositories
                 filteredRepos = allRepos
@@ -254,7 +275,7 @@ namespace GithubBackup.Core
                 // Get branch names for the current repository
                 var branchNames = GetBranchNamesForRepository(client, repo.Owner.Login, repo.Name);
 
-                // Print branch names
+                // Print branch names to console
                 foreach (var branchName in branchNames)
                 {
                     Console.WriteLine($"  Repository Name: '{repo.Name}', Branch: '{branchName}'");

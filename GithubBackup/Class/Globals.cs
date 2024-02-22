@@ -23,6 +23,7 @@ namespace GithubBackup.Class
         public static bool _allRepos; // backup all repos from Github if true - default is false
         public static bool _allReposNotForks; // backup all repos from Github if true - default is false
         public static bool _allReposNotForksAndIsOwner; // backup all repos from Github if true - default is true as most common use case is to backup own repos and not forks from others repos
+        public static bool _excludeBranchDependabot; // exclude branches with "dependabot" in it from backup if true - default is true
         public static int _backupType;
         
         public static bool _emailOptionsIsSet; // check if email options is set and have required values

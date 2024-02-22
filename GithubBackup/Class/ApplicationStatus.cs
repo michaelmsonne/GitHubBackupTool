@@ -9,30 +9,34 @@ namespace GithubBackup.Class
     {
         public static void ApplicationEndBackup(bool isSuccess)
         {
-            if (isSuccess)
+            // Set console color based on isSuccess
+            switch (isSuccess)
             {
-                SetConsoleColorDefaultAndError(true);
-            }
-            else
-            {
-                SetConsoleColorDefaultAndError(false);
+                case true:
+                    SetConsoleColorDefaultAndError(true);
+                    break;
+                default:
+                    SetConsoleColorDefaultAndError(false);
+                    break;
             }
 
             // Stop timer for runtime of tool
-            Stopwatch stopWatch = new Stopwatch();
+            var stopWatch = new Stopwatch();
             stopWatch.Stop();
-            DateTime endTime = DateTime.Now; // get the current time as the end time for the tool
+
+            // Get the current time as the end time for the tool
+            var endTime = DateTime.Now;
 
             // Set start time and end time for the tool - convert to a string and save to global variables
             Globals._endTime = endTime.ToString("dd-MM-yyyy HH:mm:ss"); // convert end time to a string
 
             // Format and display the TimeSpan value.
             // Parse the start and end times into DateTime objects
-            DateTime startTime = DateTime.ParseExact(Globals._startTime, "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+            var startTime = DateTime.ParseExact(Globals._startTime, "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
             endTime = DateTime.ParseExact(Globals._endTime, "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
 
             // Calculate the elapsed time as a TimeSpan
-            TimeSpan elapsedTime = endTime - startTime;
+            var elapsedTime = endTime - startTime;
             Globals._elapsedTime = elapsedTime;
 
             // Display the TimeSpan value to the console
