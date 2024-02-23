@@ -56,23 +56,24 @@ namespace GithubBackup.Core
             var branchesTask = client.Repository.Branch.GetAll(repo.Owner.Login, repo.Name);
             branchesTask.Wait();
 
+            // Assuming 'repo' is an instance of LibGit2Sharp.Repository
+            Globals._alloriginalBranches = branchesTask.Result.Select(branch => branch.Name).ToList();
+
             // Filter out branches with "dependabot" in the name if the option is set
             if (Globals._excludeBranchDependabot)
             {
                 // Filter out branches with "dependabot" in the name
-                var filteredBranches = branchesTask.Result
-                    .Where(branch => !branch.Name.Contains("dependabot", StringComparison.OrdinalIgnoreCase))
-                    .ToList();
+                var filteredBranches = branchesTask.Result.Where(branch => !branch.Name.Contains("dependabot", StringComparison.OrdinalIgnoreCase)).ToList();
 
                 // Return the filtered branches
                 return filteredBranches;
             }
-            else 
+            else
             {
                 // Return the branches
                 return branchesTask.Result;
             }
-
+            
             //var branchesTask = client.Repository.Branch.GetAll(repo.Owner.Login, repo.Name);
             //branchesTask.Wait();
             //return branchesTask.Result;
@@ -110,8 +111,12 @@ namespace GithubBackup.Core
 
             // Show user data to console (name)
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"Hello {user.Name} - showing all repos before filtering the token gives access to!");
-            Message($"Hello {user.Name} - showing all repos before filtering the token gives access to!", EventType.Information, 1000);
+            Console.WriteLine($"Hello '{user.Name}' - Account type: '{user.Type}', you have {user.PublicRepos} public repositorie(s) - profile link {user.HtmlUrl}");
+            Message($"Hello '{user.Name}' - Account type: '{user.Type}', you have {user.PublicRepos} public repositorie(s) - profile link {user.HtmlUrl}", EventType.Information, 1000);
+
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("\nShowing all repos before filtering the token gives access to!...");
+            Message("showing all repos before filtering the token gives access to!...", EventType.Information, 1000);
 
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Getting all repos the API key has access to...");
@@ -266,7 +271,7 @@ namespace GithubBackup.Core
                 Globals._allRepos = true;
                 filteredRepos = allRepos;
             }
-
+            
             foreach (var repo in allRepos)
             {
                 // Increment the _repoCount integer for count of repos in total
@@ -275,14 +280,17 @@ namespace GithubBackup.Core
                 // Get branch names for the current repository
                 var branchNames = GetBranchNamesForRepository(client, repo.Owner.Login, repo.Name);
 
+                // Print main repository details to console
+                RepositoryDetails.PrintRepositoryDetails(repo);
+
+                // Print branch start text to console
+                Console.WriteLine("Branche(s) for repo:");
+
                 // Print branch names to console
                 foreach (var branchName in branchNames)
                 {
                     Console.WriteLine($"  Repository Name: '{repo.Name}', Branch: '{branchName}'");
                 }
-
-                // Print repository details to console
-                RepositoryDetails.PrintRepositoryDetails(repo);
 
                 // List name for projects to list for email report list
                 //Globals.repocountelements.Add($"Repository Name: '{repo.Name}', DefaultBranch: '{repo.DefaultBranch}', Owner: '{repo.Owner.Login}'");
@@ -391,8 +399,17 @@ namespace GithubBackup.Core
                         // Backup all branches for the current repository selected for backup
                         foreach (var branchName in branchNames)
                         {
+                            /*
+                            // Skip branches with "dependabot" in the name if the exclusion is enabled
+                            if (Globals._excludeBranchDependabot && Globals._alloriginalBranches.Contains("dependabot"))
+                            {
+                                Message($"Skipped processing repository '{repo.FullName}' for backup - Options: Excluded branch '{branchName.Name}' with 'dependabot' in the name", EventType.Warning, 1001);
+                                continue;
+                            }
+                            */
+
                             // Clone the specific branch
-                            
+
                             // Replacing "\" with "-" in the branch name
                             string sanitizedBranchName = branchName.Name.Replace("/", "-");
 
@@ -405,6 +422,7 @@ namespace GithubBackup.Core
                             // string clonedRepoPath = Path.Combine(repoDestination, branchName.Name); // Create a folder for the branch
                             // LibGit2Sharp.Repository.Clone(repo.CloneUrl, clonedRepoPath, cloneOptions);
 
+                            // Log
                             Message($"Processed repository '{repo.FullName}' for backup - Options: ALL branches: saved data for branch '{branchName.Name}' to disk: " + clonedRepoPath, EventType.Information, 1000);
                             //Console.WriteLine($"Processed repository {repo.FullName} - ALL branch: saved data for branch {branchName.Name} to disk");
 
@@ -433,6 +451,7 @@ namespace GithubBackup.Core
                         // Backup only the default branch for the current repository selected for backup (default branch) - this is the default option
                         LibGit2Sharp.Repository.Clone(repo.CloneUrl, clonedRepoPath, cloneOptions);
 
+                        // Log
                         Message($"Processed repository: '{repo.FullName}' for backup, DefaultBranch '{repo.DefaultBranch}' - saved data to disk", EventType.Information, 1000);
 
                         //Globals.repoitemscountelements.Add($"Repository Name: '{repo.Name}', DefaultBranch: '{repo.DefaultBranch}', Owner: '{repo.Owner.Login}'");

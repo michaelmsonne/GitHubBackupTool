@@ -76,7 +76,7 @@ namespace GithubBackup.Class
                 // Log
                 Message("No old backups needed to be deleted form backup folder: '" + outBackupDir + "'", EventType.Information, 1000);
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("No old backups needed to be deleted form backup folder: '" + outBackupDir + "'");
+                Console.WriteLine("No old backups needed to be deleted form backup folder: '" + outBackupDir + "'\n");
                 Console.ResetColor();
             }
         }
