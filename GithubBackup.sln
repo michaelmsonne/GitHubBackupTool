@@ -33,7 +33,6 @@ Global
 		{D9CE2A50-9DCC-4772-B751-AFBBDFF5D592}.DefaultBuild|Any CPU.ActiveCfg = DefaultBuild
 		{D9CE2A50-9DCC-4772-B751-AFBBDFF5D592}.DefaultBuild|Any CPU.Build.0 = DefaultBuild
 		{D9CE2A50-9DCC-4772-B751-AFBBDFF5D592}.Release|Any CPU.ActiveCfg = DefaultBuild
-		{D9CE2A50-9DCC-4772-B751-AFBBDFF5D592}.Release|Any CPU.Build.0 = DefaultBuild
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
