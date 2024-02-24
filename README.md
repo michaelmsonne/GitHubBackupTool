@@ -123,7 +123,7 @@ Paramenters (**NOT FINAL**):
 - -mailserver "mailserver.domain.com": Define the SMTP server for sending email notifications.
 - -mailport "25": Set the SMTP server port (default is 25).
 - -priority "high": Specify the email priority for notifications (e.g., high, normal, low).
-- -daystokeepbackup xx: Set the number of days to retain backup files before automatic removal (default is 30 days if not set).
+- -daystokeepbackup 180: Set the number of days to retain backup files before automatic removal (default is 30 days if not set).
 
 # Final thoughts
 This is not an exhaustive method to retrieve every artifact on GitHub. There’s a lot more to be done to make this a complete solution.
