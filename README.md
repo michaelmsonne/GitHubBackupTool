@@ -117,6 +117,7 @@ Paramenters (**NOT FINAL**):
 - -allnf: Use this option to back up repositories owned by the token holder and exclude forked repositories..
 - -allowner: Use this option to back up repositories owned by the token holder.
 - -allbranches: Use this option to back up all branches of repositories (default only DefaultBranch) by the token holder.
+- -excludebranchdependabot: Use this option to exclude the branches with the name "dependabot" from the backup.
 - -mailto "mail-to@domain.com": Provide an email address where backup completion notifications will be sent.
 - -mailfrom "mail-from@domain.com": Specify the sender's email address for the notification emails.
 - -mailserver "mailserver.domain.com": Define the SMTP server for sending email notifications.
