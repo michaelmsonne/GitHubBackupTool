@@ -91,7 +91,7 @@ You can create a personal access token here: https://github.com/settings/tokens/
 - Contents: Read-only
 - Metadata: Read-only
 
-Access: Read access to repositories who needs backup and read access to user profile.
+**Access**: Read access to repositories who needs backup and read access to user profile.
 
 
 ### Installation
