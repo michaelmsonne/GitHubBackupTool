@@ -87,6 +87,18 @@ Sub menu:
 
 ![Screenshot](docs/pictures/help-token-menu.png)
 
+# Email report sample
+
+**Full layout:**
+
+![Screenshot](docs/pictures/email-report-full.png)
+
+**Simple layout:**
+
+![Screenshot](docs/pictures/email-report-simple.png)
+
+## Building
+
 ## Download
 
 [Download the latest version](../../releases/latest)
@@ -161,24 +173,11 @@ And the tool can also be used to backup all repositories of a user.
 
 Use it in a scheduled task to backup your repositories every day or week or month or whatever you want manually or automatically.
 
-# Email report sample:
-
-**Full layout:**
-
-![Screenshot](docs/pictures/email-report-full.png)
-
-**Simple layout:**
-
-![Screenshot](docs/pictures/email-report-simple.png)
-
-## Building
-
 ```bash
 $ dotnet publish -r win10-x64 -c release
 ```
 
 So far I tested the application only for win10-x64 systems, but it might also work on other platforms.
-
 
 ## Used 3rd party libraries for the tool:
 
@@ -213,10 +212,6 @@ Reach out to the maintainer at one of the following places:
 
 - [GitHub discussions](https://github.com/michaelmsonne/GitHubBackupTool/discussions)
 - The email which is located [in GitHub profile](https://github.com/michaelmsonne)
-
-# To do list
-
-- [ ] Cleanup for classes and methods
 
 # License
 This project is licensed under the **MIT License** - see the LICENSE file for details.
