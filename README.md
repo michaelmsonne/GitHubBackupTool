@@ -53,15 +53,39 @@ While your code is perfectly safe on the GitHub infrastructure, there are cases 
 
 By using the GitHubBackupTool, you can automate the process of creating backups of your GitHub repositories, ensuring that your valuable code is safe and easily recoverable.
 
-![GitHubBackupTool screenshot](docs/pictures/screenshot.png?raw=true "GitHubBackupTool screenshot")
+## Use
 
-## Features
+### Features
 - Backup Git repos from GitHub via token
 - Supports user token and Org token
 - Send email report with status
 - Set custom path for backup location
 
 The tools and code in it can as much of the same features as my [Azure DevOps Backup tool](https://github.com/michaelmsonne/AzureDevOpsBackupTool), but with some changes to support the GitHub API. Some functions/data/API data is not the same, so some features/stat/status checks is not here at the movemt (we hope in the future).
+
+### Getting GitHub repos API key give access too
+
+![GitHubBackupTool starting](docs/pictures/start-of-backup-getting-repos.png?raw=true "GitHubBackupTool starting")
+
+### Createing GitHub of reposs basd on parameters to backup
+
+![GitHubBackupTool backup running](docs/pictures/backup-running.png?raw=true "GitHubBackupTool backup running")
+
+### Backup done and report send
+
+![GitHubBackupTool backup done](docs/pictures/backup-done.png?raw=true "GitHubBackupTool backup done")
+
+# Console use:
+
+**Help and info menu:**
+
+Main menu:
+
+![Screenshot](docs/pictures/help-menu.png)
+
+Sub menu:
+
+![Screenshot](docs/pictures/help-token-menu.png)
 
 ## Download
 
@@ -146,18 +170,6 @@ Use it in a scheduled task to backup your repositories every day or week or mont
 **Simple layout:**
 
 ![Screenshot](docs/pictures/email-report-simple.png)
-
-# Console use:
-
-**Help and info menu:**
-
-Main menu:
-
-![Screenshot](docs/pictures/help-menu.png)
-
-Sub menu:
-
-![Screenshot](docs/pictures/help-token-menu.png)
 
 ## Building
 
