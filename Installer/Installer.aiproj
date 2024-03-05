@@ -27,7 +27,7 @@
       <Name>GithubBackup</Name>
       <Project>{9e9f41c9-bfee-4352-ac76-a81090120fe3}</Project>
       <Private>True</Private>
-      <OutputsToImport>PublishOutput#FolderProfile#bin\Release\publish\net7.0\#Release#Any CPU#FileSystem#net7.0##false###</OutputsToImport>
+      <OutputsToImport>PublishOutput#FolderProfile#bin\publish#Release#Any CPU#FileSystem#net7.0##false###</OutputsToImport>
     </ProjectReference>
   </ItemGroup>
   <Target Name="Build">
