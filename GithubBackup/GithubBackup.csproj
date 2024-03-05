@@ -9,6 +9,12 @@
     <ApplicationIcon>Resources\github_git_icon.ico</ApplicationIcon>
     <PackageIcon>github_git_icon.ico</PackageIcon>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <IsPublishable>True</IsPublishable>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <IsPublishable>True</IsPublishable>
+  </PropertyGroup>
   <ItemGroup>
     <Content Include="Resources\github_git_icon.ico" />
   </ItemGroup>
@@ -30,5 +36,10 @@
   <Target Name="PostBuildRelease" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
     <Exec Command="&quot;C:\Program Files (x86)\Windows Kits\10\App Certification Kit\signtool.exe&quot; sign /n &quot;Michael Morten Sonne&quot; /fd sha256 /tr http://timestamp.sectigo.com /td sha256 /as /v &quot;$(TargetPath)&quot;" />
     <Exec Command="&quot;C:\Program Files (x86)\Windows Kits\10\App Certification Kit\signtool.exe&quot; sign /n &quot;Michael Morten Sonne&quot; /fd sha256 /tr http://timestamp.sectigo.com /td sha256 /as /v &quot;$(TargetDir)$(AssemblyName).exe&quot;" />
+  </Target>
+  <Target Name="customafterpublish" AfterTargets="publish">
+    <message text="sign publish"/>
+    <exec command="&quot;C:\Program Files (x86)\Windows Kits\10\App Certification Kit\signtool.exe&quot; sign /n &quot;Michael Morten Sonne&quot; /fd sha256 /tr http://timestamp.sectigo.com /td sha256 /as /v $(publishdir)$(targetname).exe" />
+    <exec command="&quot;C:\Program Files (x86)\Windows Kits\10\App Certification Kit\signtool.exe&quot; sign /n &quot;Michael Morten Sonne&quot; /fd sha256 /tr http://timestamp.sectigo.com /td sha256 /as /v $(publishdir)$(targetname).dll" />
   </Target>
 </Project>
