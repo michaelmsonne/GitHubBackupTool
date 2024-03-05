@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		LICENSE.md = LICENSE.md
 		README.md = README.md
 		SECURITY.md = SECURITY.md
+		docs\Third-party libraries.txt = docs\Third-party libraries.txt
 	EndProjectSection
 EndProject
 Project("{840C416C-B8F3-42BC-B0DD-F6BB14C9F8CB}") = "Installer", "Installer\Installer.aiproj", "{D9CE2A50-9DCC-4772-B751-AFBBDFF5D592}"
