@@ -1,3 +1,3 @@
-## [1.0.0.0] - xx-xx-xxxx
+## [1.0.0.0] - 05-03-2024
 
 Initial release of the tool
