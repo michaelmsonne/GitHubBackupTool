@@ -39,6 +39,11 @@ namespace GithubBackup.Class
             }
         }
 
+        /// <summary>
+        /// Not in use from here - TODO: Cleanup
+        /// </summary>
+        /// <param name="outDir"></param>
+
         // If args is set to delete original downloaded .zip and .json files
         // Get output folder from backup with date for folder to backup to
         public static void DeleteZipAndJson(string outDir)

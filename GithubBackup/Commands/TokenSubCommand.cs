@@ -51,6 +51,9 @@ namespace GithubBackup.Commands
 
                 // Define an option for days to keep backup in backup folder before deleting it (default is 30 days) - if not set it use default value
                 var daysToKeepBackupOption = tokenBasedCmd.Option("-daystokeepbackup <days>", "Number of days to keep backups for. Backups older than this will be deleted (default is 30 days).", CommandOptionType.SingleValue);
+
+                // Define an option for days to keep log files in log folder before deleting it (default is 30 days) - if not set it use default value
+                var daysToKeepLogFilesOption = tokenBasedCmd.Option("-daystokeeplogfiles <days>", "Number of days to keep log files for. Log files older than this will be deleted (default is 30 days).", CommandOptionType.SingleValue);
                 
                 // Define arguments for token-based backup (token and destination folder)
                 var tokenArgument = tokenBasedCmd.Argument("Token", "A valid github token.").IsRequired();
@@ -214,8 +217,7 @@ namespace GithubBackup.Commands
                         // Set the backup type to all branches for repos excluding branches with "dependabot" in it
                         Globals._excludeBranchDependabot = false;
                     }
-
-
+                    
                     #endregion Set options for backup type
 
                     #region Do options for backup to keep
@@ -265,6 +267,81 @@ namespace GithubBackup.Commands
                     Backups.CountCurrentNumersOfBackup(destinationFolder);
 
                     #endregion Do options for backup to keep
+
+
+
+
+
+                    #region Set log files options for cleanup
+
+                    // Parse data for daysToKeepBackup
+                    if (daysToKeepLogFilesOption.HasValue())
+                    {
+                        // Set backup to keep days to the value provided
+                        Globals._daysToKeepLogFilesOption = int.Parse(daysToKeepLogFilesOption.Value() ?? string.Empty);
+
+                        // Set status text for email
+                        Globals._isdaysToKeepLogFilesOptionDefaultStatusText = "Custom number of old log(s) set to keep in log folder (days)";
+
+                        Message("Days to keep backups is set to: " + Globals._daysToKeepLogFilesOption, EventType.Information, 1000);
+                    }
+                    else
+                    {
+                        // Set backup to keep days to default value
+                        Globals._daysToKeepLogFilesOption = 30;
+
+                        // Set status text for email
+                        Globals._isdaysToKeepLogFilesOptionDefaultStatusText = "Default number of old log(s) set to keep in log folder (days)";
+
+                        Message("Days to keep backups is set to: " + Globals._daysToKeepLogFilesOption + " (default value as no argument is set)", EventType.Information, 1000);
+                    }
+
+                    #endregion Set log files options for cleanup
+
+                    #region Do log files options for cleanup
+
+                    // Check if the daysToKeepLogFilesOption option is set
+                    if (daysToKeepLogFilesOption.HasValue())
+                    {
+                        // If set to 30 (default) show it - other text if -daystokeepbackup is not set
+                        if (Globals._daysToKeepLogFilesOption == 30)
+                        {
+                            // Log
+                            Message($"Argument -daystokeeplogfiles is set to (default) {Globals._daysToKeepLogFilesOption}", EventType.Information, 1000);
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine($"Argument -daystokeeplogfiles is set to (default) {Globals._daysToKeepLogFilesOption}");
+                            Console.ResetColor();
+
+                            // Do work
+                            CleanupLog.CleanupLogs(Globals._daysToKeepLogFilesOption);
+                        }
+
+                        // If -daystokeepbackup is not set to default 30 - show it and do work
+                        if (Globals._daysToKeepLogFilesOption != 30)
+                        {
+                            // Log
+                            Message($"Argument -daystokeeplogfiles is not default (-30), it is set to -{Globals._daysToKeepLogFilesOption} day(s)", EventType.Information, 1000);
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.WriteLine($"Argument -daystokeeplogfiles is not default (-30), it is set to -{Globals._daysToKeepLogFilesOption} day(s)");
+                            Console.ResetColor();
+
+                            // Do work
+                            CleanupLog.CleanupLogs(Globals._daysToKeepLogFilesOption);
+                        }
+                    }
+                    else
+                    {
+                        // Log
+                        Message($"Argument -daystokeeplogfiles does not exits - using default log(s) to keep (30 days)!", EventType.Information, 1000);
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine($"\nArgument -daystokeeplogfiles does not exits - using default log(s) to keep (30 days)!\n");
+                        Console.ResetColor();
+
+                        // Do work
+                        CleanupLog.CleanupLogs(Globals._daysToKeepLogFilesOption);
+                    }
+
+                    #endregion Do log files options for cleanup
 
                     //CheckConsole.GetCurrentParentProcessId();
 

@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static GithubBackup.Class.FileLogger;
 
 namespace GithubBackup.Class
 {
     internal class CleanupLog
     {
-        public static void CleanupLogs()
+        public static void CleanupLogs(int daysOfLogfilesToKeep)
         {
             // Cleanup old log files
             string[] oldfiles = Directory.GetFiles(Files.LogFilePath);
@@ -27,7 +23,7 @@ namespace GithubBackup.Class
                 FileInfo fi = new FileInfo(file);
 
                 // Get all last access time back in time
-                if (fi.LastAccessTime < DateTime.Now.AddDays(-30))
+                if (fi.LastAccessTime < DateTime.Now.AddDays(-daysOfLogfilesToKeep))
                 {
                     try
                     {
@@ -72,17 +68,17 @@ namespace GithubBackup.Class
             if (Globals._oldLogfilesToDelete)
             {
                 // Log
-                Message($"There was {Globals._oldLogFilesToDeleteCount} old log files to delete (-30 days)", EventType.Information, 1000);
+                Message($"There was {Globals._oldLogFilesToDeleteCount} old log files to delete (-{Globals._daysToKeepLogFilesOption})", EventType.Information, 1000);
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"There was {Globals._oldLogFilesToDeleteCount} old log files to delete (-30 days)");
+                Console.WriteLine($"There was {Globals._oldLogFilesToDeleteCount} old log files to delete (-{Globals._daysToKeepLogFilesOption})");
                 Console.ResetColor();
             }
             else
             {
                 // Log
-                Message("No old log files to delete (-30 days)", EventType.Information, 1000);
+                Message($"No old log files to delete (-{Globals._daysToKeepLogFilesOption}) day(s)", EventType.Information, 1000);
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("No old log files to delete (-30 days)");
+                Console.WriteLine($"No old log files to delete (-{Globals._daysToKeepLogFilesOption}) day(s)");
                 Console.ResetColor();
             }
         }

@@ -46,12 +46,14 @@ namespace GithubBackup.Class
         public static bool _isBackupOk; // check if backup is ok or not state
         public static string _repoCountStatusText; // text to display in email report
         public static string _isDaysToKeepNotDefaultStatusText; // text to display in email report if days to keep backup is not default value (30 days)
+        public static string _isdaysToKeepLogFilesOptionDefaultStatusText; // text to display in email report if days to keep log files is not default value (30 days)
         public static string _totalBackupsIsDeletedStatusText; // text to display in email report if backups is deleted
         
         // Set Global variables for cleanup
         public static int _totalBackupsIsDeleted; // count of total backups deleted
         public static int _oldLogFilesToDeleteCount; // count of old log files deleted
         public static bool _oldLogfilesToDelete; // delete old log files if true - default is false and function is not used
+        public static int _daysToKeepLogFilesOption; // number of days to keep log files in log folder before deleting it - default is 30 days if not set
 
         // Set Global variables for email
         public static string _mailto; // email address to send email to
