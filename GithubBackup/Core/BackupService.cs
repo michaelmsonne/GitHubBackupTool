@@ -116,7 +116,7 @@ namespace GithubBackup.Core
 
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("\nShowing all repos before filtering the token gives access to!...");
-            Message("showing all repos before filtering the token gives access to!...", EventType.Information, 1000);
+            Message("Showing all repos before filtering the token gives access to!...", EventType.Information, 1000);
 
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Getting all repos the API key has access to...");
@@ -235,6 +235,9 @@ namespace GithubBackup.Core
                     ApplicationStatus.ApplicationEndBackup(true);
                 }
             }
+
+            // Cleanup old log files
+            //CleanupLog.CleanupLogs(Globals._daysToKeepLogFilesOption);
         }
 
         private IReadOnlyList<Repository> GetRepos()

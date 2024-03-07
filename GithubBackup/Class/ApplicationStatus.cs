@@ -273,7 +273,7 @@ namespace GithubBackup.Class
         {
             // Log end of program
             Console.WriteLine($"\nEnd of application - {Globals._appName} v. {Globals._vData}\n");
-            Message($"End of application - {Globals._appName} v. {Globals._vData}", EventType.Information, 1000);
+            Message($"End of application - {Globals._appName} v. {Globals._vData}\n", EventType.Information, 1000);
         }
 
         private static void SetConsoleColorDefaultAndError(bool isSuccess)

@@ -23,13 +23,14 @@ namespace GithubBackup.Commands
                                         "\n  Disaster Recovery and Business Continuity Plans." +
                                         "" +
                                         "\n\nExamples:" +
-                                        $"\n  {Globals._currentExeFileName} token-based XXX... \"D:\\Backup\\GitHub\" -allowner -mailto \"mail-to@domain.com\"" +
+                                        $"\n  {Globals._currentExeFileName} token-based <token> \"D:\\Backup\\GitHub\" -allowner -mailto \"mail-to@domain.com\"" +
                                         $"\n  -mailfrom \"mail-from@domain.com\" -mailserver \"mailserver.domain.com\" -mailport \"25\" -priority high" +
                                         $"\n  -daystokeepbackup 50\n\n" +
                                         $"My Website:" +
                                         $"\n  https://sonnes.cloud\n\n" +
                                         $"My blog:" +
-                                        $"\n  https://blog.sonnes.cloud\n";
+                                        $"\n  https://blog.sonnes.cloud\n\n" +
+                                        $"{Globals._appName}, v. {Globals._vData} by {Globals._companyName}\n\n";
             Command.HelpOption(true);
             
             // Define the token sub-command and execute it

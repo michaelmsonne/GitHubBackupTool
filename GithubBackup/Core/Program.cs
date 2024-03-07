@@ -57,7 +57,7 @@ namespace GithubBackup.Core
             Globals._startTime = startTime.ToString("dd-MM-yyyy HH:mm:ss"); // convert start time to string
 
             // Cleanup old log files
-            CleanupLog.CleanupLogs();
+            //CleanupLog.CleanupLogs();
 
             try
             {
