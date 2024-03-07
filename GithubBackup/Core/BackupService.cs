@@ -13,6 +13,9 @@ using static GithubBackup.Class.FileLogger;
 using Branch = Octokit.Branch;
 using Credentials = Octokit.Credentials;
 using Repository = Octokit.Repository;
+using Newtonsoft.Json;
+using Formatting = System.Xml.Formatting;
+
 // ReSharper disable AccessToDisposedClosure
 
 namespace GithubBackup.Core
@@ -334,8 +337,24 @@ namespace GithubBackup.Core
                 // Get branch names for the current repository
                 var branchNames = GetBranchesForRepository(client, repo);
 
-                // Get folder names for the current repository
-                var repoDestination = Path.Combine(Destination, repo.FullName);
+                // Specify whether to backup metadata
+                bool backupMetadata = Globals._backupRepoMetadata; // TEMP
+
+                string repoDestinationBackupCode;
+                string repoDestinationBackupMetadata = Path.Combine(Destination, repo.FullName);
+                string metadataFilePath;
+
+                // Set folder names for the current repository based on the backupMetadata option
+                if (backupMetadata)
+                {
+                    // If backing up metadata, add "code\" in front of the folder name
+                    repoDestinationBackupCode = Path.Combine(Destination, repo.FullName, "code");
+                }
+                else
+                {
+                    // If not backing up metadata, use only the repository name as the folder name
+                    repoDestinationBackupCode = Path.Combine(Destination, repo.FullName);
+                }
 
                 ChildProgressBar progressBar = null;
                 Exception cloneException = null;
@@ -417,19 +436,24 @@ namespace GithubBackup.Core
                             string sanitizedBranchName = branchName.Name.Replace("/", "-");
 
                             // Create a folder path for the branch
-                            string clonedRepoPath = Path.Combine(repoDestination, sanitizedBranchName);
+                            string clonedRepoPath = Path.Combine(repoDestinationBackupCode, sanitizedBranchName);
 
                             // Clone the specific branch
                             LibGit2Sharp.Repository.Clone(repo.CloneUrl, clonedRepoPath, cloneOptions);
 
-                            // string clonedRepoPath = Path.Combine(repoDestination, branchName.Name); // Create a folder for the branch
-                            // LibGit2Sharp.Repository.Clone(repo.CloneUrl, clonedRepoPath, cloneOptions);
+                            // TODO Create a method for this
+                            // If set to backup metadata, save metadata for the repository in the folder
+                            if (backupMetadata)
+                            {
+                                // Save metadata for the repository
+                                metadataFilePath = Path.Combine(repoDestinationBackupMetadata, "repository_metadata.json");
+                                File.WriteAllText(metadataFilePath, JsonConvert.SerializeObject(repo, Newtonsoft.Json.Formatting.Indented));
+                                Console.WriteLine($"Processed repository '{repo.FullName}' for backup for repository metadata backed up to: '{metadataFilePath}'");
+                                Message($"Processed repository '{repo.FullName}' for backup for repository metadata backed up to: '{metadataFilePath}'", EventType.Information, 1000);
+                            }
 
                             // Log
                             Message($"Processed repository '{repo.FullName}' for backup - Options: ALL branches: saved data for branch '{branchName.Name}' to disk: '" + clonedRepoPath + "'", EventType.Information, 1000);
-                            //Console.WriteLine($"Processed repository {repo.FullName} - ALL branch: saved data for branch {branchName.Name} to disk");
-
-                            //Globals.repoitemscountelements.Add($"Repository Name: '{repo.Name}', Branch: '{branchName.Name}', Owner: '{repo.Owner.Login}'"); 
 
                             // Used for email report list - list name for projects to list for email report list
                             Globals.repoitemscountelements.Add($"{repo.Name}, ('{branchName.Name}' branch), Owner: '{repo.Owner.Login}'");
@@ -449,15 +473,24 @@ namespace GithubBackup.Core
                     else
                     {
                         // Create a folder path for the branch
-                        var clonedRepoPath = Path.Combine(repoDestination, repo.DefaultBranch);
+                        var clonedRepoPath = Path.Combine(repoDestinationBackupCode, repo.DefaultBranch);
 
                         // Backup only the default branch for the current repository selected for backup (default branch) - this is the default option
                         LibGit2Sharp.Repository.Clone(repo.CloneUrl, clonedRepoPath, cloneOptions);
 
+                        // TODO Create a method for this
+                        // If set to backup metadata, save metadata for the repository in the folder
+                        if (backupMetadata)
+                        {
+                            // Save metadata for the repository
+                            metadataFilePath = Path.Combine(repoDestinationBackupMetadata, "repository_metadata.json");
+                            File.WriteAllText(metadataFilePath, JsonConvert.SerializeObject(repo, Newtonsoft.Json.Formatting.Indented));
+                            Console.WriteLine($"Processed repository '{repo.FullName}' for backup for repository metadata backed up to: '{metadataFilePath}'");
+                            Message($"Processed repository '{repo.FullName}' for backup for repository metadata backed up to: '{metadataFilePath}'", EventType.Information, 1000);
+                        }
+
                         // Log
                         Message($"Processed repository: '{repo.FullName}' for backup, DefaultBranch '{repo.DefaultBranch}' - saved data to disk: '" + clonedRepoPath + "'", EventType.Information, 1000);
-
-                        //Globals.repoitemscountelements.Add($"Repository Name: '{repo.Name}', DefaultBranch: '{repo.DefaultBranch}', Owner: '{repo.Owner.Login}'");
 
                         // Used for email report list - list name for projects to list for email report list
                         Globals.repoitemscountelements.Add($"{repo.Name}, ('{repo.DefaultBranch}' Default Branch), Owner: '{repo.Owner.Login}'");
@@ -505,6 +538,16 @@ namespace GithubBackup.Core
             rootProgressBar.Dispose();
 
             return exceptions; // Add this return statement at the end
+        }
+
+        // TODO
+        public void Savemetadatafortherepository(string metadataFilePath, string repoDestinationBackup, string repo)
+        {
+            // Save metadata for the repository
+            metadataFilePath = Path.Combine(repoDestinationBackup, "repository_metadata.json");
+            File.WriteAllText(metadataFilePath, JsonConvert.SerializeObject(repo, Newtonsoft.Json.Formatting.Indented));
+            Console.WriteLine($"Repository metadata backed up to: {metadataFilePath}");
+            Message($"Repository metadata backed up to: {metadataFilePath}", EventType.Information, 1000);
         }
     }
 }
