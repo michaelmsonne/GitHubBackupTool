@@ -268,10 +268,6 @@ namespace GithubBackup.Commands
 
                     #endregion Do options for backup to keep
 
-
-
-
-
                     #region Set log files options for cleanup
 
                     // Parse data for daysToKeepBackup
