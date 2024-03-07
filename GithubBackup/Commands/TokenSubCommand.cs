@@ -35,7 +35,8 @@ namespace GithubBackup.Commands
                 var allReposNotForksOption = tokenBasedCmd.Option("-allnf", "Exclude forked repositories.", CommandOptionType.NoValue);
                 var allReposOwnerOption = tokenBasedCmd.Option("-allowner", "Backup repositories where you are the owner (default).", CommandOptionType.NoValue);
                 var allBranchesOption = tokenBasedCmd.Option("-allbranches", "Backup all branches of repositories (default only DefaultBranch).", CommandOptionType.NoValue);
-                var excludeBranchDependabot = tokenBasedCmd.Option("-excludebranchdependabot", "Exclude branches with 'dependabot' in it from backup.\n", CommandOptionType.NoValue);
+                var excludeBranchDependabot = tokenBasedCmd.Option("-excludebranchdependabot", "Exclude branches with 'dependabot' in it from backup.", CommandOptionType.NoValue);
+                var backupMetadataOption = tokenBasedCmd.Option("-backupmetadata", "Backup metadata for each repository. If set, the code itself will be saved to folder 'code' in the repo folder.\n", CommandOptionType.NoValue);
                 
                 // Define options for email when using token-based backup for sending report to email address (if set)
                 var mailToOption = tokenBasedCmd.Option("-mailto <email>", "Specify the email address to send backup notifications to.", CommandOptionType.SingleValue);
@@ -169,6 +170,18 @@ namespace GithubBackup.Commands
                     #endregion Check backup folder location and create it if not exists
 
                     #region Set options for backup type
+
+                    // Set the backup type based on options for metadata
+                    if (backupMetadataOption.HasValue())
+                    {
+                        // Set the backup type for metadata to true
+                        Globals._backupRepoMetadata = true;
+                    }
+                    else
+                    {
+                        // Set the backup type for metadata to false
+                        Globals._backupRepoMetadata = false;
+                    }
 
                     // Set the backup type based on options
                     if (allReposOption.HasValue())
