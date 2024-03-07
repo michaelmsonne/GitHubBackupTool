@@ -426,7 +426,7 @@ namespace GithubBackup.Core
                             // LibGit2Sharp.Repository.Clone(repo.CloneUrl, clonedRepoPath, cloneOptions);
 
                             // Log
-                            Message($"Processed repository '{repo.FullName}' for backup - Options: ALL branches: saved data for branch '{branchName.Name}' to disk: " + clonedRepoPath, EventType.Information, 1000);
+                            Message($"Processed repository '{repo.FullName}' for backup - Options: ALL branches: saved data for branch '{branchName.Name}' to disk: '" + clonedRepoPath + "'", EventType.Information, 1000);
                             //Console.WriteLine($"Processed repository {repo.FullName} - ALL branch: saved data for branch {branchName.Name} to disk");
 
                             //Globals.repoitemscountelements.Add($"Repository Name: '{repo.Name}', Branch: '{branchName.Name}', Owner: '{repo.Owner.Login}'"); 
@@ -455,7 +455,7 @@ namespace GithubBackup.Core
                         LibGit2Sharp.Repository.Clone(repo.CloneUrl, clonedRepoPath, cloneOptions);
 
                         // Log
-                        Message($"Processed repository: '{repo.FullName}' for backup, DefaultBranch '{repo.DefaultBranch}' - saved data to disk", EventType.Information, 1000);
+                        Message($"Processed repository: '{repo.FullName}' for backup, DefaultBranch '{repo.DefaultBranch}' - saved data to disk: '" + clonedRepoPath + "'", EventType.Information, 1000);
 
                         //Globals.repoitemscountelements.Add($"Repository Name: '{repo.Name}', DefaultBranch: '{repo.DefaultBranch}', Owner: '{repo.Owner.Login}'");
 
