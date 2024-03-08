@@ -92,7 +92,7 @@ namespace GithubBackup.Class
             {
                 // Make email body data
                 mailBody =
-                    $"<hr><h2>Your {Globals._appName} of organization/for user '{Globals._name}' is: {emailStatusMessage}</h2><hr><p><h3>Details:</h3><p>" +
+                    $"<hr><h2>Your {Globals._appName} of organization/user '{Globals._name}' is: {emailStatusMessage}</h2><hr><p><h3>Details:</h3><p>" +
                     $"<p>Processed Git repositories in GitHub API key gives access to (total): <b>{repoCount}</b><br>" +
                     $"Processed Git repos in repositories a backup is made of from GitHub: <b>{Globals._repoBackupPerformedCount}</b><p>" +
                     $"See the attached logfile for the backup(s) today: <b>{Globals._appName} Log " + DateTime.Today.ToString("dd-MM-yyyy") + ".log</b>.<p>" +
@@ -114,7 +114,7 @@ namespace GithubBackup.Class
             {
                 // Make email body data
                 mailBody =
-                $"<hr/><h2>Your {Globals._appName} of organization/for user '{Globals._name}' is: {emailStatusMessage}</h2><hr />" +
+                $"<hr/><h2>Your {Globals._appName} of organization/user '{Globals._name}' is: {emailStatusMessage}</h2><hr />" +
                 $"<br><table style=\"border-collapse: collapse; width: 100%; height: 108px;\" border=\"1\">" +
                 $"<tbody><tr style=\"height: 18px;\">" +
                 $"<td style=\"width: 33%; height: 18px;\"><strong>Backup task(s):</strong></td>" +
