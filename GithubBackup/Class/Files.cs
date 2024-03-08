@@ -13,8 +13,8 @@ namespace GithubBackup.Class
             get
             {
                 // Root folder for log files
-                var logfilePathvar = ProgramDataFilePath + @"\Log";
-                return logfilePathvar;
+                var logfilePath = ProgramDataFilePath + @"\Log";
+                return logfilePath;
             }
         }
 
@@ -24,8 +24,7 @@ namespace GithubBackup.Class
             {
                 // Root path for program data
                 var currentDirectory = Directory.GetCurrentDirectory();
-                var programDataFilePathvar = currentDirectory;
-                return programDataFilePathvar;
+                return currentDirectory;
             }
         }
 
@@ -34,8 +33,8 @@ namespace GithubBackup.Class
             get
             {
                 // Root folder for log files
-                var tokenFilePathvar = ProgramDataFilePath + @"\token.bin";
-                return tokenFilePathvar;
+                var tokenFilePath = ProgramDataFilePath + @"\token.bin";
+                return tokenFilePath;
             }
         }
 

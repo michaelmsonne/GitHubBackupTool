@@ -160,7 +160,7 @@ namespace GithubBackup.Class
             }
         }
         
-        public static void CountCurrentNumersOfBackup(string outBackupDir)
+        public static void CountCurrentNumbersOfBackup(string outBackupDir)
         {
             //Count backups in folder
             string searchPattern = "*??-??-????-(??-??)";
