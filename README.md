@@ -161,6 +161,8 @@ Paramenters (**NOT FINAL**):
 - -priority "high": Specify the email priority for notifications (e.g., high, normal, low).
 - -daystokeepbackup 180: Set the number of days to retain backup files before automatic removal (default is 30 days if not set).
 - -daystokeeplogfiles 180: Set the number of days to retain log files before automatic removal (default is 30 days if not set).
+- -backupmetadata: Backup metadata for each repository. If set, the code itself will be saved to the repo folder.
+- -backupreleasedata: Backup release data for each repository. If set, the code itself will be saved to the repo folder.
 
 # Final thoughts
 This is not an exhaustive method to retrieve every artifact on GitHub. There’s a lot more to be done to make this a complete solution.
