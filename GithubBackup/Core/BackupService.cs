@@ -14,6 +14,7 @@ using Branch = Octokit.Branch;
 using Credentials = Octokit.Credentials;
 using Repository = Octokit.Repository;
 using Newtonsoft.Json;
+using Autofac.Features.OwnedInstances;
 
 // ReSharper disable AccessToDisposedClosure
 
@@ -53,7 +54,7 @@ namespace GithubBackup.Core
         }
 
         // Separate method to fetch branches for a repository
-        private static IReadOnlyList<Branch> GetBranchesForRepository(GitHubClient client, Repository repo)
+        public static IReadOnlyList<Branch> GetBranchesForRepository(GitHubClient client, Repository repo)
         {
             var branchesTask = client.Repository.Branch.GetAll(repo.Owner.Login, repo.Name);
             branchesTask.Wait();
@@ -542,48 +543,15 @@ namespace GithubBackup.Core
                 // Save metadata for the repository if the option is set
                 if (backupMetadata)
                 {
-                    Savemetadatafortherepository(repoDestinationBackupMetadata, client, repo);
+                    MetadataJsonDownloader.Savemetadatafortherepository(repoDestinationBackupMetadata, client, repo);
                 }
+
+
             });
 
             rootProgressBar.Dispose();
 
             return exceptions; // Add this return statement at the end
-        }
-
-        public static void Savemetadatafortherepository(string repoDestinationBackupMetadataFilePath, GitHubClient client, Repository repo)
-        {
-            try
-            {
-                // Check if the repository has any branches
-                var branchNames = GetBranchesForRepository(client, repo); // Replace with your method to get branches
-
-                Console.WriteLine($"Processing metadata for repository '{repo.FullName}' for backup up to: '{repoDestinationBackupMetadataFilePath}'");
-                Message($"Processing metadata for repository '{repo.FullName}' for backup up to: '{repoDestinationBackupMetadataFilePath}'", EventType.Information, 1000);
-
-                if (branchNames.Any())
-                {
-                    // Save metadata for the repository
-                    repoDestinationBackupMetadataFilePath = Path.Combine(repoDestinationBackupMetadataFilePath, "repository_metadata.json");
-                    File.WriteAllText(repoDestinationBackupMetadataFilePath, JsonConvert.SerializeObject(repo, Newtonsoft.Json.Formatting.Indented));
-
-                    Console.WriteLine($"Done processing metadata for repository '{repo.FullName}' for backup up to: '{repoDestinationBackupMetadataFilePath}'");
-                    Message($"Done processing metadata for repository '{repo.FullName}' for backup up to: '{repoDestinationBackupMetadataFilePath}'", EventType.Information, 1000);
-                }
-                else
-                {
-                    Console.WriteLine($"Skipped saving metadata for empty repository '{repo.FullName}' - if there was data to backup, repository metadata had been backed up to: '{repoDestinationBackupMetadataFilePath}'");
-                    Message($"Skipped saving metadata for empty repository '{repo.FullName}' - if there was data to backup, repository metadata had been backed up to: '{repoDestinationBackupMetadataFilePath}'", EventType.Warning, 1001);
-                    return; // Skip further processing if the repository is empty
-                }
-            }
-            catch (Exception ex)
-            {
-                // Handle the exception (log or display an error message)
-                Console.WriteLine($"Error saving metadata for repository '{repo.FullName}': {ex.Message}");
-                Message($"Error saving metadata for repository '{repo.FullName}': {ex.Message}", EventType.Error, 1001);
-                Globals._errors++; // Increment the _errors integer
-            }
         }
     }
 }
