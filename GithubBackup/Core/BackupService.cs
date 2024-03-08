@@ -331,12 +331,21 @@ namespace GithubBackup.Core
                 // Get branch names for the current repository
                 var branchNames = GetBranchesForRepository(client, repo);
                 
+
+
+
                 // Set folder names for the current repository
                 string repoDestinationBackupCode;                                                // Code folder (root of the repository or branch folder)
                 var repoDestinationBackupMetadata = Path.Combine(Destination, repo.FullName); // Metadata folder (root of the repository) + branch/code folder will be added later 
+                var repoDestinationBackupReleasedata = Path.Combine(Destination, repo.FullName); // Release folder (root of the repository() + branch/code folder will be added later )
+
+
+
 
                 /*
+                 *
                  * Specify metadata backup options
+                 *
                  */
                 bool backupMetadata = Globals._backupRepoMetadata; // Set to true or false based on the option selected for backupMetadata
 
@@ -351,6 +360,16 @@ namespace GithubBackup.Core
                     // If not backing up metadata, use only the repository name as the folder name
                     repoDestinationBackupCode = Path.Combine(Destination, repo.FullName);
                 }
+
+
+                /*
+                 * Specify relase backup options
+                 */
+                bool backupReleasedata = Globals._backupReleasedata; // Set to true or false based on the option selected for backup releasedata
+
+
+
+
 
                 ChildProgressBar progressBar = null;
                 Exception cloneException = null;
@@ -540,11 +559,29 @@ namespace GithubBackup.Core
                     }
                 }
 
+                /*
+                 *
+                 * Set options to save different data for the repository
+                 *
+                 * This is etc. metadata for the repository
+                 *
+                 */
+
                 // Save metadata for the repository if the option is set
                 if (backupMetadata)
                 {
+                    // Call a method to download metadata and save them to a JSON file
                     MetadataJsonDownloader.Savemetadatafortherepository(repoDestinationBackupMetadata, client, repo);
                 }
+
+                // Save metadata for the repository if the option is set
+                if (backupReleasedata)
+                {
+                    // Call a method to download releases and save them to a JSON file
+                    ReleaseJsonDownloader.Savereleasedatafortherepository(repo.Owner.Login, repo, client, repoDestinationBackupReleasedata);
+                }
+
+                
 
 
             });
