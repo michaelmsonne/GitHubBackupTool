@@ -11,6 +11,7 @@
     <AssemblyVersion></AssemblyVersion>
     <FileVersion />
     <Version>1.0.0.1</Version>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <IsPublishable>True</IsPublishable>
