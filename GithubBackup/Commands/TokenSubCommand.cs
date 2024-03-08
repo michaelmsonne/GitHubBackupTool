@@ -36,8 +36,9 @@ namespace GithubBackup.Commands
                 var allReposOwnerOption = tokenBasedCmd.Option("-allowner", "Backup repositories where you are the owner (default).", CommandOptionType.NoValue);
                 var allBranchesOption = tokenBasedCmd.Option("-allbranches", "Backup all branches of repositories (default only DefaultBranch).", CommandOptionType.NoValue);
                 var excludeBranchDependabot = tokenBasedCmd.Option("-excludebranchdependabot", "Exclude branches with 'dependabot' in it from backup.", CommandOptionType.NoValue);
-                var backupMetadataOption = tokenBasedCmd.Option("-backupmetadata", "Backup metadata for each repository. If set, the code itself will be saved to folder 'code' in the repo folder.\n", CommandOptionType.NoValue);
-                
+                var backupMetadataOption = tokenBasedCmd.Option("-backupmetadata", "Backup metadata for each repository. If set, the code itself will be saved to the repo folder.\n", CommandOptionType.NoValue);
+                var backupReleasedataOption = tokenBasedCmd.Option("-backupreleasedata", "Backup release data for each repository. If set, the code itself will be saved to the repo folder.\n", CommandOptionType.NoValue);
+
                 // Define options for email when using token-based backup for sending report to email address (if set)
                 var mailToOption = tokenBasedCmd.Option("-mailto <email>", "Specify the email address to send backup notifications to.", CommandOptionType.SingleValue);
                 var mailFromOption = tokenBasedCmd.Option("-mailfrom  <email>", "Specify the email address to send backup notifications from.", CommandOptionType.SingleValue);
@@ -183,6 +184,18 @@ namespace GithubBackup.Commands
                         Globals._backupRepoMetadata = false;
                     }
 
+                    // Set the backup type based on options for release data
+                    if (backupReleasedataOption.HasValue())
+                    {
+                        // Set the backup type for release data to true
+                        Globals._backupReleasedata = true;
+                    }
+                    else
+                    {
+                        // Set the backup type for release data to false
+                        Globals._backupReleasedata = false;
+                    }
+                    
                     // Set the backup type based on options
                     if (allReposOption.HasValue())
                     {
