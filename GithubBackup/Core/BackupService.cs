@@ -342,7 +342,7 @@ namespace GithubBackup.Core
 
                 string repoDestinationBackupCode;
                 string repoDestinationBackupMetadata = Path.Combine(Destination, repo.FullName);
-                string metadataFilePath;
+                string repoDestinationBackupMetadataFilePath;
 
                 // Set folder names for the current repository based on the backupMetadata option
                 if (backupMetadata)
@@ -441,17 +441,6 @@ namespace GithubBackup.Core
                             // Clone the specific branch
                             LibGit2Sharp.Repository.Clone(repo.CloneUrl, clonedRepoPath, cloneOptions);
 
-                            // TODO Create a method for this
-                            // If set to backup metadata, save metadata for the repository in the folder
-                            if (backupMetadata)
-                            {
-                                // Save metadata for the repository
-                                metadataFilePath = Path.Combine(repoDestinationBackupMetadata, "repository_metadata.json");
-                                File.WriteAllText(metadataFilePath, JsonConvert.SerializeObject(repo, Newtonsoft.Json.Formatting.Indented));
-                                Console.WriteLine($"Processed repository '{repo.FullName}' for backup for repository metadata backed up to: '{metadataFilePath}'");
-                                Message($"Processed repository '{repo.FullName}' for backup for repository metadata backed up to: '{metadataFilePath}'", EventType.Information, 1000);
-                            }
-
                             // Log
                             Message($"Processed repository '{repo.FullName}' for backup - Options: ALL branches: saved data for branch '{branchName.Name}' to disk: '" + clonedRepoPath + "'", EventType.Information, 1000);
 
@@ -478,17 +467,6 @@ namespace GithubBackup.Core
                         // Backup only the default branch for the current repository selected for backup (default branch) - this is the default option
                         LibGit2Sharp.Repository.Clone(repo.CloneUrl, clonedRepoPath, cloneOptions);
 
-                        // TODO Create a method for this
-                        // If set to backup metadata, save metadata for the repository in the folder
-                        if (backupMetadata)
-                        {
-                            // Save metadata for the repository
-                            metadataFilePath = Path.Combine(repoDestinationBackupMetadata, "repository_metadata.json");
-                            File.WriteAllText(metadataFilePath, JsonConvert.SerializeObject(repo, Newtonsoft.Json.Formatting.Indented));
-                            Console.WriteLine($"Processed repository '{repo.FullName}' for backup for repository metadata backed up to: '{metadataFilePath}'");
-                            Message($"Processed repository '{repo.FullName}' for backup for repository metadata backed up to: '{metadataFilePath}'", EventType.Information, 1000);
-                        }
-
                         // Log
                         Message($"Processed repository: '{repo.FullName}' for backup, DefaultBranch '{repo.DefaultBranch}' - saved data to disk: '" + clonedRepoPath + "'", EventType.Information, 1000);
 
@@ -509,6 +487,14 @@ namespace GithubBackup.Core
 
                     // Increment the _repoCount integer for count of repos in total
                     Globals._repoBackupPerformedCount++;
+
+                    if (backupMetadata)
+                    {
+                        Savemetadatafortherepository(repoDestinationBackupMetadata, repo);
+                    }
+
+                        
+
                 }
                 catch (LibGit2SharpException libGit2SharpException)
                 {
@@ -540,14 +526,13 @@ namespace GithubBackup.Core
             return exceptions; // Add this return statement at the end
         }
 
-        // TODO
-        public void Savemetadatafortherepository(string metadataFilePath, string repoDestinationBackup, string repo)
+        public void Savemetadatafortherepository(string repoDestinationBackupMetadataFilePath, Repository repo)
         {
             // Save metadata for the repository
-            metadataFilePath = Path.Combine(repoDestinationBackup, "repository_metadata.json");
-            File.WriteAllText(metadataFilePath, JsonConvert.SerializeObject(repo, Newtonsoft.Json.Formatting.Indented));
-            Console.WriteLine($"Repository metadata backed up to: {metadataFilePath}");
-            Message($"Repository metadata backed up to: {metadataFilePath}", EventType.Information, 1000);
+            repoDestinationBackupMetadataFilePath = Path.Combine(repoDestinationBackupMetadataFilePath, "repository_metadata.json");
+            File.WriteAllText(repoDestinationBackupMetadataFilePath, JsonConvert.SerializeObject(repo, Newtonsoft.Json.Formatting.Indented));
+            Console.WriteLine($"Processed repository '{repo.FullName}' for backup for repository metadata backed up to: '{repoDestinationBackupMetadataFilePath}'");
+            Message($"Processed repository '{repo.FullName}' for backup for repository metadata backed up to: '{repoDestinationBackupMetadataFilePath}'", EventType.Information, 1000);
         }
     }
 }
