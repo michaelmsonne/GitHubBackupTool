@@ -28,6 +28,8 @@ namespace GithubBackup.Core
 
         static int Main(string[] args)
         {
+            AppContext.SetSwitch("System.IO.UseLegacyPathHandling", false);
+
             int result = -1;
 
             Console.ForegroundColor = ConsoleColor.White;
