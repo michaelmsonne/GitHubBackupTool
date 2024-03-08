@@ -67,7 +67,10 @@ namespace GithubBackup.Commands
                 tokenBasedCmd.OnExecute(() =>
                 {
                     #region Set email options and check if they are set and have required values
-                    
+
+                    // Log
+                    Message("Processing arguments set for what type of email report to create...", EventType.Information, 1000);
+
                     // Check the email priority option
                     var emailPriorityString = priorityOption.Value() ?? "normal"; // Default to "normal" if not specified
                     
@@ -85,20 +88,33 @@ namespace GithubBackup.Commands
                         // Convert the string to MailPriority enum using a function
                         Globals._emailPriority = ReportSenderOptions.ParseEmailPriority(emailPriorityString);
 
+                        // Log
+                        Console.WriteLine("Email options are set - will send report");
+                        Message("Email options are set - will send report", EventType.Information, 1000);
+
                         // Check if the simple email report layout option is set
                         if (mailSimpleReport.HasValue())
                         {
+                            // Log
+                            Console.WriteLine("Email options are set - will send simple layout report");
+                            Message("Email options are set - will send simple layout report", EventType.Information, 1000);
+
+                            // Set the simple email report layout to true
                             Globals._useSimpleMailReportLayout = true;
                         }
                     }
                     else
                     {
+                        // Log
                         Console.WriteLine("Email options are NOT set - will not send report");
                         Message("Email options are NOT set - will not send report", EventType.Information, 1000);
 
                         // Set the email options are set to false
                         Globals._emailOptionsIsSet = false;
                     }
+
+                    // Log
+                    Message("> Done processing arguments set for what type of email report to create", EventType.Information, 1000);
 
                     #endregion Set email options
 
@@ -172,16 +188,25 @@ namespace GithubBackup.Commands
 
                     #region Set options for backup type
 
+                    // Log
+                    Message("Processing arguments set for what type of backup(s) to create...", EventType.Information, 1000);
+
                     // Set the backup type based on options for metadata
                     if (backupMetadataOption.HasValue())
                     {
                         // Set the backup type for metadata to true
                         Globals._backupRepoMetadata = true;
+
+                        // Log
+                        Message("Set to download metadata for repository in the backup(s)", EventType.Information, 1000);
                     }
                     else
                     {
                         // Set the backup type for metadata to false
                         Globals._backupRepoMetadata = false;
+
+                        // Log
+                        Message("Set to NOT download metadata for repository in the backup(s)", EventType.Information, 1000);
                     }
 
                     // Set the backup type based on options for release data
@@ -189,11 +214,17 @@ namespace GithubBackup.Commands
                     {
                         // Set the backup type for release data to true
                         Globals._backupReleasedata = true;
+
+                        // Log
+                        Message("Set to download release data for repository in the backup(s)", EventType.Information, 1000);
                     }
                     else
                     {
                         // Set the backup type for release data to false
                         Globals._backupReleasedata = false;
+
+                        // Log
+                        Message("Set to NOT download release data for repository in the backup(s)", EventType.Information, 1000);
                     }
                     
                     // Set the backup type based on options
@@ -201,11 +232,17 @@ namespace GithubBackup.Commands
                     {
                         // Set the backup type to all repos the token have access to (including forks)
                         Globals._allRepos = true;
+
+                        // Log
+                        Message("Set to download all repositories the API Key have access to", EventType.Information, 1000);
                     }
                     else if (allReposNotForksOption.HasValue())
                     {
                         // Set the backup type to all repos not forks
                         Globals._allReposNotForks = true;
+
+                        // Log
+                        Message("Set to download all repositories the API Key have access to but not forks", EventType.Information, 1000);
                     }
 
                     // Set the backup type based on options for owner
@@ -213,11 +250,17 @@ namespace GithubBackup.Commands
                     {
                         // Set the backup type to all repos not forks and is owner
                         Globals._allReposNotForksAndIsOwner = true;
+
+                        // Log
+                        Message("Set to download all repositories the API Key have access to but not forks and is owner (so your own)", EventType.Information, 1000);
                     }
                     else
                     {
                         // Set the backup type to all repos not forks and is owner
                         Globals._allReposNotForksAndIsOwner = true;
+
+                        // Log
+                        Message("Set to download all repositories the API Key have access to but not forks and is owner (so your own) - default as no other option is set", EventType.Information, 1000);
                     }
 
                     // Set the backup type based on options for branches
@@ -225,11 +268,17 @@ namespace GithubBackup.Commands
                     {
                         // Set the backup type to all branches for repos
                         Globals._allBranches = true;
+
+                        // Log
+                        Message("Set to download ALL branches for the repositories the API Key have access to", EventType.Information, 1000);
                     }
                     else
                     {
                         // Set the backup type to all branches for repos
                         Globals._allBranches = false;
+
+                        // Log
+                        Message("Set NOT to download all branches for the repositories the API Key have access to - default branch is ONLY in the backup(s)", EventType.Information, 1000);
                     }
 
                     // Set the backup type based on options for branches
@@ -237,13 +286,22 @@ namespace GithubBackup.Commands
                     {
                         // Set the backup type to all branches for repos excluding branches with "dependabot" in it
                         Globals._excludeBranchDependabot = true;
+
+                        // Log
+                        Message("Set NOT to include 'dependabot' branches for the repositories the API Key have access to", EventType.Information, 1000);
                     }
                     else
                     {
                         // Set the backup type to all branches for repos excluding branches with "dependabot" in it
                         Globals._excludeBranchDependabot = false;
+
+                        // Log
+                        Message("Set to include 'dependabot' branches for the repositories the API Key have access to - default as no other option is set", EventType.Information, 1000);
                     }
-                    
+
+                    // Log
+                    Message("> Done processing arguments set for what type of backup(s) to create", EventType.Information, 1000);
+
                     #endregion Set options for backup type
 
                     #region Do options for backup to keep
