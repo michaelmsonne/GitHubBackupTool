@@ -79,7 +79,6 @@ namespace GithubBackup.Class
             }
         }
 
-
         public static int GetSubfolderCountForBranchFolders(string rootFolderPath, int depth)
         {
             // This method counts the number of subfolders in a folder, at a given depth used for branch folders
