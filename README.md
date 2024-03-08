@@ -186,6 +186,8 @@ So far I tested the application only for win10-x64 systems, but it might also wo
 
 [McMaster's CommandLineUtils](https://github.com/natemcmaster/CommandLineUtils)
 
+[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
+
 [LitGit2Sharp](https://github.com/libgit2/libgit2sharp)
 
 [Autofac](https://github.com/autofac/Autofac)
