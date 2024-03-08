@@ -38,6 +38,7 @@ namespace GithubBackup.Class
         public static int _daysToKeepBackup; // number of days to keep backup in backup folder before deleting it - default is 30 days if not set
         public static int _currentBackupsInBackupFolderCount;
         public static int _errors; // count errors
+        public static int _warnings; // count warnings
         public static int _repoCount; // count repos from Github
         public static int _repoBackupPerformedCount; // count repo items from Github
         public static int _repoBackupPerformedBranchCount; // count repo (branches) items from Github
