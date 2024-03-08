@@ -1,4 +1,4 @@
-## [1.1.0.0] - 08-03-2024
+## [1.1.0.0] - 09-03-2024
 
 ### Added
 - Added a new option to set days to keep of logs (default 30 days)
