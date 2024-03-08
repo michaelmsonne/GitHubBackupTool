@@ -29,8 +29,8 @@ namespace GithubBackup.Class
                 }
                 else
                 {
-                    Console.WriteLine($"No releases found for repository '{owner}/{repo.Name}' - skipped.");
-                    Message($"No releases found for repository '{owner}/{repo.Name}' - skipped.", EventType.Information, 1000);
+                    Console.WriteLine($"Skipped - no releases found for repository '{owner}/{repo.Name}'.");
+                    Message($"! Skipped - no releases found for repository '{owner}/{repo.Name}'.", EventType.Information, 1000);
                     return; // Skip further processing if the repository is empty
                 }
             }

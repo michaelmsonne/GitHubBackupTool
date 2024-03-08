@@ -177,7 +177,7 @@ namespace GithubBackup.Core
 
             // Log
             Console.WriteLine("Counted branches in backup folder.");
-            Message("Counted branches in backup folder.", EventType.Information, 1000);
+            Message("> Done - counted branches in backup folder.", EventType.Information, 1000);
 
             // Count number of files and folders in backup folder
             Backups.CountFilesAndFoldersInFolder(Globals._backupFolderName, out var fileCount, out var folderCount);
@@ -474,7 +474,7 @@ namespace GithubBackup.Core
                                     LibGit2Sharp.Commands.Checkout(repository, branch);
 
                                     // Log
-                                    Message($"Done processing repository '{repo.FullName}' for backup - Options: ALL branches: saved data for branch '{branchName.Name}' to disk: '{clonedRepoPath}\\'", EventType.Information, 1000);
+                                    Message($"> Done processing repository '{repo.FullName}' for backup - Options: ALL branches: saved data for branch '{branchName.Name}' to disk: '{clonedRepoPath}\\'", EventType.Information, 1000);
                                 }
                                 else
                                 {

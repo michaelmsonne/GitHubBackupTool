@@ -27,12 +27,12 @@ namespace GithubBackup.Class
                     File.WriteAllText(repoDestinationBackupMetadataFilePath, JsonConvert.SerializeObject(repo, Formatting.Indented));
 
                     Console.WriteLine($"Done processing metadata for repository '{repo.FullName}' for backup up to: '{repoDestinationBackupMetadataFilePath}'");
-                    Message($"Done processing metadata for repository '{repo.FullName}' for backup up to: '{repoDestinationBackupMetadataFilePath}'", EventType.Information, 1000);
+                    Message($"> Done processing metadata for repository '{repo.FullName}' for backup up to: '{repoDestinationBackupMetadataFilePath}'", EventType.Information, 1000);
                 }
                 else
                 {
-                    Console.WriteLine($"Skipped saving metadata for empty repository '{repo.FullName}' - if there was data to backup, repository metadata had been backed up to: '{repoDestinationBackupMetadataFilePath}'");
-                    Message($"Skipped saving metadata for empty repository '{repo.FullName}' - if there was data to backup, repository metadata had been backed up to: '{repoDestinationBackupMetadataFilePath}'", EventType.Warning, 1001);
+                    Console.WriteLine($"Skipped saving metadata for empty repository '{repo.FullName}' - if there was data to backup, repository metadata has been saved to: '{repoDestinationBackupMetadataFilePath}'");
+                    Message($"! Skipped saving metadata for empty repository '{repo.FullName}' - if there was data to backup, repository metadata has been saved to: '{repoDestinationBackupMetadataFilePath}'", EventType.Warning, 1001);
                     return; // Skip further processing if the repository is empty
                 }
             }

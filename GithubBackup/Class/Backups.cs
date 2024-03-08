@@ -19,6 +19,9 @@ namespace GithubBackup.Class
             Console.WriteLine($"Set to keep {daysToKeep} number of backups (day(s)) in backup folder: '{outBackupDir}'");
             Console.ResetColor();
 
+            // Log
+            Message("Checking for backups needed to be deleted form backup folder: '" + outBackupDir + "'...", EventType.Information, 1000);
+
             // Loop folders
             foreach (string dir in Directory.GetDirectories(outBackupDir))
             {
@@ -70,14 +73,23 @@ namespace GithubBackup.Class
                 }
             }
 
-            // If no backups to delete
-            if (backupsToDelete == false)
+            switch (backupsToDelete)
             {
-                // Log
-                Message("No old backups needed to be deleted form backup folder: '" + outBackupDir + "'", EventType.Information, 1000);
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("No old backups needed to be deleted form backup folder: '" + outBackupDir + "'\n");
-                Console.ResetColor();
+                // If no backups to delete
+                case false:
+                    // Log
+                    Message("> Done - No old backups needed to be deleted form backup folder: '" + outBackupDir + "'", EventType.Information, 1000);
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("No old backups needed to be deleted form backup folder: '" + outBackupDir + "'\n");
+                    Console.ResetColor();
+                    break;
+                case true:
+                    // Log
+                    Message("> Done - Old backups deleted from backup folder: '" + outBackupDir + "'", EventType.Information, 1000);
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Old backups deleted from backup folder: '" + outBackupDir + "'\n");
+                    Console.ResetColor();
+                    break;
             }
         }
 
