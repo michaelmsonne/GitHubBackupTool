@@ -13,8 +13,6 @@ using static GithubBackup.Class.FileLogger;
 using Branch = Octokit.Branch;
 using Credentials = Octokit.Credentials;
 using Repository = Octokit.Repository;
-using Newtonsoft.Json;
-using Autofac.Features.OwnedInstances;
 
 // ReSharper disable AccessToDisposedClosure
 
@@ -140,6 +138,7 @@ namespace GithubBackup.Core
                 Globals._noProjectsToBackup = false;
             }
 
+            // Log
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Got all repos the API key has access to - getting what meets the arguments for backup...");
             Message("Got all repos the API key has access to - getting what meets the arguments for backup...", EventType.Information, 1000);
@@ -193,6 +192,7 @@ namespace GithubBackup.Core
                 Console.WriteLine($"Backup finished with {exceptions.Count} error(s):");
                 Message($"Backup finished with {exceptions.Count} error(s):", EventType.Information, 1000);
 
+                // Loop through exceptions and print them to console
                 foreach (var repoName in exceptions.Keys)
                 {
                     Console.WriteLine();
@@ -309,6 +309,7 @@ namespace GithubBackup.Core
              */
             var exceptions = new ConcurrentDictionary<string, Exception>();
 
+            // Set options for the progressbar
             var rootProgressBarOptions = new ProgressBarOptions
             {
                 ForegroundColor = ConsoleColor.Cyan,
@@ -316,6 +317,7 @@ namespace GithubBackup.Core
                 EnableTaskBarProgress = true,
             };
 
+            // Create a progressbar for the overall progress
             var rootProgressBar = new ProgressBar(repos.Count, "Overall Progress", rootProgressBarOptions);
 
             // Use an object for locking
@@ -331,17 +333,11 @@ namespace GithubBackup.Core
                 // Get branch names for the current repository
                 var branchNames = GetBranchesForRepository(client, repo);
                 
-
-
-
                 // Set folder names for the current repository
                 string repoDestinationBackupCode;                                                // Code folder (root of the repository or branch folder)
                 var repoDestinationBackupMetadata = Path.Combine(Destination, repo.FullName); // Metadata folder (root of the repository) + branch/code folder will be added later 
                 var repoDestinationBackupReleasedata = Path.Combine(Destination, repo.FullName); // Release folder (root of the repository() + branch/code folder will be added later )
-
-
-
-
+                
                 /*
                  *
                  * Specify metadata backup options
@@ -360,17 +356,12 @@ namespace GithubBackup.Core
                     // If not backing up metadata, use only the repository name as the folder name
                     repoDestinationBackupCode = Path.Combine(Destination, repo.FullName);
                 }
-
-
+                
                 /*
-                 * Specify relase backup options
+                 * Specify release backup options
                  */
                 bool backupReleasedata = Globals._backupReleasedata; // Set to true or false based on the option selected for backup releasedata
-
-
-
-
-
+                
                 ChildProgressBar progressBar = null;
                 Exception cloneException = null;
 
@@ -436,13 +427,12 @@ namespace GithubBackup.Core
                  */
                 try
                 {
+                    // If all branches is selected for backup (all branches option) - show branches in progressbar
                     if (Globals._allBranches)
                     {
                         // Backup all branches for the current repository selected for backup
                         foreach (var branchName in branchNames)
                         {
-                            // Clone the specific branch
-
                             // Replacing "\" with "-" in the branch name
                             string sanitizedBranchName = branchName.Name.Replace("/", "-");
 
@@ -502,6 +492,7 @@ namespace GithubBackup.Core
                             }
                         }
                     }
+                    // If only default branch is selected for backup (default option)
                     else
                     {
                         // Create a folder path for the branch
@@ -533,6 +524,7 @@ namespace GithubBackup.Core
                 }
                 catch (LibGit2SharpException libGit2SharpException)
                 {
+                    // Log the exception
                     if (libGit2SharpException.Message == "this remote has never connected")
                     {
                         // Log the exception
@@ -571,21 +563,22 @@ namespace GithubBackup.Core
                 if (backupMetadata)
                 {
                     // Call a method to download metadata and save them to a JSON file
-                    MetadataJsonDownloader.Savemetadatafortherepository(repoDestinationBackupMetadata, client, repo);
+                    MetadataJsonDownloader.SaveMetadataFortheRepository(repoDestinationBackupMetadata, client, repo);
                 }
 
                 // Save metadata for the repository if the option is set
                 if (backupReleasedata)
                 {
                     // Call a method to download releases and save them to a JSON file
-                    ReleaseJsonDownloader.Savereleasedatafortherepository(repo.Owner.Login, repo, client, repoDestinationBackupReleasedata);
+                    ReleaseJsonDownloader.SaveReleaseDataFortheRepository(repo.Owner.Login, repo, client, repoDestinationBackupReleasedata);
                 }
 
-                
+                // More to come here
 
 
             });
 
+            // Dispose the root progressbar
             rootProgressBar.Dispose();
 
             return exceptions; // Add this return statement at the end

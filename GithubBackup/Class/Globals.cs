@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Mail;
-using LibGit2Sharp;
 
 namespace GithubBackup.Class
 {

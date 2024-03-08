@@ -143,12 +143,11 @@ namespace GithubBackup.Commands
                     }
 
                     #endregion Set options for backup to keep
-
+                    
                     var credentials = CredentialsFactory(tokenArgument.Value);
                     var currentFolder = Directory.GetCurrentDirectory();
                     var destinationFolder = string.IsNullOrWhiteSpace(destinationArgument.Value) ? currentFolder : destinationArgument.Value;
                     var backupService = BackupServiceFactory(credentials, destinationFolder);
-
                     #region Check backup folder location and create it if not exists
                     
                     // Check if the destination folder exists and create it if not exists
@@ -348,7 +347,7 @@ namespace GithubBackup.Commands
                     }
 
                     // Count backups in backup folder
-                    Backups.CountCurrentNumersOfBackup(destinationFolder);
+                    Backups.CountCurrentNumbersOfBackup(destinationFolder);
 
                     #endregion Do options for backup to keep
 
