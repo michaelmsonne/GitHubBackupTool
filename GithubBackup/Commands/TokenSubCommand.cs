@@ -114,7 +114,7 @@ namespace GithubBackup.Commands
                     }
 
                     // Log
-                    Message("> Done processing arguments set for what type of email report to create", EventType.Information, 1000);
+                    Message("> Done processing arguments set for what type of email report to create and send", EventType.Information, 1000);
 
                     #endregion Set email options
 
@@ -127,9 +127,9 @@ namespace GithubBackup.Commands
                         Globals._daysToKeepBackup = int.Parse(daysToKeepBackupOption.Value() ?? string.Empty);
 
                         // Set status text for email
-                        Globals._isDaysToKeepNotDefaultStatusText = "Custom number of old backup(s) set to keep in backup folder (days)";
+                        Globals._isDaysToKeepNotDefaultStatusText = "Custom number of old backup(s) set to keep in backup folder (day(s))";
 
-                        Message("Days to keep backups is set to: " + Globals._daysToKeepBackup, EventType.Information, 1000);
+                        Message("Day(s) to keep backups is set to: " + Globals._daysToKeepBackup, EventType.Information, 1000);
                     }
                     else
                     {
@@ -137,9 +137,9 @@ namespace GithubBackup.Commands
                         Globals._daysToKeepBackup = 30;
 
                         // Set status text for email
-                        Globals._isDaysToKeepNotDefaultStatusText = "Default number of old backup(s) set to keep in backup folder (days)";
+                        Globals._isDaysToKeepNotDefaultStatusText = "Default number of old backup(s) set to keep in backup folder (day(s))";
 
-                        Message("Days to keep backups is set to: " + Globals._daysToKeepBackup + " (default value as no argument is set)", EventType.Information, 1000);
+                        Message("Day(s) to keep backups is set to: " + Globals._daysToKeepBackup + " (default value as no argument is set)", EventType.Information, 1000);
                     }
 
                     #endregion Set options for backup to keep
@@ -148,6 +148,7 @@ namespace GithubBackup.Commands
                     var currentFolder = Directory.GetCurrentDirectory();
                     var destinationFolder = string.IsNullOrWhiteSpace(destinationArgument.Value) ? currentFolder : destinationArgument.Value;
                     var backupService = BackupServiceFactory(credentials, destinationFolder);
+
                     #region Check backup folder location and create it if not exists
                     
                     // Check if the destination folder exists and create it if not exists
@@ -156,13 +157,13 @@ namespace GithubBackup.Commands
                         try
                         {
                             Directory.CreateDirectory(destinationFolder);
-                            Message("Created backup folder: " + destinationFolder, EventType.Information, 1000);
+                            Message("Created root backup folder: '" + destinationFolder + "'", EventType.Information, 1000);
                         }
                         catch (UnauthorizedAccessException)
                         {
-                            Message("Unable to create folder to store the backups: " + destinationFolder + ". Make sure the account you use to run this tool has write rights to this location.", EventType.Error, 1001);
+                            Message("Unable to create folder to store the backup(s): '" + destinationFolder + "'. Make sure the account you use to run this tool has write rights/create to this location.", EventType.Error, 1001);
                             Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("Unable to create folder to store the backups: " + destinationFolder + ". Make sure the account you use to run this tool has write rights to this location.");
+                            Console.WriteLine("Unable to create folder to store the backup(s): '" + destinationFolder + "'. Make sure the account you use to run this tool has write/create rights to this location.");
                             Console.ResetColor();
 
                             // Count errors
@@ -171,7 +172,7 @@ namespace GithubBackup.Commands
                         catch (Exception e)
                         {
                             // Error when create backup folder
-                            Message("Exception caught when trying to create backup folder '" + destinationFolder + " - error: " + e, EventType.Error, 1001);
+                            Message("Exception caught when trying to create backup folder '" + destinationFolder + "' - error: " + e, EventType.Error, 1001);
                             Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("{0} Exception caught.", e);
                             Console.ResetColor();
@@ -318,7 +319,7 @@ namespace GithubBackup.Commands
                             Console.ResetColor();
 
                             // Do work
-                            Backups.DaysToKeepBackupsDefault(destinationFolder);
+                            LocalBackupsTasks.DaysToKeepBackupsDefault(destinationFolder);
                         }
 
                         // If -daystokeepbackup is not set to default 30 - show it and do work
@@ -331,7 +332,7 @@ namespace GithubBackup.Commands
                             Console.ResetColor();
 
                             // Do work
-                            Backups.DaysToKeepBackups(destinationFolder, Globals._daysToKeepBackup);
+                            LocalBackupsTasks.DaysToKeepBackups(destinationFolder, Globals._daysToKeepBackup);
                         }
                     }
                     else
@@ -343,11 +344,11 @@ namespace GithubBackup.Commands
                         Console.ResetColor();
 
                         // Do work
-                        Backups.DaysToKeepBackupsDefault(destinationFolder);
+                        LocalBackupsTasks.DaysToKeepBackupsDefault(destinationFolder);
                     }
 
                     // Count backups in backup folder
-                    Backups.CountCurrentNumbersOfBackup(destinationFolder);
+                    LocalBackupsTasks.CountCurrentNumbersOfBackup(destinationFolder);
 
                     #endregion Do options for backup to keep
 
