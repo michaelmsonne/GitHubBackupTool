@@ -13,10 +13,10 @@ namespace GithubBackup.Commands
             // Define the main command and options for it and execute it if no sub-command is specified
             Command.UnrecognizedArgumentHandling = UnrecognizedArgumentHandling.Throw;
             Command.Name = "GitHubBackupTool";
-            Command.Description = "GitHub Backup for Git Projects and is using the API for GitHub.";
+            Command.Description = "GitHub Backup tool for Git Projects using the API to GitHub.";
             Command.ExtendedHelpText =  "\nMore information about this tool:" +
-                                        "\n  This tool creates a local backup of repositories of a given github user with some options to filter " +
-                                        "\n  based on some conditions." +
+                                        "\n  This tool creates a local backup of repositories of a given GitHub user with some options to filter " +
+                                        "\n  based on some conditions og backup type." +
                                         "\n" +
                                         "\n  While the code is perfectly safe on the GitHub infrastructure, there are cases where a centralized" +
                                         "\n  local backup of all projects and repositories is needed. These might include Corporate Policies," +
