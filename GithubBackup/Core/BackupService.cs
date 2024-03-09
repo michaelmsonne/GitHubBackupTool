@@ -150,8 +150,8 @@ namespace GithubBackup.Core
                 // Console.WriteLine("Selected backup type is: ");
                 // Message("Selected backup type is: ", EventType.Information, 1000);
 
-                Console.WriteLine($"Backup destination folder is set to: '\"{Destination}\"'");
-                Message($"Backup destination folder is set to: '\"{Destination}\"'", EventType.Information, 1000);
+                Console.WriteLine($"Backup destination folder is set to: \"{Destination}\"");
+                Message($"Backup destination folder is set to: \"{Destination}\"", EventType.Information, 1000);
 
 #if DEBUG
                 Console.ReadKey();
