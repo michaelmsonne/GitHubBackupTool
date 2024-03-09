@@ -25,7 +25,7 @@ namespace GithubBackup.Commands
                                         "\n\nExamples:" +
                                         $"\n  {Globals._currentExeFileName} token-based <token> \"D:\\Backup\\GitHub\" -allowner -mailto \"mail-to@domain.com\"" +
                                         $"\n  -mailfrom \"mail-from@domain.com\" -mailserver \"mailserver.domain.com\" -mailport \"25\" -priority high" +
-                                        $"\n  -daystokeepbackup 50\n\n" +
+                                        $"\n  -daystokeepbackup 50 -daystokeeplogfiles 180\n\n" +
                                         $"My Website:" +
                                         $"\n  https://sonnes.cloud\n\n" +
                                         $"My blog:" +
