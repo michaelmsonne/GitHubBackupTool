@@ -17,8 +17,8 @@ namespace GithubBackup.Class
                 // Check if the repository has any branches
                 var branchNames = BackupService.GetBranchesForRepository(client, repo); // Replace with your method to get branches
 
-                Console.WriteLine($"Processing metadata for repository '{repo.FullName}' for backup up to: '{repoDestinationBackupMetadataFilePath}'");
-                Message($"Processing metadata for repository '{repo.FullName}' for backup up to: '{repoDestinationBackupMetadataFilePath}'", EventType.Information, 1000);
+                Console.WriteLine($"Processing metadata for repository '{repo.FullName}' for backup to: '{repoDestinationBackupMetadataFilePath}'");
+                Message($"Processing metadata for repository '{repo.FullName}' for backup to: '{repoDestinationBackupMetadataFilePath}'", EventType.Information, 1000);
 
                 // Save metadata for the repository if it has any branches
                 if (branchNames.Any())
@@ -28,8 +28,8 @@ namespace GithubBackup.Class
                     File.WriteAllText(repoDestinationBackupMetadataFilePath, JsonConvert.SerializeObject(repo, Formatting.Indented));
 
                     // Log the result
-                    Console.WriteLine($"Done processing metadata for repository '{repo.FullName}' for backup up to: '{repoDestinationBackupMetadataFilePath}'");
-                    Message($"> Done processing metadata for repository '{repo.FullName}' for backup up to: '{repoDestinationBackupMetadataFilePath}'", EventType.Information, 1000);
+                    Console.WriteLine($"Done processing metadata for repository '{repo.FullName}' for backup to: '{repoDestinationBackupMetadataFilePath}'");
+                    Message($"> Done processing metadata for repository '{repo.FullName}' for backup to: '{repoDestinationBackupMetadataFilePath}'", EventType.Information, 1000);
                 }
                 // Skip further processing if the repository is empty
                 else

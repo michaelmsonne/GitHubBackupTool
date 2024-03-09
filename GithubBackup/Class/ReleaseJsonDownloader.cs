@@ -33,8 +33,8 @@ namespace GithubBackup.Class
                 else
                 {
                     // Log a message and skip further processing
-                    Console.WriteLine($"Skipped - no releases found for repository '{owner}/{repo.Name}'.");
-                    Message($"! Skipped - no releases found for repository '{owner}/{repo.Name}'.", EventType.Information, 1000);
+                    Console.WriteLine($"Skipped - no releases data found for repository '{owner}/{repo.Name}' to be saved to: '{destinationPath}'.");
+                    Message($"! Skipped - no releases data found for repository '{owner}/{repo.Name}' to be saved to: '{destinationPath}'.", EventType.Information, 1000);
                     return; // Skip further processing if the repository is empty
                 }
             }
