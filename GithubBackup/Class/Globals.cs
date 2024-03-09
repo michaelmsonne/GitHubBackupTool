@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Mail;
-using LibGit2Sharp;
 
 namespace GithubBackup.Class
 {
@@ -25,6 +24,8 @@ namespace GithubBackup.Class
         public static bool _allReposNotForks; // backup all repos from Github if true - default is false
         public static bool _allReposNotForksAndIsOwner; // backup all repos from Github if true - default is true as most common use case is to backup own repos and not forks from others repos
         public static bool _excludeBranchDependabot; // exclude branches with "dependabot" in it from backup if true - default is true
+        public static bool _backupRepoMetadata; // backup metadata from repo if true - default is false
+        public static bool _backupReleasedata; // backup release from repo if true - default is false
         //public static string _alloriginalBranches; // backup all original branches from repo
         //public static IReadOnlyList<Branch> _alloriginalBranches;
 
@@ -37,6 +38,7 @@ namespace GithubBackup.Class
         public static int _daysToKeepBackup; // number of days to keep backup in backup folder before deleting it - default is 30 days if not set
         public static int _currentBackupsInBackupFolderCount;
         public static int _errors; // count errors
+        public static int _warnings; // count warnings
         public static int _repoCount; // count repos from Github
         public static int _repoBackupPerformedCount; // count repo items from Github
         public static int _repoBackupPerformedBranchCount; // count repo (branches) items from Github
@@ -46,12 +48,14 @@ namespace GithubBackup.Class
         public static bool _isBackupOk; // check if backup is ok or not state
         public static string _repoCountStatusText; // text to display in email report
         public static string _isDaysToKeepNotDefaultStatusText; // text to display in email report if days to keep backup is not default value (30 days)
+        public static string _isdaysToKeepLogFilesOptionDefaultStatusText; // text to display in email report if days to keep log files is not default value (30 days)
         public static string _totalBackupsIsDeletedStatusText; // text to display in email report if backups is deleted
         
         // Set Global variables for cleanup
         public static int _totalBackupsIsDeleted; // count of total backups deleted
         public static int _oldLogFilesToDeleteCount; // count of old log files deleted
         public static bool _oldLogfilesToDelete; // delete old log files if true - default is false and function is not used
+        public static int _daysToKeepLogFilesOption; // number of days to keep log files in log folder before deleting it - default is 30 days if not set
 
         // Set Global variables for email
         public static string _mailto; // email address to send email to

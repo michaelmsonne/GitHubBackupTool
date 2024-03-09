@@ -21,9 +21,9 @@ namespace GithubBackup.Class
                     Console.WriteLine("Email report priority arguments is set to: High");
                     return MailPriority.High;
                 default:
-                    Message("Invalid email priority argument. Defaulting to normal Mail Priority.", EventType.Warning, 1000);
+                    Message("Invalid/no email priority argument is set. Defaulting to 'normal' mail priority.", EventType.Information, 1000);
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine("Invalid email priority argument. Defaulting to normal Mail Priority.");
+                    Console.WriteLine("Invalid/no email priority argument is set. Defaulting to 'Normal' mail priority.");
                     return MailPriority.Normal;
             }
         }

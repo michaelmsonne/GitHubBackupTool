@@ -13,8 +13,8 @@ namespace GithubBackup.Class
             get
             {
                 // Root folder for log files
-                var logfilePathvar = ProgramDataFilePath + @"\Log";
-                return logfilePathvar;
+                var logfilePath = ProgramDataFilePath + @"\Log";
+                return logfilePath;
             }
         }
 
@@ -24,8 +24,7 @@ namespace GithubBackup.Class
             {
                 // Root path for program data
                 var currentDirectory = Directory.GetCurrentDirectory();
-                var programDataFilePathvar = currentDirectory;
-                return programDataFilePathvar;
+                return currentDirectory;
             }
         }
 
@@ -34,10 +33,15 @@ namespace GithubBackup.Class
             get
             {
                 // Root folder for log files
-                var tokenFilePathvar = ProgramDataFilePath + @"\token.bin";
-                return tokenFilePathvar;
+                var tokenFilePath = ProgramDataFilePath + @"\token.bin";
+                return tokenFilePath;
             }
         }
+
+        /// <summary>
+        /// Not in use from here - TODO: Cleanup
+        /// </summary>
+        /// <param name="outDir"></param>
 
         // If args is set to delete original downloaded .zip and .json files
         // Get output folder from backup with date for folder to backup to

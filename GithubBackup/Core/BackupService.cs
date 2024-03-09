@@ -13,6 +13,7 @@ using static GithubBackup.Class.FileLogger;
 using Branch = Octokit.Branch;
 using Credentials = Octokit.Credentials;
 using Repository = Octokit.Repository;
+
 // ReSharper disable AccessToDisposedClosure
 
 namespace GithubBackup.Core
@@ -51,7 +52,7 @@ namespace GithubBackup.Core
         }
 
         // Separate method to fetch branches for a repository
-        private static IReadOnlyList<Branch> GetBranchesForRepository(GitHubClient client, Repository repo)
+        public static IReadOnlyList<Branch> GetBranchesForRepository(GitHubClient client, Repository repo)
         {
             var branchesTask = client.Repository.Branch.GetAll(repo.Owner.Login, repo.Name);
             branchesTask.Wait();
@@ -89,7 +90,7 @@ namespace GithubBackup.Core
         {
             // Create backup folder name
             //var backupFolderName = $"Github Backup ({DateTime.Now.ToString("dd-MM-yyyy HH-mm", CultureInfo.InvariantCulture)})\\";
-            var backupFolderName = $"Github Backup {DateTime.Now.ToString("dd-MM-yyyy-(HH-mm)", CultureInfo.InvariantCulture)}\\";
+            var backupFolderName = $"{DateTime.Now.ToString("dd-MM-yyyy-(HH-mm)", CultureInfo.InvariantCulture)}\\";
 
             // Set destination folder
             Destination = Path.Combine(destination, backupFolderName);
@@ -107,6 +108,7 @@ namespace GithubBackup.Core
             // Get user data from Github
             var user = GetUserData();
 
+            // Set user/org name to global variable
             Globals._name = user.Name;
 
             // Show user data to console (name)
@@ -116,7 +118,7 @@ namespace GithubBackup.Core
 
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("\nShowing all repos before filtering the token gives access to!...");
-            Message("showing all repos before filtering the token gives access to!...", EventType.Information, 1000);
+            Message("Showing all repos before filtering the token gives access to!...", EventType.Information, 1000);
 
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Getting all repos the API key has access to...");
@@ -136,6 +138,7 @@ namespace GithubBackup.Core
                 Globals._noProjectsToBackup = false;
             }
 
+            // Log
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Got all repos the API key has access to - getting what meets the arguments for backup...");
             Message("Got all repos the API key has access to - getting what meets the arguments for backup...", EventType.Information, 1000);
@@ -173,7 +176,7 @@ namespace GithubBackup.Core
 
             // Log
             Console.WriteLine("Counted branches in backup folder.");
-            Message("Counted branches in backup folder.", EventType.Information, 1000);
+            Message("> Done - counted branches in backup folder.", EventType.Information, 1000);
 
             // Count number of files and folders in backup folder
             Backups.CountFilesAndFoldersInFolder(Globals._backupFolderName, out var fileCount, out var folderCount);
@@ -189,6 +192,7 @@ namespace GithubBackup.Core
                 Console.WriteLine($"Backup finished with {exceptions.Count} error(s):");
                 Message($"Backup finished with {exceptions.Count} error(s):", EventType.Information, 1000);
 
+                // Loop through exceptions and print them to console
                 foreach (var repoName in exceptions.Keys)
                 {
                     Console.WriteLine();
@@ -211,10 +215,6 @@ namespace GithubBackup.Core
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("\nBackup finished with error(s) - see log for more information");
                     Message($"Backup finished with error(s) - see log for more information", EventType.Error, 1001);
-
-                    // Handle errors
-                    Console.WriteLine("Errors: " + Globals._errors);
-                    Message("Errors: " + Globals._errors, EventType.Error, 1001);
 
                     // Handle errors
                     ApplicationStatus.ApplicationEndBackup(false);
@@ -309,6 +309,7 @@ namespace GithubBackup.Core
              */
             var exceptions = new ConcurrentDictionary<string, Exception>();
 
+            // Set options for the progressbar
             var rootProgressBarOptions = new ProgressBarOptions
             {
                 ForegroundColor = ConsoleColor.Cyan,
@@ -316,6 +317,7 @@ namespace GithubBackup.Core
                 EnableTaskBarProgress = true,
             };
 
+            // Create a progressbar for the overall progress
             var rootProgressBar = new ProgressBar(repos.Count, "Overall Progress", rootProgressBarOptions);
 
             // Use an object for locking
@@ -330,10 +332,36 @@ namespace GithubBackup.Core
 
                 // Get branch names for the current repository
                 var branchNames = GetBranchesForRepository(client, repo);
+                
+                // Set folder names for the current repository
+                string repoDestinationBackupCode;                                                // Code folder (root of the repository or branch folder)
+                var repoDestinationBackupMetadata = Path.Combine(Destination, repo.FullName); // Metadata folder (root of the repository) + branch/code folder will be added later 
+                var repoDestinationBackupReleasedata = Path.Combine(Destination, repo.FullName); // Release folder (root of the repository() + branch/code folder will be added later )
+                
+                /*
+                 *
+                 * Specify metadata backup options
+                 *
+                 */
+                bool backupMetadata = Globals._backupRepoMetadata; // Set to true or false based on the option selected for backupMetadata
 
-                // Get folder names for the current repository
-                var repoDestination = Path.Combine(Destination, repo.FullName);
-
+                // Set folder names for the current repository based on the backupMetadata option
+                if (backupMetadata)
+                {
+                    // If backing up metadata, add "code\" in front of the folder name
+                    repoDestinationBackupCode = Path.Combine(Destination, repo.FullName, "code");
+                }
+                else
+                {
+                    // If not backing up metadata, use only the repository name as the folder name
+                    repoDestinationBackupCode = Path.Combine(Destination, repo.FullName);
+                }
+                
+                /*
+                 * Specify release backup options
+                 */
+                bool backupReleasedata = Globals._backupReleasedata; // Set to true or false based on the option selected for backup releasedata
+                
                 ChildProgressBar progressBar = null;
                 Exception cloneException = null;
 
@@ -378,7 +406,9 @@ namespace GithubBackup.Core
                     }
                 };
 
-                // Set credentials for Github - basic or oauth
+                /*
+                 * Set credentials for Github - basic or oauth
+                 */
                 if (Credentials.AuthenticationType == AuthenticationType.Basic)
                 {
                     // Set credentials for Github - basic
@@ -392,41 +422,60 @@ namespace GithubBackup.Core
                         => new UsernamePasswordCredentials { Username = Credentials.GetToken(), Password = string.Empty };
                 }
 
+                /*
+                 * Clone the repository based on the selected options for branches
+                 */
                 try
                 {
+                    // If all branches is selected for backup (all branches option) - show branches in progressbar
                     if (Globals._allBranches)
                     {
                         // Backup all branches for the current repository selected for backup
                         foreach (var branchName in branchNames)
                         {
-                            /*
-                            // Skip branches with "dependabot" in the name if the exclusion is enabled
-                            if (Globals._excludeBranchDependabot && Globals._alloriginalBranches.Contains("dependabot"))
-                            {
-                                Message($"Skipped processing repository '{repo.FullName}' for backup - Options: Excluded branch '{branchName.Name}' with 'dependabot' in the name", EventType.Warning, 1001);
-                                continue;
-                            }
-                            */
-
-                            // Clone the specific branch
-
                             // Replacing "\" with "-" in the branch name
                             string sanitizedBranchName = branchName.Name.Replace("/", "-");
 
                             // Create a folder path for the branch
-                            string clonedRepoPath = Path.Combine(repoDestination, sanitizedBranchName);
-
-                            // Clone the specific branch
-                            LibGit2Sharp.Repository.Clone(repo.CloneUrl, clonedRepoPath, cloneOptions);
-
-                            // string clonedRepoPath = Path.Combine(repoDestination, branchName.Name); // Create a folder for the branch
-                            // LibGit2Sharp.Repository.Clone(repo.CloneUrl, clonedRepoPath, cloneOptions);
+                            string clonedRepoPath = Path.Combine(repoDestinationBackupCode, sanitizedBranchName);
 
                             // Log
-                            Message($"Processed repository '{repo.FullName}' for backup - Options: ALL branches: saved data for branch '{branchName.Name}' to disk: " + clonedRepoPath, EventType.Information, 1000);
-                            //Console.WriteLine($"Processed repository {repo.FullName} - ALL branch: saved data for branch {branchName.Name} to disk");
+                            Message($"Processing repository '{repo.FullName}' for backup - Options: ALL branches: saved data for branch '{branchName.Name}' to disk: '{clonedRepoPath}\\'", EventType.Information, 1000);
 
-                            //Globals.repoitemscountelements.Add($"Repository Name: '{repo.Name}', Branch: '{branchName.Name}', Owner: '{repo.Owner.Login}'"); 
+                            // Clone the repository without checking out any branch
+                            LibGit2Sharp.Repository.Clone(repo.CloneUrl, clonedRepoPath, cloneOptions);
+
+                            using (var repository = new LibGit2Sharp.Repository(clonedRepoPath))
+                            {
+                                // Fetch the specific branch
+                                var fetchOptions = new FetchOptions
+                                {
+                                    CredentialsProvider = cloneOptions.CredentialsProvider
+                                };
+
+                                // Fetch the specific branch
+                                LibGit2Sharp.Commands.Fetch(repository, "origin", new[] { $"refs/heads/{branchName.Name}:refs/remotes/origin/{branchName.Name}" }, fetchOptions, null);
+
+                                // Checkout the specific branch in the repository
+                                var branch = repository.Branches[$"origin/{branchName.Name}"];
+                                if (branch != null)
+                                {
+                                    // Checkout the specific branch
+                                    LibGit2Sharp.Commands.Checkout(repository, branch);
+
+                                    // Log
+                                    Message($"> Done processing repository '{repo.FullName}' for backup - Options: ALL branches: saved data for branch '{branchName.Name}' to disk: '{clonedRepoPath}\\'", EventType.Information, 1000);
+                                }
+                                else
+                                {
+                                    // Handle the case where the branch doesn't exist
+                                    Console.WriteLine($"Branch '{branchName.Name}' does not exist in repository '{repo.FullName}'.");
+                                    Message($"Branch '{branchName.Name}' does not exist in repository '{repo.FullName}'.", EventType.Warning, 1001);
+                                }
+                            }
+
+                            // Log
+                            //Message($"Done processing repository '{repo.FullName}' for backup - Options: ALL branches: saved data  to disk.", EventType.Information, 1000);
 
                             // Used for email report list - list name for projects to list for email report list
                             Globals.repoitemscountelements.Add($"{repo.Name}, ('{branchName.Name}' branch), Owner: '{repo.Owner.Login}'");
@@ -443,18 +492,17 @@ namespace GithubBackup.Core
                             }
                         }
                     }
+                    // If only default branch is selected for backup (default option)
                     else
                     {
                         // Create a folder path for the branch
-                        var clonedRepoPath = Path.Combine(repoDestination, repo.DefaultBranch);
+                        var clonedRepoPath = Path.Combine(repoDestinationBackupCode, repo.DefaultBranch);
 
                         // Backup only the default branch for the current repository selected for backup (default branch) - this is the default option
                         LibGit2Sharp.Repository.Clone(repo.CloneUrl, clonedRepoPath, cloneOptions);
 
                         // Log
-                        Message($"Processed repository: '{repo.FullName}' for backup, DefaultBranch '{repo.DefaultBranch}' - saved data to disk", EventType.Information, 1000);
-
-                        //Globals.repoitemscountelements.Add($"Repository Name: '{repo.Name}', DefaultBranch: '{repo.DefaultBranch}', Owner: '{repo.Owner.Login}'");
+                        Message($"Processed repository: '{repo.FullName}' for backup, DefaultBranch '{repo.DefaultBranch}' - saved data to disk: '" + clonedRepoPath + "'", EventType.Information, 1000);
 
                         // Used for email report list - list name for projects to list for email report list
                         Globals.repoitemscountelements.Add($"{repo.Name}, ('{repo.DefaultBranch}' Default Branch), Owner: '{repo.Owner.Login}'");
@@ -476,13 +524,18 @@ namespace GithubBackup.Core
                 }
                 catch (LibGit2SharpException libGit2SharpException)
                 {
+                    // Log the exception
                     if (libGit2SharpException.Message == "this remote has never connected")
                     {
+                        // Log the exception
                         Console.WriteLine("An error occurred; GitHub may be down or you have no internet!");
+                        Message($"An error occurred; GitHub may be down or you have no internet!", EventType.Error, 1001);
                     }
                     else
                     {
-                        Console.WriteLine("An unknown error occurred whilst trying to retrieve data from github when processing repository: " + repo.FullName + " when save data to disk - Error: " + libGit2SharpException.Message);
+                        // Log the exception
+                        Console.WriteLine("An error occurred whilst trying to retrieve data from github when processing repository: " + repo.FullName + " when save data to the disk - Error: " + libGit2SharpException.Message);
+                        Message($"An error occurred whilst trying to retrieve data from github when processing repository: " + repo.FullName + " when save data to the disk - Error: " + libGit2SharpException.Message, EventType.Error, 1001);
                     }
                 }
                 finally
@@ -497,8 +550,35 @@ namespace GithubBackup.Core
                         }
                     }
                 }
+
+                /*
+                 *
+                 * Set options to save different data for the repository
+                 *
+                 * This is etc. metadata for the repository
+                 *
+                 */
+
+                // Save metadata for the repository if the option is set
+                if (backupMetadata)
+                {
+                    // Call a method to download metadata and save them to a JSON file
+                    MetadataJsonDownloader.SaveMetadataFortheRepository(repoDestinationBackupMetadata, client, repo);
+                }
+
+                // Save metadata for the repository if the option is set
+                if (backupReleasedata)
+                {
+                    // Call a method to download releases and save them to a JSON file
+                    ReleaseJsonDownloader.SaveReleaseDataFortheRepository(repo.Owner.Login, repo, client, repoDestinationBackupReleasedata);
+                }
+
+                // More to come here
+
+
             });
 
+            // Dispose the root progressbar
             rootProgressBar.Dispose();
 
             return exceptions; // Add this return statement at the end
