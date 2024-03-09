@@ -97,7 +97,7 @@ namespace GithubBackup.Class
                     Globals._isDaysToKeepNotDefaultStatusText,
                     Globals._startTime,
                     Globals._endTime,
-                    Folders.GetTotalSize(Globals._backupFolderName));
+                    LocalFolderTasks.GetTotalSize(Globals._backupFolderName));
             }
             else
             {

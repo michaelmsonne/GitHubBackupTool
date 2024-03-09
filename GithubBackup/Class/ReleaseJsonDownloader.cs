@@ -26,15 +26,15 @@ namespace GithubBackup.Class
                     File.WriteAllText(destinationPath, JsonConvert.SerializeObject(releases, Formatting.Indented));
 
                     // Log a message
-                    Console.WriteLine($"Releases information saved to: '{destinationPath}' for repository '{owner}/{repo.Name}'");
-                    Message($"Releases information saved to: '{destinationPath}' for repository '{owner}/{repo.Name}'", EventType.Information, 1000);
+                    Console.WriteLine($"Release information saved to: '{destinationPath}' for repository '{owner}/{repo.Name}'");
+                    Message($"Release information saved to: '{destinationPath}' for repository '{owner}/{repo.Name}'", EventType.Information, 1000);
                 }
                 // If no releases are found
                 else
                 {
                     // Log a message and skip further processing
                     Console.WriteLine($"Skipped - no releases data found for repository '{owner}/{repo.Name}' to be saved to: '{destinationPath}'.");
-                    Message($"! Skipped - no releases data found for repository '{owner}/{repo.Name}' to be saved to: '{destinationPath}'.", EventType.Information, 1000);
+                    Message($"! Skipped - no releases data found for repository '{owner}/{repo.Name}' to be saved to: '{destinationPath}'\\.", EventType.Information, 1000);
                     return; // Skip further processing if the repository is empty
                 }
             }
