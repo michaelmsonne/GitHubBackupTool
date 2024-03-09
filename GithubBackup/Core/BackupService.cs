@@ -128,16 +128,6 @@ namespace GithubBackup.Core
             Console.ForegroundColor = ConsoleColor.White;
             var repos = GetRepos();
 
-            // if repos is empty - set state to no projects to backup
-            if (repos.Count == 0)
-            {
-                Globals._noProjectsToBackup = true;
-            }
-            else
-            {
-                Globals._noProjectsToBackup = false;
-            }
-
             // Log
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Got all repos the API key has access to - getting what meets the arguments for backup...");
@@ -148,92 +138,117 @@ namespace GithubBackup.Core
             Console.WriteLine($"Total repositories found there meets arguments for backup is: {repos.Count}");
             Message($"Total repositories found there meets arguments for backup is: {repos.Count}", EventType.Information, 1000);
 
-            // TODO
-            // Console.WriteLine("Selected backup type is: ");
-            // Message("Selected backup type is: ", EventType.Information, 1000);
+            // if repos is empty - set state to no projects to backup
+            if (repos.Count != 0)
+            {
+                // Set state to projects to backup
+                Globals._noProjectsToBackup = false;
 
-            Console.WriteLine($"Backup destination folder is set to: '\"{Destination}\"'");
-            Message($"Backup destination folder is set to: '\"{Destination}\"'", EventType.Information, 1000);
+                // Repos to backup - do work
+
+                // TODO
+                // Console.WriteLine("Selected backup type is: ");
+                // Message("Selected backup type is: ", EventType.Information, 1000);
+
+                Console.WriteLine($"Backup destination folder is set to: '\"{Destination}\"'");
+                Message($"Backup destination folder is set to: '\"{Destination}\"'", EventType.Information, 1000);
 
 #if DEBUG
-            Console.ReadKey();
+                Console.ReadKey();
 #endif
 
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"Starting to clone all repositories into backup folder: '{Destination}'...");
-            Message($"Starting to clone all repositories into backup folder: '{Destination}'...", EventType.Information, 1000);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"Starting to clone all repositories into backup folder: '{Destination}'...");
+                Message($"Starting to clone all repositories into backup folder: '{Destination}'...", EventType.Information, 1000);
 
-            // Clone all repositories into backup folder specified
-            var exceptions = CloneRepos(repos);
+                // Clone all repositories into backup folder specified
+                var exceptions = CloneRepos(repos);
 
-            // Count number of branches in backup folder for the current repository (main or all)
-            // Log
-            Console.WriteLine("Starting counting of branches in backup folder...");
-            Message($"Starting counting of branches in backup folder...", EventType.Information, 1000);
+                // Count number of branches in backup folder for the current repository (main or all)
+                // Log
+                Console.WriteLine("Starting counting of branches in backup folder...");
+                Message($"Starting counting of branches in backup folder...", EventType.Information, 1000);
 
-            // Do work to count branches in backup folder
-            Globals._repoBackupPerformedBranchCount = Folders.GetSubfolderCountForBranchFolders(Globals._backupFolderName, 3);
+                // Do work to count branches in backup folder
+                Globals._repoBackupPerformedBranchCount = Folders.GetSubfolderCountForBranchFolders(Globals._backupFolderName, 3);
 
-            // Log
-            Console.WriteLine("Counted branches in backup folder.");
-            Message("> Done - counted branches in backup folder.", EventType.Information, 1000);
+                // Log
+                Console.WriteLine("Counted branches in backup folder.");
+                Message("> Done - counted branches in backup folder.", EventType.Information, 1000);
 
-            // Count number of files and folders in backup folder
-            Backups.CountFilesAndFoldersInFolder(Globals._backupFolderName, out var fileCount, out var folderCount);
+                // Count number of files and folders in backup folder
+                Backups.CountFilesAndFoldersInFolder(Globals._backupFolderName, out var fileCount, out var folderCount);
 
-            // Save count of files and folders in backup folder to global variables
-            Globals._backupFileCount = fileCount;
-            Globals._backupFolderCount = folderCount;
+                // Save count of files and folders in backup folder to global variables
+                Globals._backupFileCount = fileCount;
+                Globals._backupFolderCount = folderCount;
 
-            // Show errors if any
-            if (exceptions.Any())
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"Backup finished with {exceptions.Count} error(s):");
-                Message($"Backup finished with {exceptions.Count} error(s):", EventType.Information, 1000);
-
-                // Loop through exceptions and print them to console
-                foreach (var repoName in exceptions.Keys)
+                // Show errors if any
+                if (exceptions.Any())
                 {
-                    Console.WriteLine();
-                    Console.WriteLine($"Error while cloning repository '{repoName}':");
-                    Message($"Error while cloning repository '{repoName}':", EventType.Error, 1001);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"Backup finished with {exceptions.Count} error(s):");
+                    Message($"Backup finished with {exceptions.Count} error(s):", EventType.Information, 1000);
 
-                    Console.WriteLine(exceptions[repoName]);
-                    Message(exceptions[repoName].ToString(), EventType.Error, 1001);
+                    // Loop through exceptions and print them to console
+                    foreach (var repoName in exceptions.Keys)
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine($"Error while cloning repository '{repoName}':");
+                        Message($"Error while cloning repository '{repoName}':", EventType.Error, 1001);
+
+                        Console.WriteLine(exceptions[repoName]);
+                        Message(exceptions[repoName].ToString(), EventType.Error, 1001);
+                    }
+                }
+                else
+                {
+                    if (Globals._errors > 0)
+                    {
+                        //Set backup status
+                        Globals._isBackupOk = false;
+
+                        Globals._repoCountStatusText = "Warning!";
+
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("\nBackup finished with error(s) - see log for more information");
+                        Message($"Backup finished with error(s) - see log for more information", EventType.Error, 1001);
+
+                        // Handle errors
+                        ApplicationStatus.ApplicationEndBackup(false);
+                    }
+                    else
+                    {
+                        //Set backup status
+                        Globals._isBackupOk = true;
+
+                        Globals._repoCountStatusText = "Good";
+
+                        // No errors counted - backup should be finished successfully
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("\nBackup finished successfully - see log for more information");
+                        Message("Backup finished successfully - see log for more information", EventType.Information, 1000);
+
+                        // Handle success
+                        ApplicationStatus.ApplicationEndBackup(true);
+                    }
                 }
             }
             else
             {
-                if (Globals._errors > 0)
-                {
-                    //Set backup status
-                    Globals._isBackupOk = false;
+                // No repos to backup - set state to no projects to backup
+                Globals._noProjectsToBackup = true;
 
-                    Globals._repoCountStatusText = "Warning!";
+                // Set backup status to email report
+                Globals._repoCountStatusText = "Nothing to backup";
 
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("\nBackup finished with error(s) - see log for more information");
-                    Message($"Backup finished with error(s) - see log for more information", EventType.Error, 1001);
+                // Nothing to backup - finished successfully
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("\nNothing to backup - finished successfully - see log for more information");
+                Message("Backup finished successfully - see log for more information", EventType.Information, 1000);
 
-                    // Handle errors
-                    ApplicationStatus.ApplicationEndBackup(false);
-                }
-                else
-                {
-                    //Set backup status
-                    Globals._isBackupOk = true;
-
-                    Globals._repoCountStatusText = "Good";
-
-                    // No errors counted - backup should be finished successfully
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("\nBackup finished successfully - see log for more information");
-                    Message("Backup finished successfully - see log for more information", EventType.Information, 1000);
-
-                    // Handle success
-                    ApplicationStatus.ApplicationEndBackup(true);
-                }
+                // Handle success
+                ApplicationStatus.ApplicationEndBackup(true);
             }
         }
 
