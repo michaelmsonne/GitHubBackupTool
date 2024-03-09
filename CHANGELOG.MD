@@ -3,6 +3,13 @@
 ### Added
 - Add logic to not start backup job tasks and console output if no repositories are found
 
+## Changed
+- Typo in about tool
+- Update sample command
+- Rename class from backups to LocalBackupsTasks
+- Rename class from folders to LocalFolderTasks
+- Fix typos in metadata classes for release and metadata for logging
+- Typos in release .json downloader
 
 ## [1.1.0.0] - 09-03-2024
 
