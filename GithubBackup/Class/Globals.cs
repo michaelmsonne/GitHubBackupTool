@@ -74,7 +74,7 @@ namespace GithubBackup.Class
         public static bool _deletedFilesAfterUnzip;
 
         // Hold Git project details from project to backup
-        public static List<string> repocountelements = new List<string>(); // list of repos to backup from Github - used for email report
-        public static List<string> repoitemscountelements = new List<string>(); // list of repo items to backup from Github - used for email report
+        public static List<string> _repocountelements = new List<string>(); // list of repos to backup from Github - used for email report
+        public static List<string> _repoitemscountelements = new List<string>(); // list of repo items to backup from Github - used for email report
     }
 }

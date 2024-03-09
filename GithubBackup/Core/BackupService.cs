@@ -177,7 +177,7 @@ namespace GithubBackup.Core
                 Message("> Done - counted branches in backup folder.", EventType.Information, 1000);
 
                 // Count number of files and folders in backup folder
-                Backups.CountFilesAndFoldersInFolder(Globals._backupFolderName, out var fileCount, out var folderCount);
+                LocalBackupsTasks.CountFilesAndFoldersInFolder(Globals._backupFolderName, out var fileCount, out var folderCount);
 
                 // Save count of files and folders in backup folder to global variables
                 Globals._backupFileCount = fileCount;
@@ -309,7 +309,7 @@ namespace GithubBackup.Core
 
                 // List name for projects to list for email report list
                 //Globals.repocountelements.Add($"Repository Name: '{repo.Name}', DefaultBranch: '{repo.DefaultBranch}', Owner: '{repo.Owner.Login}'");
-                Globals.repocountelements.Add($"{repo.Name}, ('{repo.DefaultBranch}' branch), Owner: '{repo.Owner.Login}'");
+                Globals._repocountelements.Add($"{repo.Name}, ('{repo.DefaultBranch}' branch), Owner: '{repo.Owner.Login}'");
             }
 
             // Return the filtered repositories, or all repositories if none of the conditions are met
@@ -493,7 +493,7 @@ namespace GithubBackup.Core
                             //Message($"Done processing repository '{repo.FullName}' for backup - Options: ALL branches: saved data  to disk.", EventType.Information, 1000);
 
                             // Used for email report list - list name for projects to list for email report list
-                            Globals.repoitemscountelements.Add($"{repo.Name}, ('{branchName.Name}' branch), Owner: '{repo.Owner.Login}'");
+                            Globals._repoitemscountelements.Add($"{repo.Name}, ('{branchName.Name}' branch), Owner: '{repo.Owner.Login}'");
 
                             //Globals._repoBackupPerformedCount++; // Increment the _repoCount integer for count of repos in total
                             //Globals._repoBackupPerformedBranchCount++; // Increment the BranchCount
@@ -520,7 +520,7 @@ namespace GithubBackup.Core
                         Message($"Processed repository: '{repo.FullName}' for backup, DefaultBranch '{repo.DefaultBranch}' - saved data to disk: '" + clonedRepoPath + "'", EventType.Information, 1000);
 
                         // Used for email report list - list name for projects to list for email report list
-                        Globals.repoitemscountelements.Add($"{repo.Name}, ('{repo.DefaultBranch}' Default Branch), Owner: '{repo.Owner.Login}'");
+                        Globals._repoitemscountelements.Add($"{repo.Name}, ('{repo.DefaultBranch}' Default Branch), Owner: '{repo.Owner.Login}'");
 
                         //Globals._repoBackupPerformedCount++; // Increment the _repoCount integer for count of repos in total
                         //Globals._repoBackupPerformedBranchCount++; // Increment the BranchCount
