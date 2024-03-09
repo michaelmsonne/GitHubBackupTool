@@ -10,8 +10,7 @@ namespace GithubBackup.Class
         {
             // If other then 30 days of backup
             bool backupsToDelete = false;
-            int input = daysToKeep;
-            int days = input; //int.Parse(input);
+            int days = daysToKeep; //int.Parse(input);
 
             // Log
             Message($"Set to keep {daysToKeep} number of backups (day(s)) in backup folder: '{outBackupDir}'", EventType.Information, 1000);
