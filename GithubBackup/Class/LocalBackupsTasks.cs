@@ -32,7 +32,7 @@ namespace GithubBackup.Class
                     try
                     {
                         // Do work
-                        Folders.DeleteDirectory(dir);
+                        LocalFolderTasks.DeleteDirectory(dir);
 
                         // Count files
                         Globals._totalBackupsIsDeleted++;
@@ -108,7 +108,7 @@ namespace GithubBackup.Class
                     try
                     {
                         // Do work
-                        Folders.DeleteDirectory(dir);
+                        LocalFolderTasks.DeleteDirectory(dir);
 
                         // Count files
                         Globals._totalBackupsIsDeleted++;

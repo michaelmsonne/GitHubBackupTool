@@ -130,8 +130,8 @@ namespace GithubBackup.Core
 
             // Log
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Got all repos the API key has access to - getting what meets the arguments for backup...");
-            Message("Got all repos the API key has access to - getting what meets the arguments for backup...", EventType.Information, 1000);
+            Console.WriteLine("Got all repos the API key has access to - getting what meets the arguments for backup!");
+            Message("> Done got all repos the API key has access to - getting what meets the arguments for backup!", EventType.Information, 1000);
 
             // Show repository count to console (filtered)
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -166,15 +166,15 @@ namespace GithubBackup.Core
 
                 // Count number of branches in backup folder for the current repository (main or all)
                 // Log
-                Console.WriteLine("Starting counting of branches in backup folder...");
-                Message($"Starting counting of branches in backup folder...", EventType.Information, 1000);
+                Console.WriteLine($"Starting counting of branches in backup folder '{Destination}'...");
+                Message($"Starting counting of branches in backup folder '{Destination}'...", EventType.Information, 1000);
 
                 // Do work to count branches in backup folder
-                Globals._repoBackupPerformedBranchCount = Folders.GetSubfolderCountForBranchFolders(Globals._backupFolderName, 3);
+                Globals._repoBackupPerformedBranchCount = LocalFolderTasks.GetSubfolderCountForBranchFolders(Globals._backupFolderName, 3);
 
                 // Log
-                Console.WriteLine("Counted branches in backup folder.");
-                Message("> Done - counted branches in backup folder.", EventType.Information, 1000);
+                Console.WriteLine($"Counted branches in backup folder '{Destination}'.");
+                Message($"> Done - counted branches in backup folder '{Destination}'.", EventType.Information, 1000);
 
                 // Count number of files and folders in backup folder
                 LocalBackupsTasks.CountFilesAndFoldersInFolder(Globals._backupFolderName, out var fileCount, out var folderCount);
