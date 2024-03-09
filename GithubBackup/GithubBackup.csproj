@@ -42,9 +42,4 @@
     <Exec Command="&quot;C:\Program Files (x86)\Windows Kits\10\App Certification Kit\signtool.exe&quot; sign /n &quot;Michael Morten Sonne&quot; /fd sha256 /tr http://timestamp.sectigo.com /td sha256 /as /v &quot;$(TargetPath)&quot;" />
     <Exec Command="&quot;C:\Program Files (x86)\Windows Kits\10\App Certification Kit\signtool.exe&quot; sign /n &quot;Michael Morten Sonne&quot; /fd sha256 /tr http://timestamp.sectigo.com /td sha256 /as /v &quot;$(TargetDir)$(AssemblyName).exe&quot;" />
   </Target>
-  <Target Name="customafterpublish" AfterTargets="publish">
-    <message text="sign publish" />
-    <exec command="&quot;C:\Program Files (x86)\Windows Kits\10\App Certification Kit\signtool.exe&quot; sign /n &quot;Michael Morten Sonne&quot; /fd sha256 /tr http://timestamp.sectigo.com /td sha256 /as /v $(publishdir)$(targetname).exe" />
-    <exec command="&quot;C:\Program Files (x86)\Windows Kits\10\App Certification Kit\signtool.exe&quot; sign /n &quot;Michael Morten Sonne&quot; /fd sha256 /tr http://timestamp.sectigo.com /td sha256 /as /v $(publishdir)$(targetname).dll" />
-  </Target>
 </Project>
