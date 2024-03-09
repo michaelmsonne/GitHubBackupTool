@@ -24,7 +24,7 @@ namespace GithubBackup.Class
             // Console.WriteLine($"Repository Name: '{repo.Name}', Owner: '{repo.Owner.Login}', DefaultBranch: '{repo.DefaultBranch}', Fork: '{repo.Fork}'\nRepository Name: '{repo.Name}', Permissions: Admin: '{repo.Permissions.Admin}', Pull: '{repo.Permissions.Pull}', Push: '{repo.Permissions.Push}'");
 
             // Log repository details
-            Message($"Repository Name: '{repo.Name}', Owner: '{repo.Owner.Login}', Default branch: '{repo.DefaultBranch}', Fork: '{repo.Fork}', (Permissions: Admin: '{repo.Permissions.Admin}', Pull: '{repo.Permissions.Pull}', Push: '{repo.Permissions.Push}'), Visibility: '{repo.Visibility}', Private: '{repo.Private}', Archived: '{repo.Archived}', Created: '{repo.CreatedAt}', Last updated: '{repo.UpdatedAt}'", EventType.Information, 1000);
+            Message($"Repository details: Name: '{repo.Name}', Owner: '{repo.Owner.Login}', Default branch: '{repo.DefaultBranch}', Fork: '{repo.Fork}', (Permissions: Admin: '{repo.Permissions.Admin}', Pull: '{repo.Permissions.Pull}', Push: '{repo.Permissions.Push}'), Visibility: '{repo.Visibility}', Private: '{repo.Private}', Archived: '{repo.Archived}', Created: '{repo.CreatedAt}', Last updated: '{repo.UpdatedAt}'", EventType.Information, 1000);
         }
     }
 }

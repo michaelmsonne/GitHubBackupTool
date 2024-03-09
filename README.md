@@ -136,12 +136,12 @@ You can either clone this repository and build the project yourself.
 ## Usage
 
 ```bash
-GitHubBackupTool token-based <token> [<destination>] [<backuptype>] -mailto "mail-to@domain.com" -mailfrom "mail-from@domain.com" -mailserver "mailserver.domain.com" -mailport "25" -priority "high" -daystokeepbackup 50
+GitHubBackupTool token-based <token> [<destination>] [<backuptype>] -mailto "mail-to@domain.com" -mailfrom "mail-from@domain.com" -mailserver "mailserver.domain.com" -mailport "25" -priority "high" -daystokeepbackup 50 -daystokeeplogfiles 180
 ```
 
 etc.: 
 ```bash
-GitHubBackupTool token-based XXX... "D:\Backup\GitHub\" -allowner -mailto "mail-to@domain.com" -mailfrom "mail-from@domain.com" -mailserver "mailserver.domain.com" -mailport "25" -priority "high" -daystokeepbackup 50
+GitHubBackupTool token-based <token> "D:\Backup\GitHub\" -allowner -mailto "mail-to@domain.com" -mailfrom "mail-from@domain.com" -mailserver "mailserver.domain.com" -mailport "25" -priority "high" -daystokeepbackup 50 -daystokeeplogfiles 180
 ```
 
 Paramenters (**NOT FINAL**):
@@ -160,6 +160,9 @@ Paramenters (**NOT FINAL**):
 - -mailport "25": Set the SMTP server port (default is 25).
 - -priority "high": Specify the email priority for notifications (e.g., high, normal, low).
 - -daystokeepbackup 180: Set the number of days to retain backup files before automatic removal (default is 30 days if not set).
+- -daystokeeplogfiles 180: Set the number of days to retain log files before automatic removal (default is 30 days if not set).
+- -backupmetadata: Backup metadata for each repository. If set, the code itself will be saved to the repo folder.
+- -backupreleasedata: Backup release data for each repository. If set, the code itself will be saved to the repo folder.
 
 # Final thoughts
 This is not an exhaustive method to retrieve every artifact on GitHub. There’s a lot more to be done to make this a complete solution.
@@ -184,6 +187,8 @@ So far I tested the application only for win10-x64 systems, but it might also wo
 [Octokit.NET](https://github.com/octokit/octokit.net)
 
 [McMaster's CommandLineUtils](https://github.com/natemcmaster/CommandLineUtils)
+
+[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
 
 [LitGit2Sharp](https://github.com/libgit2/libgit2sharp)
 

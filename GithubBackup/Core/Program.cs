@@ -28,6 +28,8 @@ namespace GithubBackup.Core
 
         static int Main(string[] args)
         {
+            AppContext.SetSwitch("System.IO.UseLegacyPathHandling", false);
+
             int result = -1;
 
             Console.ForegroundColor = ConsoleColor.White;
@@ -57,7 +59,7 @@ namespace GithubBackup.Core
             Globals._startTime = startTime.ToString("dd-MM-yyyy HH:mm:ss"); // convert start time to string
 
             // Cleanup old log files
-            CleanupLog.CleanupLogs();
+            //CleanupLog.CleanupLogs();
 
             try
             {

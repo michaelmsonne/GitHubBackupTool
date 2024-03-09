@@ -8,6 +8,10 @@
     <Product>GitHub Backup</Product>
     <ApplicationIcon>Resources\github_git_icon.ico</ApplicationIcon>
     <PackageIcon>github_git_icon.ico</PackageIcon>
+    <AssemblyVersion></AssemblyVersion>
+    <FileVersion />
+    <Version>1.1.0.0</Version>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <IsPublishable>True</IsPublishable>
@@ -21,10 +25,11 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="7.1.0" />
     <PackageReference Include="LibGit2Sharp" Version="0.28.0" />
-    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.1.0" />
+    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Octokit" Version="9.0.0" />
     <PackageReference Include="ShellProgressBar" Version="5.2.0" />
-    <PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.2" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Resources\github_git_icon.ico">
@@ -38,7 +43,7 @@
     <Exec Command="&quot;C:\Program Files (x86)\Windows Kits\10\App Certification Kit\signtool.exe&quot; sign /n &quot;Michael Morten Sonne&quot; /fd sha256 /tr http://timestamp.sectigo.com /td sha256 /as /v &quot;$(TargetDir)$(AssemblyName).exe&quot;" />
   </Target>
   <Target Name="customafterpublish" AfterTargets="publish">
-    <message text="sign publish"/>
+    <message text="sign publish" />
     <exec command="&quot;C:\Program Files (x86)\Windows Kits\10\App Certification Kit\signtool.exe&quot; sign /n &quot;Michael Morten Sonne&quot; /fd sha256 /tr http://timestamp.sectigo.com /td sha256 /as /v $(publishdir)$(targetname).exe" />
     <exec command="&quot;C:\Program Files (x86)\Windows Kits\10\App Certification Kit\signtool.exe&quot; sign /n &quot;Michael Morten Sonne&quot; /fd sha256 /tr http://timestamp.sectigo.com /td sha256 /as /v $(publishdir)$(targetname).dll" />
   </Target>

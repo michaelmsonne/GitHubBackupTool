@@ -44,12 +44,14 @@ namespace GithubBackup.Class
             Console.WriteLine("Backup start Time: " + Globals._startTime);
             Console.WriteLine("Backup end Time: " + Globals._endTime);
             Console.WriteLine("Errors: " + Globals._errors);
+            Console.WriteLine("Warnings: " + Globals._warnings);
 
             // Log the TimeSpan value to the log file
             Message("Backup Run Time: " + Globals._elapsedTime, EventType.Information, 1000);
             Message("Backup start Time: " + Globals._startTime, EventType.Information, 1000);
             Message("Backup end Time: " + Globals._endTime, EventType.Information, 1000);
             Message("Errors: " + Globals._errors, EventType.Information, 1000);
+            Message("Warnings: " + Globals._warnings, EventType.Information, 1000);
 
             Console.ForegroundColor = isSuccess ? ConsoleColor.Green : ConsoleColor.Red;
 
@@ -273,7 +275,7 @@ namespace GithubBackup.Class
         {
             // Log end of program
             Console.WriteLine($"\nEnd of application - {Globals._appName} v. {Globals._vData}\n");
-            Message($"End of application - {Globals._appName} v. {Globals._vData}", EventType.Information, 1000);
+            Message($"End of application - {Globals._appName} v. {Globals._vData}\n", EventType.Information, 1000);
         }
 
         private static void SetConsoleColorDefaultAndError(bool isSuccess)
