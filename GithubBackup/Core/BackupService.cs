@@ -135,8 +135,8 @@ namespace GithubBackup.Core
 
             // Show repository count to console (filtered)
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine($"Total repositories found there meets arguments for backup is: {repos.Count}");
-            Message($"Total repositories found there meets arguments for backup is: {repos.Count}", EventType.Information, 1000);
+            Console.WriteLine($"Total repositories found there meets arguments for backup is: '{repos.Count}'");
+            Message($"Total repositories found there meets arguments for backup is: '{repos.Count}'", EventType.Information, 1000);
 
             // if repos is empty - set state to no projects to backup
             if (repos.Count != 0)
