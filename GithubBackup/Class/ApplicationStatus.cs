@@ -83,10 +83,7 @@ namespace GithubBackup.Class
 
             // Log
             Message($"Total size of backup folder '{Globals._backupFolderName}' and its subfolders is: '{totalSize}'", EventType.Information, 1000);
-
-
-
-
+            
             // Send email report if email options are set
             if (Globals._emailOptionsIsSet)
             {
