@@ -72,34 +72,34 @@ namespace GithubBackup.Commands
                 var allReposOwnerOption = tokenBasedCmd.Option("-allowner", "Backup repositories where you are the owner (default).", CommandOptionType.NoValue);
                 var allBranchesOption = tokenBasedCmd.Option("-allbranches", "Backup all branches of repositories (default only DefaultBranch).", CommandOptionType.NoValue);
                 var excludeBranchDependabot = tokenBasedCmd.Option("-excludebranchdependabot", "Exclude branches with 'dependabot' in it from backup.", CommandOptionType.NoValue);
-                var backupMetadataOption = tokenBasedCmd.Option("-backupmetadata", "Backup metadata for each repository. If set, the code itself will be saved to the repo folder.\n", CommandOptionType.NoValue);
+                var backupMetadataOption = tokenBasedCmd.Option("-backupmetadata", "Backup metadata for each repository. If set, the code itself will be saved to the repo folder.", CommandOptionType.NoValue);
                 var backupReleasedataOption = tokenBasedCmd.Option("-backupreleasedata", "Backup release data for each repository. If set, the code itself will be saved to the repo folder.\n", CommandOptionType.NoValue);
 
                 // Define options for email when using token-based backup for sending report to email address (if set)
                 var mailToOption = tokenBasedCmd.Option("-mailto <email>", "Specify the email address to send backup notifications to.", CommandOptionType.SingleValue);
                 var mailFromOption = tokenBasedCmd.Option("-mailfrom  <email>", "Specify the email address to send backup notifications from.", CommandOptionType.SingleValue);
                 var mailServerOption = tokenBasedCmd.Option("-mailserver <server>", "Specify the IP address or DNS name of the SMTP server to use for sending notifications.", CommandOptionType.SingleValue);
-                var mailPortOption = tokenBasedCmd.Option("-mailport <port>", "Specify the port to use for the email server.\n", CommandOptionType.SingleValue);
+                var mailPortOption = tokenBasedCmd.Option("-mailport <port>", "Specify the port to use for the email server.", CommandOptionType.SingleValue);
                 
                 // Define an option for email priority (if set) - if not set it use default priority (normal)
-                var priorityOption = tokenBasedCmd.Option("-priority <priority>", "Set the email report priority (low/normal/high) (if not set default is normal).", CommandOptionType.SingleValue);
+                var priorityOption = tokenBasedCmd.Option("-priority <priority>", "Set the email report priority (low/normal/high) (if not set default is normal).\n", CommandOptionType.SingleValue);
 
                 // Define an option for simple email report layout (if set) - if not set it use default report layout (more advanced)
-                var mailSimpleReport = tokenBasedCmd.Option("-simpelreport", "If set the email report layout there is send is simple, if not set it use the default report layout", CommandOptionType.NoValue);
+                var mailSimpleReport = tokenBasedCmd.Option("-simpelreport", "If set the email report layout there is send is simple, if not set it use the default report layout\n", CommandOptionType.NoValue);
 
                 // Define an option for days to keep backup in backup folder before deleting it (default is 30 days) - if not set it use default value
                 var daysToKeepBackupOption = tokenBasedCmd.Option("-daystokeepbackup <days>", "Number of days to keep backups for. Backups older than this will be deleted (default is 30 days).", CommandOptionType.SingleValue);
 
                 // Define an option for days to keep log files in log folder before deleting it (default is 30 days) - if not set it use default value
-                var daysToKeepLogFilesOption = tokenBasedCmd.Option("-daystokeeplogfiles <days>", "Number of days to keep log files for. Log files older than this will be deleted (default is 30 days).", CommandOptionType.SingleValue);
-                
+                var daysToKeepLogFilesOption = tokenBasedCmd.Option("-daystokeeplogfiles <days>", "Number of days to keep log files for. Log files older than this will be deleted (default is 30 days).\n", CommandOptionType.SingleValue);
+
+                // Define the --tokenfile option
+                var tokenFileOption = tokenBasedCmd.Option("--tokenfile", "Save token data to a file for encryption. (Only supported on Windows for the time..)\n", CommandOptionType.SingleValue);
+
                 // Define arguments for token-based backup (token and destination folder)
                 var tokenArgument = tokenBasedCmd.Argument("Token", "A valid github token.");
                 var destinationArgument = tokenBasedCmd.Argument("Destination", "The destination folder for the backup.");
-
-                // Define the --tokenfile option
-                var tokenFileOption = tokenBasedCmd.Option("--tokenfile", "Save token data to a file for encryption. (Only supported on Windows for the time..)", CommandOptionType.SingleValue);
-
+                
                 #endregion Set/show arguments used for token-based backup
 
                 // Define the action to take when the command is invoked
