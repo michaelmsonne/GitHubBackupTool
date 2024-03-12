@@ -19,6 +19,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <IsPublishable>True</IsPublishable>
   </PropertyGroup>
+	<PropertyGroup>
+		<PowerShellExe Condition=" '$(PowerShellExe)'=='' ">
+			$(SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe
+		</PowerShellExe>
+	</PropertyGroup>
   <ItemGroup>
     <Content Include="Resources\github_git_icon.ico" />
   </ItemGroup>
@@ -38,8 +43,12 @@
     </None>
   </ItemGroup>
   <!-- Define a post-build target for Release configuration -->
+  <!--<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Release'">
+    <Exec Command="powershell.exe -NoProfile -ExecutionPolicy Bypass -File &quot;C:\Program Files (x86)\Windows Kits\10\App Certification Kit\signtool.exe&quot; sign /n &quot;Michael Morten Sonne&quot; /fd sha256 /tr http://timestamp.sectigo.com /td sha256 /as /v &quot;$(TargetPath)&quot;&#xD;&#xA;&#xD;&#xA;powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$(SolutionDir)\Scripts\RenameOutputRelease.ps1&quot; &quot;$(TargetDir)&quot;" />
+  </Target>-->
   <Target Name="PostBuildRelease" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
     <Exec Command="&quot;C:\Program Files (x86)\Windows Kits\10\App Certification Kit\signtool.exe&quot; sign /n &quot;Michael Morten Sonne&quot; /fd sha256 /tr http://timestamp.sectigo.com /td sha256 /as /v &quot;$(TargetPath)&quot;" />
     <Exec Command="&quot;C:\Program Files (x86)\Windows Kits\10\App Certification Kit\signtool.exe&quot; sign /n &quot;Michael Morten Sonne&quot; /fd sha256 /tr http://timestamp.sectigo.com /td sha256 /as /v &quot;$(TargetDir)$(AssemblyName).exe&quot;" />
+    <Exec Command="$(PowerShellExe) powershell.exe -ExecutionPolicy Bypass -File &quot;$(ProjectDir)Scripts\RenameOutputRelease.ps1&quot; $(TargetDir)" />
   </Target>
 </Project>
