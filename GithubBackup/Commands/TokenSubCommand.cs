@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Security;
 using GithubBackup.Class;
 using GithubBackup.Core;
 using McMaster.Extensions.CommandLineUtils;
@@ -12,9 +14,45 @@ namespace GithubBackup.Commands
     {
         public CommandLineApplication ParentCommand { get; set; }
         public CommandLineApplication Command { get; set; }
-
         public Func<Credentials, string, BackupService> BackupServiceFactory { get; set; }
         public Func<string, Credentials> CredentialsFactory { get; set; }
+
+
+        private static void SaveTokenToFile(CommandOption tokenFileOption)
+        {
+            // Get key to use for encryption and decryption
+            var key = SecureArgumentHandlerToken.GetComputerId();
+
+
+            // Get data from console
+            string tokentoencrypt = tokenFileOption.Values[0];
+
+            // Encrypt data
+            //string key = "your_key"; // Replace with the actual key for encryption
+            SecureArgumentHandlerToken.EncryptAndSaveToFile(key, tokentoencrypt);
+
+            Console.WriteLine("Key: " + key);
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"Saved information about token to file - Exciting {Globals._appName}, v.{Globals._vData} by {Globals._companyName}!");
+            Console.ResetColor();
+
+            // End application
+            Environment.Exit(1);
+        }
+
+        // Securely clear a SecureString from memory
+        private static void ClearSecureString(SecureString secureString)
+        {
+            if (secureString != null)
+            {
+                secureString.Clear();
+
+                // Release unmanaged resources
+                IntPtr ptr = Marshal.SecureStringToBSTR(secureString);
+                Marshal.ZeroFreeBSTR(ptr);
+            }
+        }
 
         public TokenSubCommand(CommandLineApplication parentCommand, Func<Credentials, string, BackupService> backupServiceFactory, Func<string, Credentials> credentialsFactory)
         {
@@ -58,14 +96,25 @@ namespace GithubBackup.Commands
                 var daysToKeepLogFilesOption = tokenBasedCmd.Option("-daystokeeplogfiles <days>", "Number of days to keep log files for. Log files older than this will be deleted (default is 30 days).", CommandOptionType.SingleValue);
                 
                 // Define arguments for token-based backup (token and destination folder)
-                var tokenArgument = tokenBasedCmd.Argument("Token", "A valid github token.").IsRequired();
+                var tokenArgument = tokenBasedCmd.Argument("Token", "A valid github token.");
                 var destinationArgument = tokenBasedCmd.Argument("Destination", "The destination folder for the backup.");
+
+                // Define the --tokenfile option
+                var tokenFileOption = tokenBasedCmd.Option("--tokenfile", "Save token data to a file for encryption.", CommandOptionType.SingleValue);
 
                 #endregion Set/show arguments used for token-based backup
 
                 // Define the action to take when the command is invoked
                 tokenBasedCmd.OnExecute(() =>
                 {
+                    // Check if the --tokenfile option is present - if it is, save token data to a file and exit the application
+                    if (tokenFileOption.HasValue())
+                    {
+                        // If --tokenfile option is present, save token data to a file
+                        SaveTokenToFile(tokenFileOption);
+                        return 1; // Exit the application
+                    }
+
                     #region Set email options and check if they are set and have required values
 
                     // Log
@@ -147,10 +196,55 @@ namespace GithubBackup.Commands
                     var credentials = CredentialsFactory(tokenArgument.Value);
                     var currentFolder = Directory.GetCurrentDirectory();
                     var destinationFolder = string.IsNullOrWhiteSpace(destinationArgument.Value) ? currentFolder : destinationArgument.Value;
+                    //var backupService = BackupServiceFactory(credentials, destinationFolder);
+
+
+                    // If the token is set to "token.bin" then read the token from the file else use the token directly from the command-line arguments
+                    if (tokenArgument.Value == "token.bin")
+                    {
+                        // Read the token information from the -tokentofile
+                        // Get key to use for encryption and decryption
+                        var key = SecureArgumentHandlerToken.GetComputerId();
+                        string decryptedToken = SecureArgumentHandlerToken.DecryptFromFile(key);
+
+                        // Update the credentials with the decrypted token
+                        credentials = CredentialsFactory(decryptedToken);
+
+#if DEBUG
+                            Console.WriteLine($"Decrypted string for token = {decryptedToken}");
+                            Console.ReadKey();
+#endif
+                    }
+                    else
+                    {
+                        // Use the token directly from the command-line arguments
+                        credentials = CredentialsFactory(tokenArgument.Value);
+                    }
+
                     var backupService = BackupServiceFactory(credentials, destinationFolder);
 
-                    #region Check backup folder location and create it if not exists
+                    /*
+                     * Clear string token
+                     */
+                    // Use SecureString to securely store sensitive information
+                    using (SecureString secureToken = new SecureString())
+                    {
+                        foreach (char c in tokenArgument.Value)
+                        {
+                            secureToken.AppendChar(c);
+                        }
+
+                        // Perform operations with secureToken here
+
+                        // Clear the secureToken from memory
+                        ClearSecureString(secureToken);
+                    }
+                    /*
+                     * End clear string token
+                     */
                     
+                    #region Check backup folder location and create it if not exists
+
                     // Check if the destination folder exists and create it if not exists
                     if (!Directory.Exists(destinationFolder))
                     {
@@ -427,6 +521,8 @@ namespace GithubBackup.Commands
 
                     // Create the backup and parse the arguments
                     backupService.CreateBackup();
+
+                    return 0;
                 });
             });
         }
