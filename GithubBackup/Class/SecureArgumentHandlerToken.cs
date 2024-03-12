@@ -102,6 +102,8 @@ namespace GithubBackup.Class
                 }
             }
         }
+
+#if WINDOWS
         public static string GetComputerId()
         {
             string processorId = "", motherboardId = "";
@@ -129,5 +131,11 @@ namespace GithubBackup.Class
                 return sb.ToString();
             }
         }
+#else
+        public static string GetComputerId()
+        {
+            return "Not implemented for this OS";
+        }
+#endif
     }
 }
