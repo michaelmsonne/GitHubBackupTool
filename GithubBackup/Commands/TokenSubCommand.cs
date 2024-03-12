@@ -16,13 +16,11 @@ namespace GithubBackup.Commands
         public CommandLineApplication Command { get; set; }
         public Func<Credentials, string, BackupService> BackupServiceFactory { get; set; }
         public Func<string, Credentials> CredentialsFactory { get; set; }
-
-
+        
         private static void SaveTokenToFile(CommandOption tokenFileOption)
         {
             // Get key to use for encryption and decryption
             var key = SecureArgumentHandlerToken.GetComputerId();
-
 
             // Get data from console
             string tokentoencrypt = tokenFileOption.Values[0];
@@ -31,7 +29,7 @@ namespace GithubBackup.Commands
             //string key = "your_key"; // Replace with the actual key for encryption
             SecureArgumentHandlerToken.EncryptAndSaveToFile(key, tokentoencrypt);
 
-            Console.WriteLine("Key: " + key);
+            //Console.WriteLine("Key: " + key);
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"Saved information about token to file - Exciting {Globals._appName}, v.{Globals._vData} by {Globals._companyName}!");
@@ -100,7 +98,7 @@ namespace GithubBackup.Commands
                 var destinationArgument = tokenBasedCmd.Argument("Destination", "The destination folder for the backup.");
 
                 // Define the --tokenfile option
-                var tokenFileOption = tokenBasedCmd.Option("--tokenfile", "Save token data to a file for encryption.", CommandOptionType.SingleValue);
+                var tokenFileOption = tokenBasedCmd.Option("--tokenfile", "Save token data to a file for encryption. (Only supported on Windows for the time..)", CommandOptionType.SingleValue);
 
                 #endregion Set/show arguments used for token-based backup
 
