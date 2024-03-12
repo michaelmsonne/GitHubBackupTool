@@ -585,7 +585,7 @@ namespace GithubBackup.Core
                 if (backupReleasedata)
                 {
                     // Call a method to download releases and save them to a JSON file
-                    ReleaseJsonDownloader.SaveReleaseDataFortheRepository(repo.Owner.Login, repo, client, repoDestinationBackupReleasedata);
+                    MetadataJsonDownloader.SaveReleaseDataFortheRepository(repo.Owner.Login, repo, client, repoDestinationBackupReleasedata);
                 }
 
                 // More to come here
