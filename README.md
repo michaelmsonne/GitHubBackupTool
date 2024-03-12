@@ -146,7 +146,10 @@ GitHubBackupTool token-based <token> "D:\Backup\GitHub\" -allowner -mailto "mail
 
 Paramenters (**NOT FINAL**):
 
-- YOUR_ACCESS_TOKEN: Replace this with your GitHub personal access token.
+- token-based
+    - token.bin: Use an encrypted .bin file (based on hardware ID´s) with your GitHub personal access token in. 
+    (Remember to run --tokenfile <token.data> to create the file first beside the application .exe!)
+    - <token.data>: Replace this with your GitHub personal access token.
 - "D:\Backup\GitHub\": Specify the local directory where you want to store the GitHub repository backups.
 - -allowner: Use this option to back up repositories owned by the token holder.
 - -all: Use this option to back up all repositories the token have access to.
