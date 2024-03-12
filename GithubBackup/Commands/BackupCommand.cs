@@ -4,7 +4,7 @@ using McMaster.Extensions.CommandLineUtils;
 
 namespace GithubBackup.Commands
 {
-    public class BackupCommand
+    public class BackupCommand : IDisposable
     {
         public CommandLineApplication Command { get; set; } = new();
 
@@ -30,7 +30,7 @@ namespace GithubBackup.Commands
                                         $"\n  https://sonnes.cloud\n\n" +
                                         $"My blog:" +
                                         $"\n  https://blog.sonnes.cloud\n\n" +
-                                        $"{Globals._appName}, v. {Globals._vData} by {Globals._companyName}\n\n";
+                                        $"{Globals._appName}, v. {Globals._vData} by {Globals._companyName}\n";
             Command.HelpOption(true);
             
             // Define the token sub-command and execute it
@@ -48,6 +48,35 @@ namespace GithubBackup.Commands
 
             // Define the token sub-command and execute it
             tokenCmdWrapperFactory(Command);
+        }
+
+        // Implementing IDisposable
+        private bool disposed = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    // Dispose of managed resources (if any)
+                    Command.Dispose();
+                }
+
+                disposed = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        // Finalizer (destructor) for additional cleanup (if needed)
+        ~BackupCommand()
+        {
+            Dispose(false);
         }
     }
 }
