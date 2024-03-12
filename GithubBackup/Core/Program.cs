@@ -58,6 +58,10 @@ namespace GithubBackup.Core
             // Set start time and end time for tool
             Globals._startTime = startTime.ToString("dd-MM-yyyy HH:mm:ss"); // convert start time to string
 
+            //GitHubServiceStatus.Check("Incident with API Requests");
+
+            //Console.ReadKey();
+
             // Cleanup old log files
             //CleanupLog.CleanupLogs();
 
