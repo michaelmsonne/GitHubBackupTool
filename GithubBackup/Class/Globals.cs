@@ -26,6 +26,11 @@ namespace GithubBackup.Class
         public static bool _excludeBranchDependabot; // exclude branches with "dependabot" in it from backup if true - default is true
         public static bool _backupRepoMetadata; // backup metadata from repo if true - default is false
         public static bool _backupReleasedata; // backup release from repo if true - default is false
+
+        public static bool _backupIssuedata; // backup release from repo if true - default is false
+        public static bool _backupReviewCommentsdata; // backup release from repo if true - default is false
+        //public static bool _backupReleasedata; // backup release from repo if true - default is false
+
         //public static string _alloriginalBranches; // backup all original branches from repo
         //public static IReadOnlyList<Branch> _alloriginalBranches;
 

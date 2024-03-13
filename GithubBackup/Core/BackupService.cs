@@ -578,14 +578,28 @@ namespace GithubBackup.Core
                 if (backupMetadata)
                 {
                     // Call a method to download metadata and save them to a JSON file
-                    MetadataJsonDownloader.SaveMetadataFortheRepository(repoDestinationBackupMetadata, client, repo);
+                    MetadataJsonDownloader.SaveMetadataForTheRepository(repoDestinationBackupMetadata, client, repo);
                 }
 
                 // Save metadata for the repository if the option is set
                 if (backupReleasedata)
                 {
                     // Call a method to download releases and save them to a JSON file
-                    MetadataJsonDownloader.SaveReleaseDataFortheRepository(repo.Owner.Login, repo, client, repoDestinationBackupReleasedata);
+                    MetadataJsonDownloader.SaveReleaseDataForTheRepository(repo.Owner.Login, repo, client, repoDestinationBackupReleasedata);
+                }
+
+                // Save issue data for the repository if the option is set
+                if (Globals._backupIssuedata)
+                {
+                    // Call a method to download issues and save them to a JSON file
+                    //MetadataJsonDownloader.SaveIssueDataForTheRepository(repo.Owner.Login, repo, client, repoDestinationBackupReleasedata);
+                }
+
+                // Save review comments data for the repository if the option is set
+                if (Globals._backupReviewCommentsdata)
+                {
+                    // Call a method to download review comments and save them to a JSON file
+                    //MetadataJsonDownloader.SaveCommitCommentDataForRepository(repo.Owner.Login, repo, client, repoDestinationBackupReleasedata);
                 }
 
                 // More to come here

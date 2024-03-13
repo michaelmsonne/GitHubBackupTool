@@ -72,8 +72,10 @@ namespace GithubBackup.Commands
                 var allReposOwnerOption = tokenBasedCmd.Option("-allowner", "Backup repositories where you are the owner (default).", CommandOptionType.NoValue);
                 var allBranchesOption = tokenBasedCmd.Option("-allbranches", "Backup all branches of repositories (default only DefaultBranch).", CommandOptionType.NoValue);
                 var excludeBranchDependabot = tokenBasedCmd.Option("-excludebranchdependabot", "Exclude branches with 'dependabot' in it from backup.", CommandOptionType.NoValue);
-                var backupMetadataOption = tokenBasedCmd.Option("-backupmetadata", "Backup metadata for each repository. If set, the code itself will be saved to the repo folder.", CommandOptionType.NoValue);
-                var backupReleasedataOption = tokenBasedCmd.Option("-backupreleasedata", "Backup release data for each repository. If set, the code itself will be saved to the repo folder.\n", CommandOptionType.NoValue);
+                var backupMetadataOption = tokenBasedCmd.Option("-backupmetadata", "Backup metadata for each repository. If set, the data itself will be saved to the repo folder.", CommandOptionType.NoValue);
+                var backupIssueDataOption = tokenBasedCmd.Option("-backupissuedata", "(Disabled) Backup metadata for issues for each repository", CommandOptionType.NoValue);
+                var backupReviewCommentsDataOption = tokenBasedCmd.Option("-backupreviewcommentdata", "(Disabled) Backup metadata for review comment for each repository. If set, the data itself will be saved to the repo folder.", CommandOptionType.NoValue);
+                var backupReleasedataOption = tokenBasedCmd.Option("-backupreleasedata", "Backup release data for each repository. If set, the data itself will be saved to the repo folder.\n", CommandOptionType.NoValue);
 
                 // Define options for email when using token-based backup for sending report to email address (if set)
                 var mailToOption = tokenBasedCmd.Option("-mailto <email>", "Specify the email address to send backup notifications to.", CommandOptionType.SingleValue);
@@ -196,6 +198,7 @@ namespace GithubBackup.Commands
                     var destinationFolder = string.IsNullOrWhiteSpace(destinationArgument.Value) ? currentFolder : destinationArgument.Value;
                     //var backupService = BackupServiceFactory(credentials, destinationFolder);
 
+                    #region SecureToken
 
                     // If the token is set to "token.bin" then read the token from the file else use the token directly from the command-line arguments
                     if (tokenArgument.Value == "token.bin")
@@ -240,7 +243,8 @@ namespace GithubBackup.Commands
                     /*
                      * End clear string token
                      */
-                    
+                    #endregion SecureToken
+
                     #region Check backup folder location and create it if not exists
 
                     // Check if the destination folder exists and create it if not exists
@@ -282,6 +286,42 @@ namespace GithubBackup.Commands
 
                     // Log
                     Message("Processing arguments set for what type of backup(s) to create...", EventType.Information, 1000);
+                    
+                    // Set the backup type based on options for Review Comments metadata
+                    if (backupReviewCommentsDataOption.HasValue())
+                    {
+                        // Set the backup type for metadata to true
+                        Globals._backupReviewCommentsdata = true;
+
+                        // Log
+                        Message("Set to download review comments metadata for repository in the backup(s)", EventType.Information, 1000);
+                    }
+                    else
+                    {
+                        // Set the backup type for metadata to false
+                        Globals._backupReviewCommentsdata = false;
+
+                        // Log
+                        Message("Set to NOT download review comments metadata for repository in the backup(s)", EventType.Information, 1000);
+                    }
+
+                    // Set the backup type based on options for issue metadata
+                    if (backupIssueDataOption.HasValue())
+                    {
+                        // Set the backup type for metadata to true
+                        Globals._backupIssuedata = true;
+
+                        // Log
+                        Message("Set to download issue metadata for repository in the backup(s)", EventType.Information, 1000);
+                    }
+                    else
+                    {
+                        // Set the backup type for metadata to false
+                        Globals._backupIssuedata = false;
+
+                        // Log
+                        Message("Set to NOT download issue metadata for repository in the backup(s)", EventType.Information, 1000);
+                    }
 
                     // Set the backup type based on options for metadata
                     if (backupMetadataOption.HasValue())
@@ -485,7 +525,7 @@ namespace GithubBackup.Commands
                             Console.ResetColor();
 
                             // Do work
-                            CleanupLog.CleanupLogs(Globals._daysToKeepLogFilesOption);
+                            LocalLogCleanup.CleanupLogs(Globals._daysToKeepLogFilesOption);
                         }
 
                         // If -daystokeepbackup is not set to default 30 - show it and do work
@@ -498,7 +538,7 @@ namespace GithubBackup.Commands
                             Console.ResetColor();
 
                             // Do work
-                            CleanupLog.CleanupLogs(Globals._daysToKeepLogFilesOption);
+                            LocalLogCleanup.CleanupLogs(Globals._daysToKeepLogFilesOption);
                         }
                     }
                     else
@@ -510,7 +550,7 @@ namespace GithubBackup.Commands
                         Console.ResetColor();
 
                         // Do work
-                        CleanupLog.CleanupLogs(Globals._daysToKeepLogFilesOption);
+                        LocalLogCleanup.CleanupLogs(Globals._daysToKeepLogFilesOption);
                     }
 
                     #endregion Do log files options for cleanup
