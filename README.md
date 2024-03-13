@@ -123,9 +123,12 @@ You can create a personal access token here: https://github.com/settings/tokens/
 
 **Recommended scopes and use is for better security**: https://github.com/settings/personal-access-tokens/new
 
-- Repository access: All repositories
-- Contents: Read-only
-- Metadata: Read-only
+- **Repository access**: All repositories
+- **Contents**: Read-only
+- **Metadata**: Read-only
+
+Other scopes you can use:
+- Comming as more features added if needed...
 
 **Access**: Read access to repositories who needs backup and read access to user profile.
 
