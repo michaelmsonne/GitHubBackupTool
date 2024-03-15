@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<DOCUMENT Type="Advanced Installer" CreateVersion="21.2.1" version="21.4" PreviousModules="simple" Modules="professional" RootPath="." Language="en" Id="{4561EDFE-A8DB-4BC6-AE61-5EF701980C08}">
+<DOCUMENT Type="Advanced Installer" CreateVersion="21.2.1" version="21.5" PreviousModules="simple" Modules="professional" RootPath="." Language="en" Id="{4561EDFE-A8DB-4BC6-AE61-5EF701980C08}">
   <COMPONENT cid="caphyon.advinst.msicomp.ProjectOptionsComponent">
     <ROW Name="HiddenItems" Value="AppXProductDetailsComponent;AppXDependenciesComponent;AppXAppDetailsComponent;AppXVisualAssetsComponent;AppXCapabilitiesComponent;AppXAppDeclarationsComponent;AppXUriRulesComponent;FixupComponent;MsiXDiffComponent;MsixManifestEditorComponent"/>
   </COMPONENT>
@@ -18,6 +18,7 @@
     <ROW Property="AI_PROPPATH_DIR_PERBUILD_Microsoft.Win32.Registry.AccessControl.dll" Value="..\GithubBackup\bin\publish"/>
     <ROW Property="AI_PROPPATH_DIR_PERBUILD_Microsoft.Win32.SystemEvents.dll" Value="..\GithubBackup\bin\publish"/>
     <ROW Property="AI_PROPPATH_DIR_PERBUILD_Microsoft.Win32.SystemEvents.dll_1" Value="..\GithubBackup\bin\publish\runtimes\win\lib\net7.0"/>
+    <ROW Property="AI_PROPPATH_DIR_PERBUILD_Newtonsoft.Json.dll" Value="..\GithubBackup\bin\publish"/>
     <ROW Property="AI_PROPPATH_DIR_PERBUILD_Octokit.dll" Value="..\GithubBackup\bin\publish"/>
     <ROW Property="AI_PROPPATH_DIR_PERBUILD_ShellProgressBar.dll" Value="..\GithubBackup\bin\publish"/>
     <ROW Property="AI_PROPPATH_DIR_PERBUILD_System.CodeDom.dll" Value="..\GithubBackup\bin\publish"/>
@@ -144,6 +145,7 @@
     <ROW Property="AI_PROPPATH_FILENAME_PERBUILD_Microsoft.Win32.Registry.AccessControl.dll" Value="Microsoft.Win32.Registry.AccessControl.dll"/>
     <ROW Property="AI_PROPPATH_FILENAME_PERBUILD_Microsoft.Win32.SystemEvents.dll" Value="Microsoft.Win32.SystemEvents.dll"/>
     <ROW Property="AI_PROPPATH_FILENAME_PERBUILD_Microsoft.Win32.SystemEvents.dll_1" Value="Microsoft.Win32.SystemEvents.dll"/>
+    <ROW Property="AI_PROPPATH_FILENAME_PERBUILD_Newtonsoft.Json.dll" Value="Newtonsoft.Json.dll"/>
     <ROW Property="AI_PROPPATH_FILENAME_PERBUILD_Octokit.dll" Value="Octokit.dll"/>
     <ROW Property="AI_PROPPATH_FILENAME_PERBUILD_ShellProgressBar.dll" Value="ShellProgressBar.dll"/>
     <ROW Property="AI_PROPPATH_FILENAME_PERBUILD_System.CodeDom.dll" Value="System.CodeDom.dll"/>
@@ -260,10 +262,10 @@
     <ROW Property="ALLUSERS" Value="1"/>
     <ROW Property="ARPCOMMENTS" Value="This installer database contains the logic and data required to install [|ProductName]." ValueLocId="*"/>
     <ROW Property="Manufacturer" Value="Michael Morten Sonne"/>
-    <ROW Property="ProductCode" Value="1033:{A4453134-598A-450D-8448-34DD140B309C} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{655A0BB3-C7AB-43AE-8BC7-D69E501FD0B3} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="GitHubBackupTool"/>
-    <ROW Property="ProductVersion" Value="1.0.0" Options="32"/>
+    <ROW Property="ProductVersion" Value="1.1.0.0" Options="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{D5172278-84F4-41C1-8095-DDA00E38BED9}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
@@ -347,43 +349,43 @@
     <ROW Directory="zhHant_Dir" Directory_Parent="APPDIR" DefaultDir="zh-Hant"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
-    <ROW Component="AI_PROPPATH_FILENAME_PERBUILD_Autofac.dll" ComponentId="{A681AF64-14C0-4D82-B83B-27CD69AD6857}" Directory_="APPDIR" Attributes="0" KeyPath="Autofac.dll" Type="0"/>
+    <ROW Component="AI_PROPPATH_FILENAME_PERBUILD_Autofac.dll" ComponentId="{4EAE8629-D03D-48ED-9DCC-C9175A7A4996}" Directory_="APPDIR" Attributes="0" KeyPath="Autofac.dll" Type="0"/>
     <ROW Component="APPDIR" ComponentId="{CD2E4BEE-F526-4BC8-8469-330043ADC621}" Directory_="APPDIR" Attributes="0"/>
-    <ROW Component="GithubBackup_PublishOutput_cs" ComponentId="{E14450B9-9162-46FC-98B6-FEBE7F64BE69}" Directory_="cs_Dir" Attributes="0" KeyPath="System.Web.Services.Description.resources.dll"/>
-    <ROW Component="GithubBackup_PublishOutput_de" ComponentId="{807E4F30-2060-40B2-BE8C-57B609C64A2C}" Directory_="de_Dir" Attributes="0" KeyPath="System.Web.Services.Description.reso_1_urces.dll"/>
-    <ROW Component="GithubBackup_PublishOutput_es" ComponentId="{9C547B62-1809-4051-8087-1F72F43ECE88}" Directory_="es_Dir" Attributes="0" KeyPath="System.Web.Services.Description.reso_2_urces.dll"/>
-    <ROW Component="GithubBackup_PublishOutput_fr" ComponentId="{2E78F63B-6518-4B14-BBFF-60D1DBABBF17}" Directory_="fr_Dir" Attributes="0" KeyPath="System.Web.Services.Description.reso_3_urces.dll"/>
-    <ROW Component="GithubBackup_PublishOutput_it" ComponentId="{83D0A10C-BA33-42AB-9727-DCFB4D4058CB}" Directory_="it_Dir" Attributes="0" KeyPath="System.Web.Services.Description.reso_4_urces.dll"/>
-    <ROW Component="GithubBackup_PublishOutput_ja" ComponentId="{42AB768F-01ED-4619-B177-494BD3E5F29F}" Directory_="ja_Dir" Attributes="0" KeyPath="System.Web.Services.Description.reso_5_urces.dll"/>
-    <ROW Component="GithubBackup_PublishOutput_ko" ComponentId="{795F4505-158E-44ED-89CC-0F31F4FD60AC}" Directory_="ko_Dir" Attributes="0" KeyPath="System.Web.Services.Description.reso_6_urces.dll"/>
-    <ROW Component="GithubBackup_PublishOutput_pl" ComponentId="{3B5E7E83-2A1E-4ED2-972E-C0A0CE7B1606}" Directory_="pl_Dir" Attributes="0" KeyPath="System.Web.Services.Description.reso_7_urces.dll"/>
-    <ROW Component="GithubBackup_PublishOutput_ptBR" ComponentId="{4ECC0B69-D82D-44AE-8F22-3CAAA92E163B}" Directory_="ptBR_Dir" Attributes="0" KeyPath="System.Web.Services.Description.reso_8_urces.dll"/>
-    <ROW Component="GithubBackup_PublishOutput_ru" ComponentId="{49C6B675-AB6B-4CBC-B5E8-C9D5AA8E9DE7}" Directory_="ru_Dir" Attributes="0" KeyPath="System.Web.Services.Description.reso_9_urces.dll"/>
-    <ROW Component="GithubBackup_PublishOutput_runtimes_freebsd_lib_net7.0" ComponentId="{F6628341-1B56-405A-A875-7144F9E97108}" Directory_="net7.0_Dir" Attributes="0" KeyPath="System.Data.Odbc.dll_1"/>
-    <ROW Component="GithubBackup_PublishOutput_runtimes_illumos_lib_net7.0" ComponentId="{25056D55-9AAC-4ED3-9AF8-53C7AD68D774}" Directory_="net7.0_1_Dir" Attributes="0" KeyPath="System.Data.Odbc.dll_2"/>
-    <ROW Component="GithubBackup_PublishOutput_runtimes_ios_lib_net7.0" ComponentId="{95515394-20EB-4539-B0E1-DAB6974C9A94}" Directory_="net7.0_2_Dir" Attributes="0" KeyPath="System.Data.Odbc.dll_3"/>
-    <ROW Component="GithubBackup_PublishOutput_runtimes_linux_lib_net7.0" ComponentId="{D3A36568-E226-41BF-9984-A8676E53A556}" Directory_="net7.0_3_Dir" Attributes="0" KeyPath="System.DirectoryServices.Protocols.dll_1"/>
-    <ROW Component="GithubBackup_PublishOutput_runtimes_linuxarm64_native" ComponentId="{4D7B71C8-94CD-4A92-B069-CD652DECE49F}" Directory_="native_1_Dir" Attributes="0" KeyPath="libgit2e632535.so_1" Type="0"/>
-    <ROW Component="GithubBackup_PublishOutput_runtimes_linuxarm_native" ComponentId="{04C68FC3-941D-4ED1-BD4D-0626514A9BCF}" Directory_="native_Dir" Attributes="0" KeyPath="libgit2e632535.so" Type="0"/>
-    <ROW Component="GithubBackup_PublishOutput_runtimes_linuxmuslarm64_native" ComponentId="{A61E6021-9AB2-4A63-9877-9C31A39B23FD}" Directory_="native_3_Dir" Attributes="0" KeyPath="libgit2e632535.so_3" Type="0"/>
-    <ROW Component="GithubBackup_PublishOutput_runtimes_linuxmuslarm_native" ComponentId="{8F092D48-CC70-4C5A-B00D-E1694F6C105B}" Directory_="native_2_Dir" Attributes="0" KeyPath="libgit2e632535.so_2" Type="0"/>
-    <ROW Component="GithubBackup_PublishOutput_runtimes_linuxmuslx64_native" ComponentId="{AABD3076-8091-4095-9206-7D42AB186D00}" Directory_="native_4_Dir" Attributes="0" KeyPath="libgit2e632535.so_4" Type="0"/>
-    <ROW Component="GithubBackup_PublishOutput_runtimes_linuxx64_native" ComponentId="{006C3EBA-621F-4CDB-90A0-08D792D12618}" Directory_="native_5_Dir" Attributes="0" KeyPath="libgit2e632535.so_5" Type="0"/>
-    <ROW Component="GithubBackup_PublishOutput_runtimes_osx_lib_net7.0" ComponentId="{EC64B9D8-25E4-431B-8614-B08A6C9A0EF1}" Directory_="net7.0_4_Dir" Attributes="0" KeyPath="System.DirectoryServices.Protocols.dll_2"/>
-    <ROW Component="GithubBackup_PublishOutput_runtimes_osxarm64_native" ComponentId="{574EE180-A960-43F1-98E9-9397C7940D48}" Directory_="native_6_Dir" Attributes="0" KeyPath="libgit2e632535.dylib" Type="0"/>
-    <ROW Component="GithubBackup_PublishOutput_runtimes_osxx64_native" ComponentId="{CAE97E1B-971C-4DEB-AE26-9B61FE3C62DB}" Directory_="native_7_Dir" Attributes="0" KeyPath="libgit2e632535.dylib_1" Type="0"/>
-    <ROW Component="GithubBackup_PublishOutput_runtimes_solaris_lib_net7.0" ComponentId="{4D6D450E-E0C6-49B4-86CB-63ED13AD9BC5}" Directory_="net7.0_5_Dir" Attributes="0" KeyPath="System.Data.Odbc.dll_6"/>
-    <ROW Component="GithubBackup_PublishOutput_runtimes_tvos_lib_net7.0" ComponentId="{C60549BE-19C1-4A87-BCAE-1B98C3701D70}" Directory_="net7.0_6_Dir" Attributes="0" KeyPath="System.Data.Odbc.dll_7"/>
-    <ROW Component="GithubBackup_PublishOutput_runtimes_unix_lib_net7.0" ComponentId="{FEA4EC49-DFB3-4C94-9D57-28722A4CCC93}" Directory_="net7.0_7_Dir" Attributes="0" KeyPath="System.IO.Ports.dll_1"/>
-    <ROW Component="GithubBackup_PublishOutput_runtimes_unix_lib_netcoreapp2.1" ComponentId="{23D1E347-905B-4BF8-A007-5F0E1D4932DF}" Directory_="netcoreapp2.1_Dir" Attributes="0" KeyPath="System.Data.SqlClient.dll_1"/>
-    <ROW Component="GithubBackup_PublishOutput_runtimes_win_lib_net7.0" ComponentId="{54D80753-9AA7-4C83-B8AC-18329B426EA7}" Directory_="net7.0_8_Dir" Attributes="0" KeyPath="System.Windows.Extensions.dll_1"/>
-    <ROW Component="GithubBackup_PublishOutput_runtimes_win_lib_netcoreapp2.1" ComponentId="{08F1FCCA-759F-447E-A980-A19109E61081}" Directory_="netcoreapp2.1_1_Dir" Attributes="0" KeyPath="System.Data.SqlClient.dll_2"/>
-    <ROW Component="GithubBackup_PublishOutput_runtimes_winarm64_native" ComponentId="{955BED04-36D8-49FB-8E3D-49685C8B150B}" Directory_="native_8_Dir" Attributes="256" KeyPath="sni.dll"/>
-    <ROW Component="GithubBackup_PublishOutput_runtimes_winx64_native" ComponentId="{BC4E5C69-FCA3-4C8F-BEA3-8FB9CB7169BD}" Directory_="native_9_Dir" Attributes="256" KeyPath="sni.dll_1"/>
-    <ROW Component="GithubBackup_PublishOutput_runtimes_winx86_native" ComponentId="{7F84D010-9AE4-437E-8031-E57887C103C2}" Directory_="native_10_Dir" Attributes="0" KeyPath="sni.dll_2"/>
-    <ROW Component="GithubBackup_PublishOutput_tr" ComponentId="{F1464AB7-7CF6-4648-BFBA-3C636A93C09F}" Directory_="tr_Dir" Attributes="0" KeyPath="System.Web.Services.Description.reso_10_urces.dll"/>
-    <ROW Component="GithubBackup_PublishOutput_zhHans" ComponentId="{2D9E66F1-67DC-4B64-AC2A-E2CC04FA71DE}" Directory_="zhHans_Dir" Attributes="0" KeyPath="System.Web.Services.Description.reso_11_urces.dll"/>
-    <ROW Component="GithubBackup_PublishOutput_zhHant" ComponentId="{B45B22E8-6CD1-4C04-BA17-77532C70F625}" Directory_="zhHant_Dir" Attributes="0" KeyPath="System.Web.Services.Description.reso_12_urces.dll"/>
+    <ROW Component="GithubBackup_PublishOutput_cs" ComponentId="{4A0A2A28-E1E9-4250-9823-FCFE1E00C9E9}" Directory_="cs_Dir" Attributes="0" KeyPath="System.Web.Services.Description.resources.dll"/>
+    <ROW Component="GithubBackup_PublishOutput_de" ComponentId="{361D4E2F-851B-4BDA-A806-6250A17FA022}" Directory_="de_Dir" Attributes="0" KeyPath="System.Web.Services.Description.reso_1_urces.dll"/>
+    <ROW Component="GithubBackup_PublishOutput_es" ComponentId="{3436E177-12F5-40C3-A524-A65EA96844C3}" Directory_="es_Dir" Attributes="0" KeyPath="System.Web.Services.Description.reso_2_urces.dll"/>
+    <ROW Component="GithubBackup_PublishOutput_fr" ComponentId="{CAC1BFE7-BE7C-4FFB-BF9D-3ABB85648CB6}" Directory_="fr_Dir" Attributes="0" KeyPath="System.Web.Services.Description.reso_3_urces.dll"/>
+    <ROW Component="GithubBackup_PublishOutput_it" ComponentId="{4BC1E72B-4FCE-447E-9525-D11E0AF83369}" Directory_="it_Dir" Attributes="0" KeyPath="System.Web.Services.Description.reso_4_urces.dll"/>
+    <ROW Component="GithubBackup_PublishOutput_ja" ComponentId="{A834C08D-11E5-4615-A358-EFEF4B08A5F3}" Directory_="ja_Dir" Attributes="0" KeyPath="System.Web.Services.Description.reso_5_urces.dll"/>
+    <ROW Component="GithubBackup_PublishOutput_ko" ComponentId="{E562457D-ADAF-44EF-BED8-FCF78CA56196}" Directory_="ko_Dir" Attributes="0" KeyPath="System.Web.Services.Description.reso_6_urces.dll"/>
+    <ROW Component="GithubBackup_PublishOutput_pl" ComponentId="{208E838B-2276-45C8-ACCD-9E10A6232076}" Directory_="pl_Dir" Attributes="0" KeyPath="System.Web.Services.Description.reso_7_urces.dll"/>
+    <ROW Component="GithubBackup_PublishOutput_ptBR" ComponentId="{AFC6D097-D7E5-4726-AEC6-60DC8823BF57}" Directory_="ptBR_Dir" Attributes="0" KeyPath="System.Web.Services.Description.reso_8_urces.dll"/>
+    <ROW Component="GithubBackup_PublishOutput_ru" ComponentId="{83C13FEC-0076-4EB6-9C93-020C3A203ED1}" Directory_="ru_Dir" Attributes="0" KeyPath="System.Web.Services.Description.reso_9_urces.dll"/>
+    <ROW Component="GithubBackup_PublishOutput_runtimes_freebsd_lib_net7.0" ComponentId="{63D3645A-A21B-4368-92E7-D164A0CDC785}" Directory_="net7.0_Dir" Attributes="0" KeyPath="System.Data.Odbc.dll_1"/>
+    <ROW Component="GithubBackup_PublishOutput_runtimes_illumos_lib_net7.0" ComponentId="{1540ED7A-CFA7-412F-B1E1-2540774BE6DA}" Directory_="net7.0_1_Dir" Attributes="0" KeyPath="System.Data.Odbc.dll_2"/>
+    <ROW Component="GithubBackup_PublishOutput_runtimes_ios_lib_net7.0" ComponentId="{3872DE58-8355-4784-9B41-8EB2A99D737B}" Directory_="net7.0_2_Dir" Attributes="0" KeyPath="System.Data.Odbc.dll_3"/>
+    <ROW Component="GithubBackup_PublishOutput_runtimes_linux_lib_net7.0" ComponentId="{2875B842-CFDD-4FA6-8D89-ABBF8CCF1315}" Directory_="net7.0_3_Dir" Attributes="0" KeyPath="System.DirectoryServices.Protocols.dll_1"/>
+    <ROW Component="GithubBackup_PublishOutput_runtimes_linuxarm64_native" ComponentId="{2D9ED887-0134-4BE6-87CA-F3F2FF9A309B}" Directory_="native_1_Dir" Attributes="0" KeyPath="libgit2e632535.so_1" Type="0"/>
+    <ROW Component="GithubBackup_PublishOutput_runtimes_linuxarm_native" ComponentId="{094FCA2D-F88B-4F50-BD55-2514C47466AA}" Directory_="native_Dir" Attributes="0" KeyPath="libgit2e632535.so" Type="0"/>
+    <ROW Component="GithubBackup_PublishOutput_runtimes_linuxmuslarm64_native" ComponentId="{E79B6B87-5978-40B1-9407-10DBF32D4832}" Directory_="native_3_Dir" Attributes="0" KeyPath="libgit2e632535.so_3" Type="0"/>
+    <ROW Component="GithubBackup_PublishOutput_runtimes_linuxmuslarm_native" ComponentId="{3176CCCB-AD97-4B5D-82E9-5D204FBB5808}" Directory_="native_2_Dir" Attributes="0" KeyPath="libgit2e632535.so_2" Type="0"/>
+    <ROW Component="GithubBackup_PublishOutput_runtimes_linuxmuslx64_native" ComponentId="{B055C410-528A-4F61-8A4E-44858C3E4758}" Directory_="native_4_Dir" Attributes="0" KeyPath="libgit2e632535.so_4" Type="0"/>
+    <ROW Component="GithubBackup_PublishOutput_runtimes_linuxx64_native" ComponentId="{EE291481-D68C-465A-9B64-5243D3422639}" Directory_="native_5_Dir" Attributes="0" KeyPath="libgit2e632535.so_5" Type="0"/>
+    <ROW Component="GithubBackup_PublishOutput_runtimes_osx_lib_net7.0" ComponentId="{718297A0-735C-4293-9487-CFE93E822045}" Directory_="net7.0_4_Dir" Attributes="0" KeyPath="System.DirectoryServices.Protocols.dll_2"/>
+    <ROW Component="GithubBackup_PublishOutput_runtimes_osxarm64_native" ComponentId="{E98CA827-684A-445D-9A78-EFA869422C70}" Directory_="native_6_Dir" Attributes="0" KeyPath="libgit2e632535.dylib" Type="0"/>
+    <ROW Component="GithubBackup_PublishOutput_runtimes_osxx64_native" ComponentId="{C772DA37-41A7-4A07-9ADA-1CE298AEE9EA}" Directory_="native_7_Dir" Attributes="0" KeyPath="libgit2e632535.dylib_1" Type="0"/>
+    <ROW Component="GithubBackup_PublishOutput_runtimes_solaris_lib_net7.0" ComponentId="{5C0F7E6E-205B-49CD-B9F8-396D216DCEF2}" Directory_="net7.0_5_Dir" Attributes="0" KeyPath="System.Data.Odbc.dll_6"/>
+    <ROW Component="GithubBackup_PublishOutput_runtimes_tvos_lib_net7.0" ComponentId="{B9D0BA18-40CE-4DB4-87D9-9F61C168DEC8}" Directory_="net7.0_6_Dir" Attributes="0" KeyPath="System.Data.Odbc.dll_7"/>
+    <ROW Component="GithubBackup_PublishOutput_runtimes_unix_lib_net7.0" ComponentId="{95BA7E55-76CB-4DCB-B277-2F2B158EEBFF}" Directory_="net7.0_7_Dir" Attributes="0" KeyPath="System.IO.Ports.dll_1"/>
+    <ROW Component="GithubBackup_PublishOutput_runtimes_unix_lib_netcoreapp2.1" ComponentId="{4776B244-D62D-4444-8847-8EEB8D0AB59E}" Directory_="netcoreapp2.1_Dir" Attributes="0" KeyPath="System.Data.SqlClient.dll_1"/>
+    <ROW Component="GithubBackup_PublishOutput_runtimes_win_lib_net7.0" ComponentId="{22B0B690-1572-4A67-8A52-B8BDCFBE6556}" Directory_="net7.0_8_Dir" Attributes="0" KeyPath="System.Windows.Extensions.dll_1"/>
+    <ROW Component="GithubBackup_PublishOutput_runtimes_win_lib_netcoreapp2.1" ComponentId="{24BD4C8A-B55A-49C1-A252-40BBC0A5B806}" Directory_="netcoreapp2.1_1_Dir" Attributes="0" KeyPath="System.Data.SqlClient.dll_2"/>
+    <ROW Component="GithubBackup_PublishOutput_runtimes_winarm64_native" ComponentId="{F2AD2858-C690-4DCA-AB45-5F8AD787A303}" Directory_="native_8_Dir" Attributes="256" KeyPath="sni.dll"/>
+    <ROW Component="GithubBackup_PublishOutput_runtimes_winx64_native" ComponentId="{E5D58FCF-0A50-4067-917A-6AEBB5C708DA}" Directory_="native_9_Dir" Attributes="256" KeyPath="sni.dll_1"/>
+    <ROW Component="GithubBackup_PublishOutput_runtimes_winx86_native" ComponentId="{785650B8-FE95-4F0B-BEDB-A41C8D3CFB60}" Directory_="native_10_Dir" Attributes="0" KeyPath="sni.dll_2"/>
+    <ROW Component="GithubBackup_PublishOutput_tr" ComponentId="{629C3F08-5803-4065-BD6E-AB2F8E923DF3}" Directory_="tr_Dir" Attributes="0" KeyPath="System.Web.Services.Description.reso_10_urces.dll"/>
+    <ROW Component="GithubBackup_PublishOutput_zhHans" ComponentId="{00CB4EF6-1A6A-4EF2-9C2A-1352AB0B0C66}" Directory_="zhHans_Dir" Attributes="0" KeyPath="System.Web.Services.Description.reso_11_urces.dll"/>
+    <ROW Component="GithubBackup_PublishOutput_zhHant" ComponentId="{11400915-CF00-41D5-B960-653A0BC3E0F3}" Directory_="zhHant_Dir" Attributes="0" KeyPath="System.Web.Services.Description.reso_12_urces.dll"/>
     <ROW Component="ProductInformation" ComponentId="{781E0EDF-7DD2-4838-9219-5164F863D58A}" Directory_="APPDIR" Attributes="4" KeyPath="Version"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
@@ -391,7 +393,7 @@
     <ATTRIBUTE name="CurrentFeature" value="MainFeature"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFilesComponent">
-    <ROW File="GitHubBackupTool.dll" Component_="AI_PROPPATH_FILENAME_PERBUILD_Autofac.dll" FileName="GITHUB~1.DLL|[|AI_PROPPATH_FILENAME_PERBUILD_GitHubBackupTool.dll]" Attributes="0" SourcePath="&lt;AI_APPPATH_PERBUILD_GitHubBackupTool.dll&gt;" SelfReg="false"/>
+    <ROW File="GitHubBackupTool.dll" Component_="AI_PROPPATH_FILENAME_PERBUILD_Autofac.dll" FileName="GITHUB~1.DLL|[|AI_PROPPATH_FILENAME_PERBUILD_GitHubBackupTool.dll]" Attributes="0" SourcePath="&lt;AI_APPPATH_PERBUILD_GitHubBackupTool.dll&gt;" SelfReg="false" DigSign="true"/>
     <ROW File="Autofac.dll" Component_="AI_PROPPATH_FILENAME_PERBUILD_Autofac.dll" FileName="[|AI_PROPPATH_FILENAME_PERBUILD_Autofac.dll]" Attributes="0" SourcePath="&lt;AI_APPPATH_PERBUILD_Autofac.dll&gt;" SelfReg="false"/>
     <ROW File="GitHubBackupTool.deps.json" Component_="AI_PROPPATH_FILENAME_PERBUILD_Autofac.dll" FileName="GITHUB~1.JSO|[|AI_PROPPATH_FILENAME_PERBUILD_GitHubBackupTool.deps.json]" Attributes="0" SourcePath="&lt;AI_APPPATH_PERBUILD_GitHubBackupTool.deps.json&gt;" SelfReg="false"/>
     <ROW File="GitHubBackupTool.exe" Component_="AI_PROPPATH_FILENAME_PERBUILD_Autofac.dll" FileName="GITHUB~1.EXE|[|AI_PROPPATH_FILENAME_PERBUILD_GitHubBackupTool.exe]" Attributes="0" SourcePath="&lt;AI_APPPATH_PERBUILD_GitHubBackupTool.exe&gt;" SelfReg="false" DigSign="true"/>
@@ -402,6 +404,7 @@
     <ROW File="Microsoft.Extensions.ObjectPool.dll" Component_="AI_PROPPATH_FILENAME_PERBUILD_Autofac.dll" FileName="MICROS~2.DLL|[|AI_PROPPATH_FILENAME_PERBUILD_Microsoft.Extensions.ObjectPool.dll]" Attributes="0" SourcePath="&lt;AI_APPPATH_PERBUILD_Microsoft.Extensions.ObjectPool.dll&gt;" SelfReg="false"/>
     <ROW File="Microsoft.Win32.Registry.AccessControl.dll" Component_="AI_PROPPATH_FILENAME_PERBUILD_Autofac.dll" FileName="MICROS~3.DLL|[|AI_PROPPATH_FILENAME_PERBUILD_Microsoft.Win32.Registry.AccessControl.dll]" Attributes="0" SourcePath="&lt;AI_APPPATH_PERBUILD_Microsoft.Win32.Registry.AccessControl.dll&gt;" SelfReg="false"/>
     <ROW File="Microsoft.Win32.SystemEvents.dll" Component_="AI_PROPPATH_FILENAME_PERBUILD_Autofac.dll" FileName="MICROS~4.DLL|[|AI_PROPPATH_FILENAME_PERBUILD_Microsoft.Win32.SystemEvents.dll]" Attributes="0" SourcePath="&lt;AI_APPPATH_PERBUILD_Microsoft.Win32.SystemEvents.dll&gt;" SelfReg="false"/>
+    <ROW File="Newtonsoft.Json.dll" Component_="AI_PROPPATH_FILENAME_PERBUILD_Autofac.dll" FileName="NEWTON~1.DLL|[|AI_PROPPATH_FILENAME_PERBUILD_Newtonsoft.Json.dll]" Attributes="0" SourcePath="&lt;AI_APPPATH_PERBUILD_Newtonsoft.Json.dll&gt;" SelfReg="false"/>
     <ROW File="Octokit.dll" Component_="AI_PROPPATH_FILENAME_PERBUILD_Autofac.dll" FileName="[|AI_PROPPATH_FILENAME_PERBUILD_Octokit.dll]" Attributes="0" SourcePath="&lt;AI_APPPATH_PERBUILD_Octokit.dll&gt;" SelfReg="false"/>
     <ROW File="ShellProgressBar.dll" Component_="AI_PROPPATH_FILENAME_PERBUILD_Autofac.dll" FileName="SHELLP~1.DLL|[|AI_PROPPATH_FILENAME_PERBUILD_ShellProgressBar.dll]" Attributes="0" SourcePath="&lt;AI_APPPATH_PERBUILD_ShellProgressBar.dll&gt;" SelfReg="false"/>
     <ROW File="System.CodeDom.dll" Component_="AI_PROPPATH_FILENAME_PERBUILD_Autofac.dll" FileName="SYSTEM~1.DLL|[|AI_PROPPATH_FILENAME_PERBUILD_System.CodeDom.dll]" Attributes="0" SourcePath="&lt;AI_APPPATH_PERBUILD_System.CodeDom.dll&gt;" SelfReg="false"/>
@@ -532,6 +535,7 @@
     <ROW Name="AI_APPPATH_PERBUILD_Microsoft.Win32.Registry.AccessControl.dll" Path="[|AI_PROPPATH_DIR_PERBUILD_Microsoft.Win32.Registry.AccessControl.dll]\[|AI_PROPPATH_FILENAME_PERBUILD_Microsoft.Win32.Registry.AccessControl.dll]" Type="2" Content="0"/>
     <ROW Name="AI_APPPATH_PERBUILD_Microsoft.Win32.SystemEvents.dll" Path="[|AI_PROPPATH_DIR_PERBUILD_Microsoft.Win32.SystemEvents.dll]\[|AI_PROPPATH_FILENAME_PERBUILD_Microsoft.Win32.SystemEvents.dll]" Type="2" Content="0"/>
     <ROW Name="AI_APPPATH_PERBUILD_Microsoft.Win32.SystemEvents.dll_1" Path="[|AI_PROPPATH_DIR_PERBUILD_Microsoft.Win32.SystemEvents.dll_1]\[|AI_PROPPATH_FILENAME_PERBUILD_Microsoft.Win32.SystemEvents.dll_1]" Type="2" Content="0"/>
+    <ROW Name="AI_APPPATH_PERBUILD_Newtonsoft.Json.dll" Path="[|AI_PROPPATH_DIR_PERBUILD_Newtonsoft.Json.dll]\[|AI_PROPPATH_FILENAME_PERBUILD_Newtonsoft.Json.dll]" Type="2" Content="0"/>
     <ROW Name="AI_APPPATH_PERBUILD_Octokit.dll" Path="[|AI_PROPPATH_DIR_PERBUILD_Octokit.dll]\[|AI_PROPPATH_FILENAME_PERBUILD_Octokit.dll]" Type="2" Content="0"/>
     <ROW Name="AI_APPPATH_PERBUILD_ShellProgressBar.dll" Path="[|AI_PROPPATH_DIR_PERBUILD_ShellProgressBar.dll]\[|AI_PROPPATH_FILENAME_PERBUILD_ShellProgressBar.dll]" Type="2" Content="0"/>
     <ROW Name="AI_APPPATH_PERBUILD_System.CodeDom.dll" Path="[|AI_PROPPATH_DIR_PERBUILD_System.CodeDom.dll]\[|AI_PROPPATH_FILENAME_PERBUILD_System.CodeDom.dll]" Type="2" Content="0"/>
@@ -837,6 +841,7 @@
     <ROW ProjectId="{9e9f41c9-bfee-4352-ac76-a81090120fe3}" ProjectName="GithubBackup" OutputGroup="PublishOutput" OutputFile="Microsoft.Extensions.ObjectPool.dll"/>
     <ROW ProjectId="{9e9f41c9-bfee-4352-ac76-a81090120fe3}" ProjectName="GithubBackup" OutputGroup="PublishOutput" OutputFile="Microsoft.Win32.Registry.AccessControl.dll"/>
     <ROW ProjectId="{9e9f41c9-bfee-4352-ac76-a81090120fe3}" ProjectName="GithubBackup" OutputGroup="PublishOutput" OutputFile="Microsoft.Win32.SystemEvents.dll"/>
+    <ROW ProjectId="{9e9f41c9-bfee-4352-ac76-a81090120fe3}" ProjectName="GithubBackup" OutputGroup="PublishOutput" OutputFile="Newtonsoft.Json.dll"/>
     <ROW ProjectId="{9e9f41c9-bfee-4352-ac76-a81090120fe3}" ProjectName="GithubBackup" OutputGroup="PublishOutput" OutputFile="Octokit.dll"/>
     <ROW ProjectId="{9e9f41c9-bfee-4352-ac76-a81090120fe3}" ProjectName="GithubBackup" OutputGroup="PublishOutput" OutputFile="ShellProgressBar.dll"/>
     <ROW ProjectId="{9e9f41c9-bfee-4352-ac76-a81090120fe3}" ProjectName="GithubBackup" OutputGroup="PublishOutput" OutputFile="System.CodeDom.dll"/>

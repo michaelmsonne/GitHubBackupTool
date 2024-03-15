@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Security;
 using GithubBackup.Class;
 using GithubBackup.Core;
 using McMaster.Extensions.CommandLineUtils;
@@ -12,9 +14,43 @@ namespace GithubBackup.Commands
     {
         public CommandLineApplication ParentCommand { get; set; }
         public CommandLineApplication Command { get; set; }
-
         public Func<Credentials, string, BackupService> BackupServiceFactory { get; set; }
         public Func<string, Credentials> CredentialsFactory { get; set; }
+        
+        private static void SaveTokenToFile(CommandOption tokenFileOption)
+        {
+            // Get key to use for encryption and decryption
+            var key = SecureArgumentHandlerToken.GetComputerId();
+
+            // Get data from console
+            string tokentoencrypt = tokenFileOption.Values[0];
+
+            // Encrypt data
+            //string key = "your_key"; // Replace with the actual key for encryption
+            SecureArgumentHandlerToken.EncryptAndSaveToFile(key, tokentoencrypt);
+
+            //Console.WriteLine("Key: " + key);
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"Saved information about token to file - Exciting {Globals._appName}, v.{Globals._vData} by {Globals._companyName}!");
+            Console.ResetColor();
+
+            // End application
+            Environment.Exit(1);
+        }
+
+        // Securely clear a SecureString from memory
+        private static void ClearSecureString(SecureString secureString)
+        {
+            if (secureString != null)
+            {
+                secureString.Clear();
+
+                // Release unmanaged resources
+                IntPtr ptr = Marshal.SecureStringToBSTR(secureString);
+                Marshal.ZeroFreeBSTR(ptr);
+            }
+        }
 
         public TokenSubCommand(CommandLineApplication parentCommand, Func<Credentials, string, BackupService> backupServiceFactory, Func<string, Credentials> credentialsFactory)
         {
@@ -36,36 +72,49 @@ namespace GithubBackup.Commands
                 var allReposOwnerOption = tokenBasedCmd.Option("-allowner", "Backup repositories where you are the owner (default).", CommandOptionType.NoValue);
                 var allBranchesOption = tokenBasedCmd.Option("-allbranches", "Backup all branches of repositories (default only DefaultBranch).", CommandOptionType.NoValue);
                 var excludeBranchDependabot = tokenBasedCmd.Option("-excludebranchdependabot", "Exclude branches with 'dependabot' in it from backup.", CommandOptionType.NoValue);
-                var backupMetadataOption = tokenBasedCmd.Option("-backupmetadata", "Backup metadata for each repository. If set, the code itself will be saved to the repo folder.\n", CommandOptionType.NoValue);
-                var backupReleasedataOption = tokenBasedCmd.Option("-backupreleasedata", "Backup release data for each repository. If set, the code itself will be saved to the repo folder.\n", CommandOptionType.NoValue);
+                var backupMetadataOption = tokenBasedCmd.Option("-backupmetadata", "Backup metadata for each repository. If set, the data itself will be saved to the repo folder.", CommandOptionType.NoValue);
+                var backupIssueDataOption = tokenBasedCmd.Option("-backupissuedata", "(Disabled) Backup metadata for issues for each repository", CommandOptionType.NoValue);
+                var backupReviewCommentsDataOption = tokenBasedCmd.Option("-backupreviewcommentdata", "(Disabled) Backup metadata for review comment for each repository. If set, the data itself will be saved to the repo folder.", CommandOptionType.NoValue);
+                var backupReleasedataOption = tokenBasedCmd.Option("-backupreleasedata", "Backup release data for each repository. If set, the data itself will be saved to the repo folder.\n", CommandOptionType.NoValue);
 
                 // Define options for email when using token-based backup for sending report to email address (if set)
                 var mailToOption = tokenBasedCmd.Option("-mailto <email>", "Specify the email address to send backup notifications to.", CommandOptionType.SingleValue);
                 var mailFromOption = tokenBasedCmd.Option("-mailfrom  <email>", "Specify the email address to send backup notifications from.", CommandOptionType.SingleValue);
                 var mailServerOption = tokenBasedCmd.Option("-mailserver <server>", "Specify the IP address or DNS name of the SMTP server to use for sending notifications.", CommandOptionType.SingleValue);
-                var mailPortOption = tokenBasedCmd.Option("-mailport <port>", "Specify the port to use for the email server.\n", CommandOptionType.SingleValue);
+                var mailPortOption = tokenBasedCmd.Option("-mailport <port>", "Specify the port to use for the email server.", CommandOptionType.SingleValue);
                 
                 // Define an option for email priority (if set) - if not set it use default priority (normal)
-                var priorityOption = tokenBasedCmd.Option("-priority <priority>", "Set the email report priority (low/normal/high) (if not set default is normal).", CommandOptionType.SingleValue);
+                var priorityOption = tokenBasedCmd.Option("-priority <priority>", "Set the email report priority (low/normal/high) (if not set default is normal).\n", CommandOptionType.SingleValue);
 
                 // Define an option for simple email report layout (if set) - if not set it use default report layout (more advanced)
-                var mailSimpleReport = tokenBasedCmd.Option("-simpelreport", "If set the email report layout there is send is simple, if not set it use the default report layout", CommandOptionType.NoValue);
+                var mailSimpleReport = tokenBasedCmd.Option("-simpelreport", "If set the email report layout there is send is simple, if not set it use the default report layout\n", CommandOptionType.NoValue);
 
                 // Define an option for days to keep backup in backup folder before deleting it (default is 30 days) - if not set it use default value
                 var daysToKeepBackupOption = tokenBasedCmd.Option("-daystokeepbackup <days>", "Number of days to keep backups for. Backups older than this will be deleted (default is 30 days).", CommandOptionType.SingleValue);
 
                 // Define an option for days to keep log files in log folder before deleting it (default is 30 days) - if not set it use default value
-                var daysToKeepLogFilesOption = tokenBasedCmd.Option("-daystokeeplogfiles <days>", "Number of days to keep log files for. Log files older than this will be deleted (default is 30 days).", CommandOptionType.SingleValue);
-                
-                // Define arguments for token-based backup (token and destination folder)
-                var tokenArgument = tokenBasedCmd.Argument("Token", "A valid github token.").IsRequired();
-                var destinationArgument = tokenBasedCmd.Argument("Destination", "The destination folder for the backup.");
+                var daysToKeepLogFilesOption = tokenBasedCmd.Option("-daystokeeplogfiles <days>", "Number of days to keep log files for. Log files older than this will be deleted (default is 30 days).\n", CommandOptionType.SingleValue);
 
+                // Define the --tokenfile option
+                var tokenFileOption = tokenBasedCmd.Option("--tokenfile", "Save token data to a file for encryption. (Only supported on Windows for the time..)\n", CommandOptionType.SingleValue);
+
+                // Define arguments for token-based backup (token and destination folder)
+                var tokenArgument = tokenBasedCmd.Argument("Token", "A valid github token.");
+                var destinationArgument = tokenBasedCmd.Argument("Destination", "The destination folder for the backup.");
+                
                 #endregion Set/show arguments used for token-based backup
 
                 // Define the action to take when the command is invoked
                 tokenBasedCmd.OnExecute(() =>
                 {
+                    // Check if the --tokenfile option is present - if it is, save token data to a file and exit the application
+                    if (tokenFileOption.HasValue())
+                    {
+                        // If --tokenfile option is present, save token data to a file
+                        SaveTokenToFile(tokenFileOption);
+                        return 1; // Exit the application
+                    }
+
                     #region Set email options and check if they are set and have required values
 
                     // Log
@@ -114,7 +163,7 @@ namespace GithubBackup.Commands
                     }
 
                     // Log
-                    Message("> Done processing arguments set for what type of email report to create", EventType.Information, 1000);
+                    Message("> Done processing arguments set for what type of email report to create and send", EventType.Information, 1000);
 
                     #endregion Set email options
 
@@ -127,9 +176,9 @@ namespace GithubBackup.Commands
                         Globals._daysToKeepBackup = int.Parse(daysToKeepBackupOption.Value() ?? string.Empty);
 
                         // Set status text for email
-                        Globals._isDaysToKeepNotDefaultStatusText = "Custom number of old backup(s) set to keep in backup folder (days)";
+                        Globals._isDaysToKeepNotDefaultStatusText = "Custom number of old backup(s) set to keep in backup folder (day(s))";
 
-                        Message("Days to keep backups is set to: " + Globals._daysToKeepBackup, EventType.Information, 1000);
+                        Message("Day(s) to keep backups is set to: " + Globals._daysToKeepBackup, EventType.Information, 1000);
                     }
                     else
                     {
@@ -137,9 +186,9 @@ namespace GithubBackup.Commands
                         Globals._daysToKeepBackup = 30;
 
                         // Set status text for email
-                        Globals._isDaysToKeepNotDefaultStatusText = "Default number of old backup(s) set to keep in backup folder (days)";
+                        Globals._isDaysToKeepNotDefaultStatusText = "Default number of old backup(s) set to keep in backup folder (day(s))";
 
-                        Message("Days to keep backups is set to: " + Globals._daysToKeepBackup + " (default value as no argument is set)", EventType.Information, 1000);
+                        Message("Day(s) to keep backups is set to: " + Globals._daysToKeepBackup + " (default value as no argument is set)", EventType.Information, 1000);
                     }
 
                     #endregion Set options for backup to keep
@@ -147,22 +196,70 @@ namespace GithubBackup.Commands
                     var credentials = CredentialsFactory(tokenArgument.Value);
                     var currentFolder = Directory.GetCurrentDirectory();
                     var destinationFolder = string.IsNullOrWhiteSpace(destinationArgument.Value) ? currentFolder : destinationArgument.Value;
+                    //var backupService = BackupServiceFactory(credentials, destinationFolder);
+
+                    #region SecureToken
+
+                    // If the token is set to "token.bin" then read the token from the file else use the token directly from the command-line arguments
+                    if (tokenArgument.Value == "token.bin")
+                    {
+                        // Read the token information from the -tokentofile
+                        // Get key to use for encryption and decryption
+                        var key = SecureArgumentHandlerToken.GetComputerId();
+                        string decryptedToken = SecureArgumentHandlerToken.DecryptFromFile(key);
+
+                        // Update the credentials with the decrypted token
+                        credentials = CredentialsFactory(decryptedToken);
+
+#if DEBUG
+                            Console.WriteLine($"Decrypted string for token = {decryptedToken}");
+                            Console.ReadKey();
+#endif
+                    }
+                    else
+                    {
+                        // Use the token directly from the command-line arguments
+                        credentials = CredentialsFactory(tokenArgument.Value);
+                    }
+
                     var backupService = BackupServiceFactory(credentials, destinationFolder);
+
+                    /*
+                     * Clear string token
+                     */
+                    // Use SecureString to securely store sensitive information
+                    using (SecureString secureToken = new SecureString())
+                    {
+                        foreach (char c in tokenArgument.Value)
+                        {
+                            secureToken.AppendChar(c);
+                        }
+
+                        // Perform operations with secureToken here
+
+                        // Clear the secureToken from memory
+                        ClearSecureString(secureToken);
+                    }
+                    /*
+                     * End clear string token
+                     */
+                    #endregion SecureToken
+
                     #region Check backup folder location and create it if not exists
-                    
+
                     // Check if the destination folder exists and create it if not exists
                     if (!Directory.Exists(destinationFolder))
                     {
                         try
                         {
                             Directory.CreateDirectory(destinationFolder);
-                            Message("Created backup folder: " + destinationFolder, EventType.Information, 1000);
+                            Message("Created root backup folder: '" + destinationFolder + "'", EventType.Information, 1000);
                         }
                         catch (UnauthorizedAccessException)
                         {
-                            Message("Unable to create folder to store the backups: " + destinationFolder + ". Make sure the account you use to run this tool has write rights to this location.", EventType.Error, 1001);
+                            Message("Unable to create folder to store the backup(s): '" + destinationFolder + "'. Make sure the account you use to run this tool has write rights/create to this location.", EventType.Error, 1001);
                             Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("Unable to create folder to store the backups: " + destinationFolder + ". Make sure the account you use to run this tool has write rights to this location.");
+                            Console.WriteLine("Unable to create folder to store the backup(s): '" + destinationFolder + "'. Make sure the account you use to run this tool has write/create rights to this location.");
                             Console.ResetColor();
 
                             // Count errors
@@ -171,7 +268,7 @@ namespace GithubBackup.Commands
                         catch (Exception e)
                         {
                             // Error when create backup folder
-                            Message("Exception caught when trying to create backup folder '" + destinationFolder + " - error: " + e, EventType.Error, 1001);
+                            Message("Exception caught when trying to create backup folder '" + destinationFolder + "' - error: " + e, EventType.Error, 1001);
                             Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("{0} Exception caught.", e);
                             Console.ResetColor();
@@ -189,6 +286,42 @@ namespace GithubBackup.Commands
 
                     // Log
                     Message("Processing arguments set for what type of backup(s) to create...", EventType.Information, 1000);
+                    
+                    // Set the backup type based on options for Review Comments metadata
+                    if (backupReviewCommentsDataOption.HasValue())
+                    {
+                        // Set the backup type for metadata to true
+                        Globals._backupReviewCommentsdata = true;
+
+                        // Log
+                        Message("Set to download review comments metadata for repository in the backup(s)", EventType.Information, 1000);
+                    }
+                    else
+                    {
+                        // Set the backup type for metadata to false
+                        Globals._backupReviewCommentsdata = false;
+
+                        // Log
+                        Message("Set to NOT download review comments metadata for repository in the backup(s)", EventType.Information, 1000);
+                    }
+
+                    // Set the backup type based on options for issue metadata
+                    if (backupIssueDataOption.HasValue())
+                    {
+                        // Set the backup type for metadata to true
+                        Globals._backupIssuedata = true;
+
+                        // Log
+                        Message("Set to download issue metadata for repository in the backup(s)", EventType.Information, 1000);
+                    }
+                    else
+                    {
+                        // Set the backup type for metadata to false
+                        Globals._backupIssuedata = false;
+
+                        // Log
+                        Message("Set to NOT download issue metadata for repository in the backup(s)", EventType.Information, 1000);
+                    }
 
                     // Set the backup type based on options for metadata
                     if (backupMetadataOption.HasValue())
@@ -318,7 +451,7 @@ namespace GithubBackup.Commands
                             Console.ResetColor();
 
                             // Do work
-                            Backups.DaysToKeepBackupsDefault(destinationFolder);
+                            LocalBackupsTasks.DaysToKeepBackupsDefault(destinationFolder);
                         }
 
                         // If -daystokeepbackup is not set to default 30 - show it and do work
@@ -331,7 +464,7 @@ namespace GithubBackup.Commands
                             Console.ResetColor();
 
                             // Do work
-                            Backups.DaysToKeepBackups(destinationFolder, Globals._daysToKeepBackup);
+                            LocalBackupsTasks.DaysToKeepBackups(destinationFolder, Globals._daysToKeepBackup);
                         }
                     }
                     else
@@ -343,11 +476,11 @@ namespace GithubBackup.Commands
                         Console.ResetColor();
 
                         // Do work
-                        Backups.DaysToKeepBackupsDefault(destinationFolder);
+                        LocalBackupsTasks.DaysToKeepBackupsDefault(destinationFolder);
                     }
 
                     // Count backups in backup folder
-                    Backups.CountCurrentNumbersOfBackup(destinationFolder);
+                    LocalBackupsTasks.CountCurrentNumbersOfBackup(destinationFolder);
 
                     #endregion Do options for backup to keep
 
@@ -392,7 +525,7 @@ namespace GithubBackup.Commands
                             Console.ResetColor();
 
                             // Do work
-                            CleanupLog.CleanupLogs(Globals._daysToKeepLogFilesOption);
+                            LocalLogCleanup.CleanupLogs(Globals._daysToKeepLogFilesOption);
                         }
 
                         // If -daystokeepbackup is not set to default 30 - show it and do work
@@ -405,7 +538,7 @@ namespace GithubBackup.Commands
                             Console.ResetColor();
 
                             // Do work
-                            CleanupLog.CleanupLogs(Globals._daysToKeepLogFilesOption);
+                            LocalLogCleanup.CleanupLogs(Globals._daysToKeepLogFilesOption);
                         }
                     }
                     else
@@ -413,11 +546,11 @@ namespace GithubBackup.Commands
                         // Log
                         Message($"Argument -daystokeeplogfiles does not exits - using default log(s) to keep (30 days)!", EventType.Information, 1000);
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine($"\nArgument -daystokeeplogfiles does not exits - using default log(s) to keep (30 days)!\n");
+                        Console.WriteLine($"Argument -daystokeeplogfiles does not exits - using default log(s) to keep (30 days)!\n");
                         Console.ResetColor();
 
                         // Do work
-                        CleanupLog.CleanupLogs(Globals._daysToKeepLogFilesOption);
+                        LocalLogCleanup.CleanupLogs(Globals._daysToKeepLogFilesOption);
                     }
 
                     #endregion Do log files options for cleanup
@@ -426,6 +559,8 @@ namespace GithubBackup.Commands
 
                     // Create the backup and parse the arguments
                     backupService.CreateBackup();
+
+                    return 0;
                 });
             });
         }

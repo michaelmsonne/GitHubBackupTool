@@ -34,12 +34,13 @@ Outline the file contents of the repository. It helps users navigate the codebas
 | File/folder       | Description                                 |
 |-------------------|---------------------------------------------|
 | `\GithubBackup`   | Source code.                                |
+| `\Installer`      | Installer project.                          |
 | `.gitignore`      | Define what to ignore at commit time.       |
 | `CHANGELOG.md`    | List of changes to the sample.              |
-| `CONTRIBUTING.md` | Guidelines for contributing to the TEMPLATE.|
+| `CONTRIBUTING.md` | Guidelines for contributing to the project. |
 | `README.md`       | This README file.                           |
-| `SECURITY.md`     | This README file.                           |
-| `LICENSE`         | The license for the TEMPLATE.               |
+| `SECURITY.md`     | Security file.                              |
+| `LICENSE`         | The license for the project.                |
 
 # Introduction
 This tool creates a local backup of repositories of a given GitHub user with some options to filter based on some conditions.
@@ -123,9 +124,12 @@ You can create a personal access token here: https://github.com/settings/tokens/
 
 **Recommended scopes and use is for better security**: https://github.com/settings/personal-access-tokens/new
 
-- Repository access: All repositories
-- Contents: Read-only
-- Metadata: Read-only
+- **Repository access**: All repositories
+- **Contents**: Read-only
+- **Metadata**: Read-only
+
+Other scopes you can use:
+- Comming as more features added if needed...
 
 **Access**: Read access to repositories who needs backup and read access to user profile.
 
@@ -141,12 +145,15 @@ GitHubBackupTool token-based <token> [<destination>] [<backuptype>] -mailto "mai
 
 etc.: 
 ```bash
-GitHubBackupTool token-based <token> "D:\Backup\GitHub\" -allowner -mailto "mail-to@domain.com" -mailfrom "mail-from@domain.com" -mailserver "mailserver.domain.com" -mailport "25" -priority "high" -daystokeepbackup 50 -daystokeeplogfiles 180
+GitHubBackupTool token-based <token> "D:\Backup\GitHub\" -allowner -mailto "mail-to@domain.com" -mailfrom "mail-from@domain.com" -mailserver "mailserver.domain.com" -mailport <port> -priority "high" -daystokeepbackup <days> -daystokeeplogfiles <days>
 ```
 
 Paramenters (**NOT FINAL**):
 
-- YOUR_ACCESS_TOKEN: Replace this with your GitHub personal access token.
+- token-based
+    - token.bin: Use an encrypted .bin file (based on hardware ID´s) with your GitHub personal access token in. 
+    (Remember to run --tokenfile <token.data> to create the file first beside the application .exe!)
+    - <token.data>: Replace this with your GitHub personal access token.
 - "D:\Backup\GitHub\": Specify the local directory where you want to store the GitHub repository backups.
 - -allowner: Use this option to back up repositories owned by the token holder.
 - -all: Use this option to back up all repositories the token have access to.

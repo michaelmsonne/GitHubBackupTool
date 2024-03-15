@@ -1,5 +1,7 @@
-﻿using System;
+﻿using LibGit2Sharp;
+using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
 using static GithubBackup.Class.FileLogger;
 
@@ -58,17 +60,30 @@ namespace GithubBackup.Class
             // Log total number of files in the backup folder
             if (isSuccess)
             {
-                Message($"Total number of files in backup folder '{Globals._backupFolderName}' and its subfolders is: '{Globals._backupFileCount}'", EventType.Information, 1000);
-
+                // Show information to console
                 Console.WriteLine($"Total number of files in backup folder '{Globals._backupFolderName}' and its subfolders is: '{Globals._backupFileCount}'");
+
+                // Log
+                Message($"Total number of files in backup folder '{Globals._backupFolderName}*' and its subfolders is: '{Globals._backupFileCount}'", EventType.Information, 1000);
             }
             else
             {
-                Message($"Total number of files in '{Globals._backupFolderName}' and its subfolders: '{Globals._backupFileCount}' (but not complete as there was some error(s) when backup - check log for more information)", EventType.Information, 1000);
-
+                // Show information to console
                 Console.WriteLine($"Total number of files in '{Globals._backupFolderName}' and its subfolders: '{Globals._backupFileCount}' (but not complete as there was some error(s) when backup - check log for more information)");
+
+                // Log
+                Message($"Total number of files in '{Globals._backupFolderName}*' and its subfolders: '{Globals._backupFileCount}' (but not complete as there was some error(s) when backup - check log for more information)", EventType.Information, 1000);
             }
 
+            // Get total size of backup folder
+            var totalSize = LocalFolderTasks.GetTotalSize(Globals._backupFolderName);
+
+            // Show information to console
+            Console.WriteLine($"Total size of backup folder '{Globals._backupFolderName}' and its subfolders is: '{totalSize}'");
+
+            // Log
+            Message($"Total size of backup folder '{Globals._backupFolderName}' and its subfolders is: '{totalSize}'", EventType.Information, 1000);
+            
             // Send email report if email options are set
             if (Globals._emailOptionsIsSet)
             {
@@ -81,8 +96,8 @@ namespace GithubBackup.Class
                     Globals._mailfrom,
                     Globals._mailto,
                     emailStatus,
-                    Globals.repocountelements,
-                    Globals.repoitemscountelements,
+                    Globals._repocountelements,
+                    Globals._repoitemscountelements,
                     Globals._repoCount,
                     0,
                     Globals._backupFolderName,
@@ -97,7 +112,7 @@ namespace GithubBackup.Class
                     Globals._isDaysToKeepNotDefaultStatusText,
                     Globals._startTime,
                     Globals._endTime,
-                    Folders.GetTotalSize(Globals._backupFolderName));
+                    totalSize);
             }
             else
             {
@@ -275,7 +290,7 @@ namespace GithubBackup.Class
         {
             // Log end of program
             Console.WriteLine($"\nEnd of application - {Globals._appName} v. {Globals._vData}\n");
-            Message($"End of application - {Globals._appName} v. {Globals._vData}\n", EventType.Information, 1000);
+            Message($"End of application - {Globals._appName} v. {Globals._vData}\n\n", EventType.Information, 1000);
         }
 
         private static void SetConsoleColorDefaultAndError(bool isSuccess)
