@@ -2,7 +2,7 @@
 
 ### Added
 - Add logic to not start backup job tasks and console output if no repositories are found
-- Add code to save/use token from token file
+- Add option to save/use a token from an encrypted file based on hardware (locked to machine)
 
 ## Changed
 - Typo in about tool
