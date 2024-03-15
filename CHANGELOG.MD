@@ -1,4 +1,4 @@
-## [x.x.x.x] - xx-xx-xxxx - DEV
+## [1.2.0.0] - xx-xx-xxxx - DEV
 
 ### Added
 - Add logic to not start backup job tasks and console output if no repositories are found
@@ -11,6 +11,10 @@
 - Rename class from folders to LocalFolderTasks
 - Fix typos in metadata classes for release and metadata for logging
 - Typos in release .json downloader
+- Upgraded some dependencies
+    - Autofac 7.1.0 -> 8.0.0
+    - Microsoft.System.Diagnostics.DiagnosticSource 4.7.1 > 7.0.2
+    - Microsoft.Windows.Compatibility 8.0.2 > 8.0.3
 
 ## [1.1.0.0] - 09-03-2024
 
