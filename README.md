@@ -40,7 +40,7 @@ Outline the file contents of the repository. It helps users navigate the codebas
 | `CONTRIBUTING.md` | Guidelines for contributing to the TEMPLATE.|
 | `README.md`       | This README file.                           |
 | `SECURITY.md`     | This README file.                           |
-| `LICENSE`         | The license for the TEMPLATE.               |
+| `LICENSE`         | The license for the project.                |
 
 # Introduction
 This tool creates a local backup of repositories of a given GitHub user with some options to filter based on some conditions.
