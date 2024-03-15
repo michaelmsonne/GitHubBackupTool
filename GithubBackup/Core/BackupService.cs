@@ -128,112 +128,127 @@ namespace GithubBackup.Core
             Console.ForegroundColor = ConsoleColor.White;
             var repos = GetRepos();
 
-            // if repos is empty - set state to no projects to backup
-            if (repos.Count == 0)
-            {
-                Globals._noProjectsToBackup = true;
-            }
-            else
-            {
-                Globals._noProjectsToBackup = false;
-            }
-
             // Log
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Got all repos the API key has access to - getting what meets the arguments for backup...");
-            Message("Got all repos the API key has access to - getting what meets the arguments for backup...", EventType.Information, 1000);
+            Console.WriteLine("Got all repos the API key has access to - getting what meets the arguments for backup!");
+            Message("> Done got all repos the API key has access to - getting what meets the arguments for backup!", EventType.Information, 1000);
 
             // Show repository count to console (filtered)
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine($"Total repositories found there meets arguments for backup is: {repos.Count}");
-            Message($"Total repositories found there meets arguments for backup is: {repos.Count}", EventType.Information, 1000);
+            Console.WriteLine($"Total repositories found there meets arguments for backup is: '{repos.Count}'");
+            Message($"Total repositories found there meets arguments for backup is: '{repos.Count}'", EventType.Information, 1000);
 
-            // TODO
-            // Console.WriteLine("Selected backup type is: ");
-            // Message("Selected backup type is: ", EventType.Information, 1000);
+            // if repos is empty - set state to no projects to backup
+            if (repos.Count != 0)
+            {
+                // Set state to projects to backup
+                Globals._noProjectsToBackup = false;
 
-            Console.WriteLine($"Backup destination folder is set to: '\"{Destination}\"'");
-            Message($"Backup destination folder is set to: '\"{Destination}\"'", EventType.Information, 1000);
+                // Repos to backup - do work
+
+                // TODO
+                // Console.WriteLine("Selected backup type is: ");
+                // Message("Selected backup type is: ", EventType.Information, 1000);
+
+                Console.WriteLine($"Backup destination folder is set to: \"{Destination}\"");
+                Message($"Backup destination folder is set to: \"{Destination}\"", EventType.Information, 1000);
 
 #if DEBUG
-            Console.ReadKey();
+                Console.ReadKey();
 #endif
 
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"Starting to clone all repositories into backup folder: '{Destination}'...");
-            Message($"Starting to clone all repositories into backup folder: '{Destination}'...", EventType.Information, 1000);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"Starting to clone all repositories into backup folder: '{Destination}'...");
+                Message($"Starting to clone all repositories into backup folder: '{Destination}'...", EventType.Information, 1000);
 
-            // Clone all repositories into backup folder specified
-            var exceptions = CloneRepos(repos);
+                // Clone all repositories into backup folder specified
+                var exceptions = CloneRepos(repos);
 
-            // Count number of branches in backup folder for the current repository (main or all)
-            // Log
-            Console.WriteLine("Starting counting of branches in backup folder...");
-            Message($"Starting counting of branches in backup folder...", EventType.Information, 1000);
+                // Count number of branches in backup folder for the current repository (main or all)
+                // Log
+                Console.WriteLine($"Starting counting of branches in backup folder '{Destination}'...");
+                Message($"Starting counting of branches in backup folder '{Destination}'...", EventType.Information, 1000);
 
-            // Do work to count branches in backup folder
-            Globals._repoBackupPerformedBranchCount = Folders.GetSubfolderCountForBranchFolders(Globals._backupFolderName, 3);
+                // Do work to count branches in backup folder
+                Globals._repoBackupPerformedBranchCount = LocalFolderTasks.GetSubfolderCountForBranchFolders(Globals._backupFolderName, 3);
 
-            // Log
-            Console.WriteLine("Counted branches in backup folder.");
-            Message("> Done - counted branches in backup folder.", EventType.Information, 1000);
+                // Log
+                Console.WriteLine($"Counted branches in backup folder '{Destination}'.");
+                Message($"> Done - counted branches in backup folder '{Destination}'.", EventType.Information, 1000);
 
-            // Count number of files and folders in backup folder
-            Backups.CountFilesAndFoldersInFolder(Globals._backupFolderName, out var fileCount, out var folderCount);
+                // Count number of files and folders in backup folder
+                LocalBackupsTasks.CountFilesAndFoldersInFolder(Globals._backupFolderName, out var fileCount, out var folderCount);
 
-            // Save count of files and folders in backup folder to global variables
-            Globals._backupFileCount = fileCount;
-            Globals._backupFolderCount = folderCount;
+                // Save count of files and folders in backup folder to global variables
+                Globals._backupFileCount = fileCount;
+                Globals._backupFolderCount = folderCount;
 
-            // Show errors if any
-            if (exceptions.Any())
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"Backup finished with {exceptions.Count} error(s):");
-                Message($"Backup finished with {exceptions.Count} error(s):", EventType.Information, 1000);
-
-                // Loop through exceptions and print them to console
-                foreach (var repoName in exceptions.Keys)
+                // Show errors if any
+                if (exceptions.Any())
                 {
-                    Console.WriteLine();
-                    Console.WriteLine($"Error while cloning repository '{repoName}':");
-                    Message($"Error while cloning repository '{repoName}':", EventType.Error, 1001);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"Backup finished with {exceptions.Count} error(s):");
+                    Message($"Backup finished with {exceptions.Count} error(s):", EventType.Information, 1000);
 
-                    Console.WriteLine(exceptions[repoName]);
-                    Message(exceptions[repoName].ToString(), EventType.Error, 1001);
+                    // Loop through exceptions and print them to console
+                    foreach (var repoName in exceptions.Keys)
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine($"Error while cloning repository '{repoName}':");
+                        Message($"Error while cloning repository '{repoName}':", EventType.Error, 1001);
+
+                        Console.WriteLine(exceptions[repoName]);
+                        Message(exceptions[repoName].ToString(), EventType.Error, 1001);
+                    }
+                }
+                else
+                {
+                    if (Globals._errors > 0)
+                    {
+                        //Set backup status
+                        Globals._isBackupOk = false;
+
+                        Globals._repoCountStatusText = "Warning!";
+
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("\nBackup finished with error(s) - see log for more information");
+                        Message($"Backup finished with error(s) - see log for more information", EventType.Error, 1001);
+
+                        // Handle errors
+                        ApplicationStatus.ApplicationEndBackup(false);
+                    }
+                    else
+                    {
+                        //Set backup status
+                        Globals._isBackupOk = true;
+
+                        Globals._repoCountStatusText = "Good";
+
+                        // No errors counted - backup should be finished successfully
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("\nBackup finished successfully - see log for more information");
+                        Message("Backup finished successfully - see log for more information", EventType.Information, 1000);
+
+                        // Handle success
+                        ApplicationStatus.ApplicationEndBackup(true);
+                    }
                 }
             }
             else
             {
-                if (Globals._errors > 0)
-                {
-                    //Set backup status
-                    Globals._isBackupOk = false;
+                // No repos to backup - set state to no projects to backup
+                Globals._noProjectsToBackup = true;
 
-                    Globals._repoCountStatusText = "Warning!";
+                // Set backup status to email report
+                Globals._repoCountStatusText = "Nothing to backup";
 
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("\nBackup finished with error(s) - see log for more information");
-                    Message($"Backup finished with error(s) - see log for more information", EventType.Error, 1001);
+                // Nothing to backup - finished successfully
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("\nNothing to backup - finished successfully - see log for more information");
+                Message("Backup finished successfully - see log for more information", EventType.Information, 1000);
 
-                    // Handle errors
-                    ApplicationStatus.ApplicationEndBackup(false);
-                }
-                else
-                {
-                    //Set backup status
-                    Globals._isBackupOk = true;
-
-                    Globals._repoCountStatusText = "Good";
-
-                    // No errors counted - backup should be finished successfully
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("\nBackup finished successfully - see log for more information");
-                    Message("Backup finished successfully - see log for more information", EventType.Information, 1000);
-
-                    // Handle success
-                    ApplicationStatus.ApplicationEndBackup(true);
-                }
+                // Handle success
+                ApplicationStatus.ApplicationEndBackup(true);
             }
         }
 
@@ -294,7 +309,7 @@ namespace GithubBackup.Core
 
                 // List name for projects to list for email report list
                 //Globals.repocountelements.Add($"Repository Name: '{repo.Name}', DefaultBranch: '{repo.DefaultBranch}', Owner: '{repo.Owner.Login}'");
-                Globals.repocountelements.Add($"{repo.Name}, ('{repo.DefaultBranch}' branch), Owner: '{repo.Owner.Login}'");
+                Globals._repocountelements.Add($"{repo.Name}, ('{repo.DefaultBranch}' branch), Owner: '{repo.Owner.Login}'");
             }
 
             // Return the filtered repositories, or all repositories if none of the conditions are met
@@ -478,7 +493,7 @@ namespace GithubBackup.Core
                             //Message($"Done processing repository '{repo.FullName}' for backup - Options: ALL branches: saved data  to disk.", EventType.Information, 1000);
 
                             // Used for email report list - list name for projects to list for email report list
-                            Globals.repoitemscountelements.Add($"{repo.Name}, ('{branchName.Name}' branch), Owner: '{repo.Owner.Login}'");
+                            Globals._repoitemscountelements.Add($"{repo.Name}, ('{branchName.Name}' branch), Owner: '{repo.Owner.Login}'");
 
                             //Globals._repoBackupPerformedCount++; // Increment the _repoCount integer for count of repos in total
                             //Globals._repoBackupPerformedBranchCount++; // Increment the BranchCount
@@ -505,7 +520,7 @@ namespace GithubBackup.Core
                         Message($"Processed repository: '{repo.FullName}' for backup, DefaultBranch '{repo.DefaultBranch}' - saved data to disk: '" + clonedRepoPath + "'", EventType.Information, 1000);
 
                         // Used for email report list - list name for projects to list for email report list
-                        Globals.repoitemscountelements.Add($"{repo.Name}, ('{repo.DefaultBranch}' Default Branch), Owner: '{repo.Owner.Login}'");
+                        Globals._repoitemscountelements.Add($"{repo.Name}, ('{repo.DefaultBranch}' Default Branch), Owner: '{repo.Owner.Login}'");
 
                         //Globals._repoBackupPerformedCount++; // Increment the _repoCount integer for count of repos in total
                         //Globals._repoBackupPerformedBranchCount++; // Increment the BranchCount
@@ -563,14 +578,28 @@ namespace GithubBackup.Core
                 if (backupMetadata)
                 {
                     // Call a method to download metadata and save them to a JSON file
-                    MetadataJsonDownloader.SaveMetadataFortheRepository(repoDestinationBackupMetadata, client, repo);
+                    MetadataJsonDownloader.SaveMetadataForTheRepository(repoDestinationBackupMetadata, client, repo);
                 }
 
                 // Save metadata for the repository if the option is set
                 if (backupReleasedata)
                 {
                     // Call a method to download releases and save them to a JSON file
-                    ReleaseJsonDownloader.SaveReleaseDataFortheRepository(repo.Owner.Login, repo, client, repoDestinationBackupReleasedata);
+                    MetadataJsonDownloader.SaveReleaseDataForTheRepository(repo.Owner.Login, repo, client, repoDestinationBackupReleasedata);
+                }
+
+                // Save issue data for the repository if the option is set
+                if (Globals._backupIssuedata)
+                {
+                    // Call a method to download issues and save them to a JSON file
+                    //MetadataJsonDownloader.SaveIssueDataForTheRepository(repo.Owner.Login, repo, client, repoDestinationBackupReleasedata);
+                }
+
+                // Save review comments data for the repository if the option is set
+                if (Globals._backupReviewCommentsdata)
+                {
+                    // Call a method to download review comments and save them to a JSON file
+                    //MetadataJsonDownloader.SaveCommitCommentDataForRepository(repo.Owner.Login, repo, client, repoDestinationBackupReleasedata);
                 }
 
                 // More to come here
