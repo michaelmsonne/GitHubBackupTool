@@ -37,7 +37,7 @@ Outline the file contents of the repository. It helps users navigate the codebas
 | `\Installer`      | Installer project.                          |
 | `.gitignore`      | Define what to ignore at commit time.       |
 | `CHANGELOG.md`    | List of changes to the sample.              |
-| `CONTRIBUTING.md` | Guidelines for contributing to the TEMPLATE.|
+| `CONTRIBUTING.md` | Guidelines for contributing to the project. |
 | `README.md`       | This README file.                           |
 | `SECURITY.md`     | Security file.                              |
 | `LICENSE`         | The license for the project.                |
