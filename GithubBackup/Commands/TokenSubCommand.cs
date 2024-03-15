@@ -546,7 +546,7 @@ namespace GithubBackup.Commands
                         // Log
                         Message($"Argument -daystokeeplogfiles does not exits - using default log(s) to keep (30 days)!", EventType.Information, 1000);
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine($"\nArgument -daystokeeplogfiles does not exits - using default log(s) to keep (30 days)!\n");
+                        Console.WriteLine($"Argument -daystokeeplogfiles does not exits - using default log(s) to keep (30 days)!\n");
                         Console.ResetColor();
 
                         // Do work
