@@ -1,4 +1,4 @@
-## [1.2.0.0] - xx-xx-xxxx - DEV
+## [1.2.0.0] - 15-03-2024
 
 ### Added
 - Add logic to not start backup job tasks and console output if no repositories are found
