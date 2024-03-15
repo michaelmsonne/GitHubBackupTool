@@ -262,10 +262,10 @@
     <ROW Property="ALLUSERS" Value="1"/>
     <ROW Property="ARPCOMMENTS" Value="This installer database contains the logic and data required to install [|ProductName]." ValueLocId="*"/>
     <ROW Property="Manufacturer" Value="Michael Morten Sonne"/>
-    <ROW Property="ProductCode" Value="1033:{655A0BB3-C7AB-43AE-8BC7-D69E501FD0B3} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{5A9EE568-8F60-4A84-BCF8-BDD0C6A83ABF} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="GitHubBackupTool"/>
-    <ROW Property="ProductVersion" Value="1.1.0.0" Options="32"/>
+    <ROW Property="ProductVersion" Value="1.2.0.0" Options="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{D5172278-84F4-41C1-8095-DDA00E38BED9}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
