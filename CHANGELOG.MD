@@ -21,9 +21,9 @@
 ### Added
 - Added a new option to set days to keep of logs (default 30 days)
 - Added new argument to download
-    - repository metadata (.json)
-    - repository releases data (.json)
-    - More to come...
+    - Repository metadata (.json)
+    - Repository releases data (.json)
+    - **More to come...**
 - Added more loggnig in the tool
 
 ### Changed

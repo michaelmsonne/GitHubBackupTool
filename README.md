@@ -140,12 +140,12 @@ You can either clone this repository and build the project yourself.
 ## Usage
 
 ```bash
-GitHubBackupTool token-based <token> [<destination>] [<backuptype>] -mailto "mail-to@domain.com" -mailfrom "mail-from@domain.com" -mailserver "mailserver.domain.com" -mailport "25" -priority "high" -daystokeepbackup 50 -daystokeeplogfiles 180
+GitHubBackupTool token-based <token> [<destination>] [<backuptype>] -mailto "mail-to@domain.com" -mailfrom "mail-from@domain.com" -mailserver "mailserver.domain.com" -mailport <port> -priority "high" -daystokeepbackup <days> -daystokeeplogfiles <days>
 ```
 
 etc.: 
 ```bash
-GitHubBackupTool token-based <token> "D:\Backup\GitHub\" -allowner -mailto "mail-to@domain.com" -mailfrom "mail-from@domain.com" -mailserver "mailserver.domain.com" -mailport "25" -priority "high" -daystokeepbackup 50 -daystokeeplogfiles 180
+GitHubBackupTool token-based <token> "D:\Backup\GitHub\" -allowner -mailto "mail-to@domain.com" -mailfrom "mail-from@domain.com" -mailserver "mailserver.domain.com" -mailport <port> -priority "high" -daystokeepbackup <days> -daystokeeplogfiles <days>
 ```
 
 Paramenters (**NOT FINAL**):
