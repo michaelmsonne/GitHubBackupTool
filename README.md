@@ -34,6 +34,7 @@ Outline the file contents of the repository. It helps users navigate the codebas
 | File/folder       | Description                                 |
 |-------------------|---------------------------------------------|
 | `\GithubBackup`   | Source code.                                |
+| `\Installer`      | Installer project.                          |
 | `.gitignore`      | Define what to ignore at commit time.       |
 | `CHANGELOG.md`    | List of changes to the sample.              |
 | `CONTRIBUTING.md` | Guidelines for contributing to the TEMPLATE.|
