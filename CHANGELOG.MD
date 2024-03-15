@@ -2,7 +2,7 @@
 
 ### Added
 - Add logic to not start backup job tasks and console output if no repositories are found
-- Add code to save/use token from tokenfile
+- Add code to save/use token from token file
 
 ## Changed
 - Typo in about tool
