@@ -11,7 +11,7 @@
 - Rename class from folders to LocalFolderTasks
 - Fix typos in metadata classes for release and metadata for logging
 - Typos in release .json downloader
-- Upgraded some dependencies
+- Upgraded some dependencies:
     - Autofac 7.1.0 -> 8.0.0
     - Microsoft.System.Diagnostics.DiagnosticSource 4.7.1 > 7.0.2
     - Microsoft.Windows.Compatibility 8.0.2 > 8.0.3
@@ -29,7 +29,7 @@
 ### Changed
 - Changed some typos
 - Moved some code to classes
-- Upgraded some dependencies
+- Upgraded some dependencies:
     - Microsoft.Windows.Compatibility - 8.0.0 > 8.0.2
     - McMaster.Extensions.CommandLineUtils - 4.1.0 > 4.1.1
 - Changed backup folder name to just the timestamp
