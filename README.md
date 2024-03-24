@@ -152,7 +152,7 @@ Paramenters (**NOT FINAL**):
 
 - token-based
     - token.bin: Use an encrypted .bin file (based on hardware ID´s) with your GitHub personal access token in. 
-    (Remember to run --tokenfile <token.data> to create the file first beside the application .exe!)
+    (Remember to run -tokenfile <token.data> to create the file first beside the application .exe!)
     - <token.data>: Replace this with your GitHub personal access token.
 - "D:\Backup\GitHub\": Specify the local directory where you want to store the GitHub repository backups.
 - -allowner: Use this option to back up repositories owned by the token holder.

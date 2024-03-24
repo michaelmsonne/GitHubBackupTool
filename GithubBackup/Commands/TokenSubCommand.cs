@@ -96,7 +96,7 @@ namespace GithubBackup.Commands
                 var daysToKeepLogFilesOption = tokenBasedCmd.Option("-daystokeeplogfiles <days>", "Number of days to keep log files for. Log files older than this will be deleted (default is 30 days).\n", CommandOptionType.SingleValue);
 
                 // Define the --tokenfile option
-                var tokenFileOption = tokenBasedCmd.Option("--tokenfile", "Save token data to a file for encryption. (Only supported on Windows for the time..)\n", CommandOptionType.SingleValue);
+                var tokenFileOption = tokenBasedCmd.Option("-tokenfile", "Save token data to a file for encryption. (Only supported on Windows for the time..)\n", CommandOptionType.SingleValue);
 
                 // Define arguments for token-based backup (token and destination folder)
                 var tokenArgument = tokenBasedCmd.Argument("Token", "A valid github token.");
@@ -195,8 +195,7 @@ namespace GithubBackup.Commands
                     
                     var credentials = CredentialsFactory(tokenArgument.Value);
                     var currentFolder = Directory.GetCurrentDirectory();
-                    var destinationFolder = string.IsNullOrWhiteSpace(destinationArgument.Value) ? currentFolder : destinationArgument.Value;
-                    //var backupService = BackupServiceFactory(credentials, destinationFolder);
+                    var destinationFolder = string.IsNullOrWhiteSpace(destinationArgument.Value) ? Path.Combine(currentFolder, "Backup") : destinationArgument.Value;
 
                     #region SecureToken
 
