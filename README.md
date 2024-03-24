@@ -145,7 +145,7 @@ GitHubBackupTool token-based <token> [<destination>] [<backuptype>] -mailto "mai
 
 etc.: 
 ```bash
-GitHubBackupTool token-based <token> "D:\Backup\GitHub\" -allowner -mailto "mail-to@domain.com" -mailfrom "mail-from@domain.com" -mailserver "mailserver.domain.com" -mailport <port> -priority "high" -daystokeepbackup <days> -daystokeeplogfiles <days>
+GitHubBackupTool token-based <token> "D:\Backup\GitHub\" -allowner -mailto "mail-to@domain.com" -mailfrom "mail-from@domain.com" -mailserver "mailserver.domain.com" -mailport <port> -priority "high" -daystokeepbackup 50 -daystokeeplogfiles 180
 ```
 
 Paramenters (**NOT FINAL**):
