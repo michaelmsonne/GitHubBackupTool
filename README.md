@@ -54,7 +54,7 @@ While your code is perfectly safe on the GitHub infrastructure, there are cases 
 
 By using the GitHubBackupTool, you can automate the process of creating backups of your GitHub repositories, ensuring that your valuable code is safe and easily recoverable.
 
-## Use
+# Use
 
 ## Features
 
