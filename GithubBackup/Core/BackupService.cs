@@ -417,7 +417,7 @@ namespace GithubBackup.Core
                         if (progressBar != null) progressBar.Tick(progress.ReceivedObjects);
                         return true;
                     },
-                    RepositoryOperationCompleted = (context) =>
+                    RepositoryOperationCompleted = (_) =>
                     {
                         // Dispose the progressbar
                         progressBar?.Dispose();
@@ -430,13 +430,13 @@ namespace GithubBackup.Core
                 if (Credentials.AuthenticationType == AuthenticationType.Basic)
                 {
                     // Set credentials for Github - basic
-                    cloneOptions.CredentialsProvider = (url, user, cred)
+                    cloneOptions.CredentialsProvider = (_, _, _)
                         => new UsernamePasswordCredentials { Username = Credentials.Login, Password = Credentials.Password };
                 }
                 else if (Credentials.AuthenticationType == AuthenticationType.Oauth)
                 {
                     // Set credentials for Github - oauth
-                    cloneOptions.CredentialsProvider = (url, user, cred)
+                    cloneOptions.CredentialsProvider = (_, _, _)
                         => new UsernamePasswordCredentials { Username = Credentials.GetToken(), Password = string.Empty };
                 }
 
