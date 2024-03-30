@@ -54,57 +54,30 @@ While your code is perfectly safe on the GitHub infrastructure, there are cases 
 
 By using the GitHubBackupTool, you can automate the process of creating backups of your GitHub repositories, ensuring that your valuable code is safe and easily recoverable.
 
-## Use
+# Use
 
-### Features
-- Backup Git repos from GitHub via token
-- Supports user token and Org token
-- Send email report with status
-- Set custom path for backup location
+## Features
+
+### Overall:
+- Asynchronous Resolution: Utilizes asynchronous processing for improved performance and responsiveness, allowing users to continue working while backups are being created.
+- Simplicity and Ease of Use: Provides a straightforward and user-friendly method for creating backups from GitHub repositories.
+
+### List:
+- Backup Functionality:
+  - Repository Backup: Enables users to create local backups of GitHub repositories.
+  - Customizable Backup Options: Offers various command-line options to tailor the backup process, including specifying backup directories, , types of repositories and branches, token authentication, cleanup, backup retention period, and more.
+  - Automated Cleanup: Supports cleanup functionality to manage the disk space occupied by the backup files.
+  - Backup Retention: Allows users to specify the number of days to retain backups, automatically removing older backups based on the set retention period using the --daystokeepbackup argument.
+
+- Email Reporting:
+  - Email Notifications: Sends detailed email reports upon backup completion, providing status updates, backup job information, and relevant details.
+  - Email Customization: Offers different email layouts (--simpelreportlayout) to cater to varying preferences or requirements.
+  - Priority Configuration: Provides the option to set email priority (--priority) for the backup completion notification.
+ 
+- Logging:
+  - Job Logging: Stores logs for backup jobs in a designated folder (.\Log) for a defined period (default: 30 days) beside the **GitHubBackupTool.exe** executable.
 
 The tools and code in it can as much of the same features as my [Azure DevOps Backup tool](https://github.com/michaelmsonne/AzureDevOpsBackupTool), but with some changes to support the GitHub API. Some functions/data/API data is not the same, so some features/stat/status checks is not here at the movemt (we hope in the future).
-
-### Getting GitHub repos API key give access too
-
-![GitHubBackupTool starting](docs/pictures/start-of-backup-getting-repos.png?raw=true "GitHubBackupTool starting")
-
-### Createing GitHub of reposs basd on parameters to backup
-
-![GitHubBackupTool backup running](docs/pictures/backup-running.png?raw=true "GitHubBackupTool backup running")
-
-### Backup done and report send
-
-![GitHubBackupTool backup done](docs/pictures/backup-done.png?raw=true "GitHubBackupTool backup done")
-
-# Console use:
-
-**Help and info menu:**
-
-Main menu:
-
-![Screenshot](docs/pictures/help-menu.png)
-
-Sub menu:
-
-![Screenshot](docs/pictures/help-token-menu.png)
-
-# Email report sample
-
-**Full layout:**
-
-![Screenshot](docs/pictures/email-report-full.png)
-
-**Simple layout:**
-
-![Screenshot](docs/pictures/email-report-simple.png)
-
-## Building
-
-## Download
-
-[Download the latest version](../../releases/latest)
-
-[Version History](CHANGELOG.md)
 
 ## Getting Started
 ### Prerequisites
@@ -152,12 +125,12 @@ Paramenters (**NOT FINAL**):
 
 - token-based
     - token.bin: Use an encrypted .bin file (based on hardware ID´s) with your GitHub personal access token in. 
-    (Remember to run --tokenfile <token.data> to create the file first beside the application .exe!)
+    (Remember to run -tokenfile <token.data> to create the file first beside the application .exe!)
     - <token.data>: Replace this with your GitHub personal access token.
 - "D:\Backup\GitHub\": Specify the local directory where you want to store the GitHub repository backups.
 - -allowner: Use this option to back up repositories owned by the token holder.
 - -all: Use this option to back up all repositories the token have access to.
-- -allnf: Use this option to back up repositories owned by the token holder and exclude forked repositories..
+- -allnotforked: Use this option to back up repositories owned by the token holder and exclude forked repositories..
 - -allowner: Use this option to back up repositories owned by the token holder.
 - -allbranches: Use this option to back up all branches of repositories (default only DefaultBranch) by the token holder.
 - -excludebranchdependabot: Use this option to exclude the branches with the name "dependabot" from the backup.
@@ -170,6 +143,50 @@ Paramenters (**NOT FINAL**):
 - -daystokeeplogfiles 180: Set the number of days to retain log files before automatic removal (default is 30 days if not set).
 - -backupmetadata: Backup metadata for each repository. If set, the code itself will be saved to the repo folder.
 - -backupreleasedata: Backup release data for each repository. If set, the code itself will be saved to the repo folder.
+- -gitbackupvalidation: Validate backup of repositories after backup is done. If set, the backup will be validated.
+- ...
+
+### Getting GitHub repos API key give access too
+
+![GitHubBackupTool starting](docs/pictures/start-of-backup-getting-repos.png?raw=true "GitHubBackupTool starting")
+
+### Createing GitHub of reposs basd on parameters to backup
+
+![GitHubBackupTool backup running](docs/pictures/backup-running.png?raw=true "GitHubBackupTool backup running")
+
+### Backup done and report send
+
+![GitHubBackupTool backup done](docs/pictures/backup-done.png?raw=true "GitHubBackupTool backup done")
+
+# Console use:
+
+**Help and info menu:**
+
+Main menu:
+
+![Screenshot](docs/pictures/help-menu.png)
+
+Sub menu:
+
+![Screenshot](docs/pictures/help-token-menu.png)
+
+# Email report sample
+
+**Full layout:**
+
+![Screenshot](docs/pictures/email-report-full.png)
+
+**Simple layout:**
+
+![Screenshot](docs/pictures/email-report-simple.png)
+
+## Building
+
+## Download
+
+[Download the latest version](../../releases/latest)
+
+[Version History](CHANGELOG.md)
 
 # Final thoughts
 This is not an exhaustive method to retrieve every artifact on GitHub. There’s a lot more to be done to make this a complete solution.
@@ -183,11 +200,7 @@ And the tool can also be used to backup all repositories of a user.
 
 Use it in a scheduled task to backup your repositories every day or week or month or whatever you want manually or automatically.
 
-```bash
-$ dotnet publish -r win10-x64 -c release
-```
-
-So far I tested the application only for win10-x64 systems, but it might also work on other platforms.
+So far I tested the application only for Windows 11 x64 and Windows Server 2022 x64 systems, but it might also work on other platforms 😎
 
 ## Used 3rd party libraries for the tool:
 
@@ -216,7 +229,7 @@ Please try to create bug reports that are:
 - _Reproducible._ Include steps to reproduce the problem.
 - _Specific._ Include as much detail as possible: which version, what environment, etc.
 - _Unique._ Do not duplicate existing opened issues.
-- _Scoped to a Single Bug._ One bug per report.´´
+- _Scoped to a Single Bug._ One bug per report.
 
 # Support
 
