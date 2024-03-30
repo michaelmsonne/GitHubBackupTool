@@ -494,14 +494,9 @@ namespace GithubBackup.Core
                                 $"> Done processing repository '{repo.FullName}' for backup, DefaultBranch '{repo.DefaultBranch}' - saved data to disk: '" +
                                 defaultBranchPath + "'", EventType.Information, 1000);
 
-
-
-
-
                             // Call validation for the repository backup
                             CallBackupRepoValidation(defaultBranchPath, repo.FullName);
-
-
+                            
                             // Count repos processed
                             Globals._repoBackupPerformedBranchCount++;
 
@@ -592,16 +587,8 @@ namespace GithubBackup.Core
                                             $"> Done processing repository '{repo.FullName}' for backup - Options: all branches: saved data for branch '{branchName.Name}' to disk: '{clonedRepoPath}'",
                                             EventType.Information, 1000);
 
-
-
-
-
                                         // Call validation for the repository backup
                                         CallBackupRepoValidation(clonedRepoPath, repo.FullName);
-
-
-
-
                                     }
                                     else
                                     {
@@ -644,15 +631,9 @@ namespace GithubBackup.Core
                         // Backup only the default branch for the current repository selected for backup (default branch) - this is the default option
                         LibGit2Sharp.Repository.Clone(repo.CloneUrl, clonedRepoPath, cloneOptions);
 
-
-
-
                         // Call validation for the repository backup
                         CallBackupRepoValidation(clonedRepoPath, repo.FullName);
-
-
-
-
+                        
                         // Set the cloned repository path to a temp variable for later use
                         clonedRepoPathTemp = clonedRepoPath;
 
