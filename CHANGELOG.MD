@@ -5,6 +5,7 @@
 
 ## Changed
 - Fixed typo in argument tokenfile
+- Some small internal code changes and cleanup
 
 ### Fixed
 - Fixed a bug if destination folder is not specified, the tool deleted all folders in the root of the application folder. Now the folder is set to "Backups" in the root of the application folder if not set.
