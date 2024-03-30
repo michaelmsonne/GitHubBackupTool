@@ -272,7 +272,7 @@ namespace GithubBackup.Class
                 else
                 {
                     // Print success message for valid repository
-                    Message($"The downloaded repository is valid: '{repoFullName}' when saving data to the disk ('{repoPath}')", EventType.Information, 1000);
+                    Message($"The downloaded repository is valid: '{repoFullName}' when saved data to the disk ('{repoPath}')", EventType.Information, 1000);
                 }
             }
         }
