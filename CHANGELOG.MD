@@ -1,9 +1,5 @@
 ## [1.3.0.0] - XX-XX-2024
 
-Known issues:
-
-A bug where the counting of processed repositories was not correct in some cases
-
 ### Added
 - 
 
