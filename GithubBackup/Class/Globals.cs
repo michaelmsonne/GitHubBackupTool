@@ -48,6 +48,7 @@ namespace GithubBackup.Class
 
         public static int _repoBackupSkippedCount; // count repo skipped from Github - etc. empty ones
         public static int _repoBackupPerformedCount; // count repo items from Github
+        public static int _repoPerformedRepoCount; // count repo items from Github processed - not meaning it is backed up!
         public static int _repoBackupPerformedBranchCount; // count repo (branches) items from Github
         public static int _backupFileCount; // 
         public static int _backupFolderCount;

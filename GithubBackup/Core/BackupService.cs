@@ -170,7 +170,7 @@ namespace GithubBackup.Core
                 Message($"Starting counting of branches in backup folder '{Destination}'...", EventType.Information, 1000);
 
                 // Do work to count branches in backup folder
-                Globals._repoBackupPerformedBranchCount = LocalFolderTasks.GetSubfolderCountForBranchFolders(Globals._backupFolderName, 3);
+                //Globals._repoBackupPerformedBranchCount = LocalFolderTasks.GetSubfolderCountForBranchFolders(Globals._backupFolderName, 3);
 
                 // Log
                 Console.WriteLine($"Counted branches in backup folder '{Destination}'.");
@@ -338,9 +338,7 @@ namespace GithubBackup.Core
             // Use an object for locking
             var lockObject = new object();
 
-            // Set correct value for repo count before intering the loop
-            Globals._repoBackupPerformedCount = -1;
-
+            // Parallel loop to clone repositories
             Parallel.ForEach(repos, (repo) =>
             {
                 // Backup all branches for the current repository selected for backup
@@ -352,8 +350,8 @@ namespace GithubBackup.Core
                 var branchNames = GetBranchesForRepository(client, repo);
                 
                 // Set folder names for the current repository
-                string repoDestinationBackupCode;                                                // Code folder (root of the repository or branch folder)
-                var repoDestinationBackupMetadata = Path.Combine(Destination, repo.FullName); // Metadata folder (root of the repository) + branch/code folder will be added later 
+                string repoDestinationBackupCode;                                                      // Code folder (root of the repository or branch folder)
+                var repoDestinationBackupMetadata = Path.Combine(Destination, repo.FullName);    // Metadata folder (root of the repository) + branch/code folder will be added later 
                 var repoDestinationBackupReleasedata = Path.Combine(Destination, repo.FullName); // Release folder (root of the repository() + branch/code folder will be added later )
                 
                 /*
@@ -448,9 +446,41 @@ namespace GithubBackup.Core
                     // If all branches is selected for backup (all branches option) - show branches in progressbar
                     if (Globals._allBranches)
                     {
+                        // Create a folder path for the default branch
+                        string defaultBranchPath = Path.Combine(repoDestinationBackupCode, repo.DefaultBranch);
+
+                        try
+                        {
+                            // Log
+                            Message($"Create repository main branch folder for '{repo.FullName}' for branch '{repo.DefaultBranch}' to disk: '{defaultBranchPath}'", EventType.Information, 1000);
+
+                            // Create the folder for the default branch if it doesn't exist
+                            Directory.CreateDirectory(defaultBranchPath);
+
+                            // Clone the repository for the default branch
+                            LibGit2Sharp.Repository.Clone(repo.CloneUrl, defaultBranchPath, cloneOptions);
+
+                            // Log
+                            Message($"> Done processing repository '{repo.FullName}' for backup, DefaultBranch '{repo.DefaultBranch}' - saved data to disk: '" + defaultBranchPath + "'", EventType.Information, 1000);
+
+                            // Used for email report list - list name for projects to list for email report list
+                            Globals._repoitemscountelements.Add($"{repo.Name}, ('{repo.DefaultBranch}' Default Branch), Owner: '{repo.Owner.Login}'");
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Error cloning repository '{repo.FullName}' for default branch: {ex.Message}");
+                            Message($"Error cloning repository '{repo.FullName}' for default branch: {ex.Message}", EventType.Error, 1001);
+                        }
+
                         // Backup all branches for the current repository selected for backup
                         foreach (var branchName in branchNames)
                         {
+                            if (branchName.Name.Equals(repo.DefaultBranch, StringComparison.OrdinalIgnoreCase))
+                            {
+                                // Skip the default branch as it has already been processed
+                                continue;
+                            }
+
                             // Replacing "\" with "-" in the branch name
                             string sanitizedBranchName = branchName.Name.Replace("/", "-");
 
@@ -458,48 +488,65 @@ namespace GithubBackup.Core
                             string clonedRepoPath = Path.Combine(repoDestinationBackupCode, sanitizedBranchName);
 
                             // Log
-                            Message($"Processing repository '{repo.FullName}' for backup - Options: ALL branches: saved data for branch '{branchName.Name}' to disk: '{clonedRepoPath}\\'", EventType.Information, 1000);
+                            Message($"Checking all repository branches for '{repo.FullName}' for branch '{branchName.Name}'...", EventType.Information, 1000);
 
-                            // Clone the repository without checking out any branch
-                            LibGit2Sharp.Repository.Clone(repo.CloneUrl, clonedRepoPath, cloneOptions);
-
-                            using (var repository = new LibGit2Sharp.Repository(clonedRepoPath))
+                            try
                             {
-                                // Fetch the specific branch
-                                var fetchOptions = new FetchOptions
-                                {
-                                    CredentialsProvider = cloneOptions.CredentialsProvider
-                                };
+                                // Log
+                                Message($"Create repository branch folder for '{repo.FullName}' for branch '{branchName.Name}' to disk: '{clonedRepoPath}'", EventType.Information, 1000);
 
-                                // Fetch the specific branch
-                                LibGit2Sharp.Commands.Fetch(repository, "origin", new[] { $"refs/heads/{branchName.Name}:refs/remotes/origin/{branchName.Name}" }, fetchOptions, null);
-
-                                // Checkout the specific branch in the repository
-                                var branch = repository.Branches[$"origin/{branchName.Name}"];
-                                if (branch != null)
-                                {
-                                    // Checkout the specific branch
-                                    LibGit2Sharp.Commands.Checkout(repository, branch);
-
-                                    // Log
-                                    Message($"> Done processing repository '{repo.FullName}' for backup - Options: ALL branches: saved data for branch '{branchName.Name}' to disk: '{clonedRepoPath}\\'", EventType.Information, 1000);
-                                }
-                                else
-                                {
-                                    // Handle the case where the branch doesn't exist
-                                    Console.WriteLine($"Branch '{branchName.Name}' does not exist in repository '{repo.FullName}'.");
-                                    Message($"Branch '{branchName.Name}' does not exist in repository '{repo.FullName}'.", EventType.Warning, 1001);
-                                }
+                                // Create the folder for the branch if it doesn't exist
+                                Directory.CreateDirectory(clonedRepoPath);
+                            }
+                            catch (Exception e)
+                            {
+                                // Log
+                                Message($"Error creating folder for branch '{branchName.Name}' in repo '{repo.FullName}' for backup to disk: '{clonedRepoPath}' - Error: {e.Message}", EventType.Information, 1000);
+                                continue; // Skip to the next branch if folder creation fails
                             }
 
-                            // Log
-                            //Message($"Done processing repository '{repo.FullName}' for backup - Options: ALL branches: saved data  to disk.", EventType.Information, 1000);
+                            try
+                            {
+                                // Clone the repository for the branch
+                                LibGit2Sharp.Repository.Clone(repo.CloneUrl, clonedRepoPath, cloneOptions);
+
+                                using (var repository = new LibGit2Sharp.Repository(clonedRepoPath))
+                                {
+                                    // Fetch the specific branch
+                                    var fetchOptions = new FetchOptions
+                                    {
+                                        CredentialsProvider = cloneOptions.CredentialsProvider
+                                    };
+
+                                    // Fetch the specific branch
+                                    LibGit2Sharp.Commands.Fetch(repository, "origin", new[] { $"refs/heads/{branchName.Name}:refs/remotes/origin/{branchName.Name}" }, fetchOptions, null);
+
+                                    // Checkout the specific branch in the repository
+                                    var branch = repository.Branches[$"origin/{branchName.Name}"];
+                                    if (branch != null)
+                                    {
+                                        // Checkout the specific branch
+                                        LibGit2Sharp.Commands.Checkout(repository, branch);
+
+                                        // Log
+                                        Message($"> Done processing repository '{repo.FullName}' for backup - Options: all branches: saved data for branch '{branchName.Name}' to disk: '{clonedRepoPath}'", EventType.Information, 1000);
+                                    }
+                                    else
+                                    {
+                                        // Handle the case where the branch doesn't exist
+                                        Console.WriteLine($"Branch '{branchName.Name}' does not exist in repository '{repo.FullName}'.");
+                                        Message($"Branch '{branchName.Name}' does not exist in repository '{repo.FullName}'.", EventType.Warning, 1001);
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine($"Error cloning repository '{repo.FullName}' for branch '{branchName.Name}': {ex.Message}");
+                                Message($"Error cloning repository '{repo.FullName}' for branch '{branchName.Name}': {ex.Message}", EventType.Error, 1001);
+                            }
 
                             // Used for email report list - list name for projects to list for email report list
                             Globals._repoitemscountelements.Add($"{repo.Name}, ('{branchName.Name}' branch), Owner: '{repo.Owner.Login}'");
-
-                            Globals._repoBackupPerformedCount++; // Increment the _repoCount integer for count of repos in total
-                            //Globals._repoBackupPerformedBranchCount++; // Increment the BranchCount
 
                             // Count repos processed
                             lock (lockObject)
@@ -520,13 +567,10 @@ namespace GithubBackup.Core
                         LibGit2Sharp.Repository.Clone(repo.CloneUrl, clonedRepoPath, cloneOptions);
 
                         // Log
-                        Message($"Processed repository: '{repo.FullName}' for backup, DefaultBranch '{repo.DefaultBranch}' - saved data to disk: '" + clonedRepoPath + "'", EventType.Information, 1000);
+                        Message($"> Done processing repository: '{repo.FullName}' for backup, DefaultBranch '{repo.DefaultBranch}' - saved data to disk: '" + clonedRepoPath + "'", EventType.Information, 1000);
 
                         // Used for email report list - list name for projects to list for email report list
                         Globals._repoitemscountelements.Add($"{repo.Name}, ('{repo.DefaultBranch}' Default Branch), Owner: '{repo.Owner.Login}'");
-
-                        Globals._repoBackupPerformedCount++; // Increment the _repoCount integer for count of repos in total
-                        //Globals._repoBackupPerformedBranchCount++; // Increment the BranchCount
 
                         // Count repos processed
                         lock (lockObject)
@@ -537,8 +581,11 @@ namespace GithubBackup.Core
                         }
                     }
 
+                    // Count total repos processed
+                    Globals._repoPerformedRepoCount++;
+
                     // Increment the _repoCount integer for count of repos in total
-                    //Globals._repoBackupPerformedCount++;
+                    Globals._repoBackupPerformedCount++;
                 }
                 catch (LibGit2SharpException libGit2SharpException)
                 {
