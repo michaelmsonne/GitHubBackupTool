@@ -196,7 +196,7 @@ namespace GithubBackup.Commands
 
                     #endregion Set options for backup to keep
                     
-                    var credentials = CredentialsFactory(tokenArgument.Value);
+                    Credentials credentials;
                     var currentFolder = Directory.GetCurrentDirectory();
                     var destinationFolder = string.IsNullOrWhiteSpace(destinationArgument.Value) ? Path.Combine(currentFolder, "Backup") : destinationArgument.Value;
 
