@@ -60,7 +60,7 @@ namespace GithubBackup.Commands
 
             Command = ParentCommand.Command("token-based", (tokenBasedCmd) =>
             {
-                tokenBasedCmd.Description = "Using a token-based authentication.";
+                tokenBasedCmd.Description = "Using a token-based authentication (token or encrypted token file)";
                 tokenBasedCmd.UnrecognizedArgumentHandling = UnrecognizedArgumentHandling.Throw;
 
                 #region Set/show arguments used for token-based backup
