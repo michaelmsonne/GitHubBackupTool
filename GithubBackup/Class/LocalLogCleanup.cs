@@ -14,7 +14,7 @@ namespace GithubBackup.Class
             // Log
             Message("Checking for old log file(s) to cleanup...", EventType.Information, 1000);
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\nChecking for old log file(s) to cleanup...");
+            Console.WriteLine("Checking for old log file(s) to cleanup...");
             Console.ResetColor();
 
             // Loop all files in folder

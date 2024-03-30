@@ -1,5 +1,9 @@
 ## [1.3.0.0] - XX-XX-2024
 
+Known issues:
+
+A bug where the counting of processed repositories was not correct in some cases
+
 ### Added
 - 
 
@@ -9,7 +13,7 @@
 
 ### Fixed
 - Fixed a bug if destination folder is not specified, the tool deleted all folders in the root of the application folder. Now the folder is set to "Backups" in the root of the application folder if not set.
-- Fixed a bug where the counting of processed repositories was not correct in some cases
+- Fixed if a repository is empty and -allbranches is set, the tool will not create the folder for the repository there was no data to backup (did that is -allbranches was not specifies)
 
 ## [1.2.0.0] - 15-03-2024
 

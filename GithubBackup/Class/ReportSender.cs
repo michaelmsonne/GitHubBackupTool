@@ -26,12 +26,18 @@ namespace GithubBackup.Class
             // Mail body text - HTML format
             string mailBody;
 
+            // Count the number of elements in the list
+            int countForListNumbersOfReposBackedup = listOfReposInGitHubBackupIsCreatedElements.Count;
+
+
+
             // Parse data to list from list of repo.name and list of repo.name.backup (backup is created) - HTML format - for email report body
             var listOfReposInGitHub =
-                "<h3>List of Git repositories in GitHub (the provided API key give access to (showing main branch of repo)):</h3>∘ " +
+                "<h3>List of Git repositories in GitHub (the provided API key give access to (showing main branch of repo) but means NOT it´s backed up - see the list above):</h3>∘ " +
                 string.Join("<br>∘ ", listOfReposInGitHubElements);
+
             var listOfReposInGitHubBackupIsCreated =
-                "<h3>List of Git repositories in GitHub a backup is performed of (based on arguments for backup type):</h3>∘ " +
+                "<h3>List of Git repositories and branches in GitHub a backup is performed of (based on arguments for backup type: " + countForListNumbersOfReposBackedup + "):</h3>∘ " +
                 string.Join("<br>∘ ", listOfReposInGitHubBackupIsCreatedElements);
             
             // Get email status text from job status
@@ -169,9 +175,14 @@ namespace GithubBackup.Class
                 Body = mailBody,
                 BodyEncoding = Encoding.UTF8,
                 IsBodyHtml = true,
-                Subject = "[" + emailStatusMessage + $"] - {Globals._appName} status - (" + Globals._repoBackupPerformedCount +
-                              " Git projects (" + Globals._repoBackupPerformedBranchCount + " branches) backed up), " + errors + " issues(s) - (backups to keep (days): " + daysToKeep +
-                              ", backup(s) deleted: " + totalBackupsIsDeleted + ")",
+                Subject = "[" + emailStatusMessage + $"] - {Globals._appName} status - (" +
+                          Globals._repoPerformedRepoCount + " Total Git repositories processed - (" +
+                          Globals._repoBackupPerformedBranchCount + " branches backed up, " +
+                          Globals._repoBackupPerformedCount + " repositories), " +
+                          "skipped repositorie(s): " + Globals._repoBackupSkippedCount +
+                          " - issues(s): " + errors +
+                          " - Backups (backups to keep (days): " + daysToKeep +
+                          ", backup(s) deleted: " + totalBackupsIsDeleted + ")",
 
                 // Set email priority level based on command-line argument
                 Priority = Globals._emailPriority,
