@@ -56,11 +56,26 @@ By using the GitHubBackupTool, you can automate the process of creating backups 
 
 ## Use
 
-### Features
-- Backup Git repos from GitHub via token
-- Supports user token and Org token
-- Send email report with status
-- Set custom path for backup location
+## Features
+
+### Overall:
+- Asynchronous Resolution: Utilizes asynchronous processing for improved performance and responsiveness, allowing users to continue working while backups are being created.
+- Simplicity and Ease of Use: Provides a straightforward and user-friendly method for creating backups from GitHub repositories.
+
+### List:
+- Backup Functionality:
+  - Repository Backup: Enables users to create local backups of GitHub repositories.
+  - Customizable Backup Options: Offers various command-line options to tailor the backup process, including specifying backup directories, , types of repositories and branches, token authentication, cleanup, backup retention period, and more.
+  - Automated Cleanup: Supports cleanup functionality to manage the disk space occupied by the backup files.
+  - Backup Retention: Allows users to specify the number of days to retain backups, automatically removing older backups based on the set retention period using the --daystokeepbackup argument.
+
+- Email Reporting:
+  - Email Notifications: Sends detailed email reports upon backup completion, providing status updates, backup job information, and relevant details.
+  - Email Customization: Offers different email layouts (--simpelreportlayout) to cater to varying preferences or requirements.
+  - Priority Configuration: Provides the option to set email priority (--priority) for the backup completion notification.
+ 
+- Logging:
+  - Job Logging: Stores logs for backup jobs in a designated folder (.\Log) for a defined period (default: 30 days) beside the **GitHubBackupTool.exe** executable.
 
 The tools and code in it can as much of the same features as my [Azure DevOps Backup tool](https://github.com/michaelmsonne/AzureDevOpsBackupTool), but with some changes to support the GitHub API. Some functions/data/API data is not the same, so some features/stat/status checks is not here at the movemt (we hope in the future).
 
