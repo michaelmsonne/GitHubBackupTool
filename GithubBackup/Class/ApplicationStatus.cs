@@ -1,7 +1,5 @@
-﻿using LibGit2Sharp;
-using System;
+﻿using System;
 using System.Diagnostics;
-using System.Drawing;
 using System.Globalization;
 using static GithubBackup.Class.FileLogger;
 
@@ -106,8 +104,8 @@ namespace GithubBackup.Class
                     Globals._totalBackupsIsDeleted,
                     Globals._daysToKeepBackup,
                     Globals._repoCountStatusText, //isSuccess ? "TEST" : Globals._repoCountStatusText,
-                    isSuccess ? Globals._repoCountStatusText : "TEST",
-                    isSuccess ? "TEST" : Globals._isDaysToKeepNotDefaultStatusText,
+                    Globals._repoCountStatusText, //isSuccess ? Globals._repoCountStatusText : "TEST",
+                    Globals._isDaysToKeepNotDefaultStatusText, //isSuccess ? "TEST" : Globals._isDaysToKeepNotDefaultStatusText,
                     Globals._useSimpleMailReportLayout,
                     Globals._isDaysToKeepNotDefaultStatusText,
                     Globals._startTime,
