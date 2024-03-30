@@ -304,9 +304,9 @@ namespace GithubBackup.Class
                 // TODO logfile is not locked from here - you can add logs to logfile again from here!
 
                 // Log
-                Message("Email notification is send to '" + emailTo + "' at " + DateTime.Now.ToString("dd-MM-yyyy (HH-mm)") + " with priority " + Globals._emailPriority + "!", EventType.Information, 1000);
+                Message("Email notification is send to '" + emailTo + "' at " + DateTime.Now.ToString("dd-MM-yyyy (HH-mm)") + " with priority '" + Globals._emailPriority + "'!", EventType.Information, 1000);
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Email notification is send to '" + emailTo + "' at " + DateTime.Now.ToString("dd-MM-yyyy (HH-mm)") + " with priority " + Globals._emailPriority + "!");
+                Console.WriteLine("Email notification is send to '" + emailTo + "' at " + DateTime.Now.ToString("dd-MM-yyyy (HH-mm)") + " with priority '" + Globals._emailPriority + "'!");
                 Console.ResetColor();
             }
             catch (Exception ex)
