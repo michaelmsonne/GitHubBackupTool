@@ -99,14 +99,6 @@ namespace GithubBackup.Class
                 repoItemsCountStatusText += " - no empty repositories";
             }
 
-
-
-
-
-
-
-
-
             // TODO - CLEANUP LATER
             // Globals._totalBackupsIsDeletedStatusText = totalBackupsIsDeletedStatusText;
             
