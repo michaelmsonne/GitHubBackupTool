@@ -68,7 +68,7 @@ namespace GithubBackup.Commands
                 // Define options for backup types when using token-based backup
                 // Set the backup type based on options for repos (all, all not forks, all not forks and is owner and so on...)
                 var allReposOption = tokenBasedCmd.Option("-all", "Backup all repositories.", CommandOptionType.NoValue);
-                var allReposNotForksOption = tokenBasedCmd.Option("-allnf", "Exclude forked repositories.", CommandOptionType.NoValue);
+                var allReposNotForksOption = tokenBasedCmd.Option("-allnotforked", "Exclude forked repositories.", CommandOptionType.NoValue);
                 var allReposOwnerOption = tokenBasedCmd.Option("-allowner", "Backup repositories where you are the owner (default).", CommandOptionType.NoValue);
                 var allBranchesOption = tokenBasedCmd.Option("-allbranches", "Backup all branches of repositories (default only DefaultBranch).", CommandOptionType.NoValue);
                 var excludeBranchDependabot = tokenBasedCmd.Option("-excludebranchdependabot", "Exclude branches with 'dependabot' in it from backup.", CommandOptionType.NoValue);
@@ -93,7 +93,7 @@ namespace GithubBackup.Commands
                 var daysToKeepBackupOption = tokenBasedCmd.Option("-daystokeepbackup <days>", "Number of days to keep backups for. Backups older than this will be deleted (default is 30 days).", CommandOptionType.SingleValue);
 
                 // Define an option for backup repo validation
-                var backupRepoValidationOption = tokenBasedCmd.Option("-gitbackupvalidation", "Validate backup of repositories after backup is done. If set, the backup will be validated.", CommandOptionType.NoValue);
+                var backupRepoValidationOption = tokenBasedCmd.Option("-gitbackupvalidation", "Validate backup of repositories after backup is done. If set, the backup will be validated.\n", CommandOptionType.NoValue);
 
                 // Define an option for days to keep log files in log folder before deleting it (default is 30 days) - if not set it use default value
                 var daysToKeepLogFilesOption = tokenBasedCmd.Option("-daystokeeplogfiles <days>", "Number of days to keep log files for. Log files older than this will be deleted (default is 30 days).\n", CommandOptionType.SingleValue);
