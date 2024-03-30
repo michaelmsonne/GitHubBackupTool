@@ -100,7 +100,6 @@ namespace GithubBackup.Class
                     0,
                     Globals._backupFolderName,
                     Globals._elapsedTime,
-                    Globals._errors,
                     Globals._totalBackupsIsDeleted,
                     Globals._daysToKeepBackup,
                     Globals._repoCountStatusText, //isSuccess ? "TEST" : Globals._repoCountStatusText,

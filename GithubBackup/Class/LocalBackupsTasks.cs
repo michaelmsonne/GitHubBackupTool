@@ -1,5 +1,7 @@
-﻿using System;
+﻿using LibGit2Sharp;
+using System;
 using System.IO;
+using System.Linq;
 using static GithubBackup.Class.FileLogger;
 
 namespace GithubBackup.Class
@@ -203,6 +205,75 @@ namespace GithubBackup.Class
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
+            }
+        }
+
+        public string ValidateRepo(string repoPath)
+        {
+            try
+            {
+                using (var repo = new Repository(repoPath))
+                {
+                    // Get the repository's commit count
+                    int commitCount = repo.Commits.Count();
+
+                    // Verify if the repository is empty (no commits)
+                    if (commitCount == 0)
+                    {
+                        return Globals._logMessageStringBackupValidationWarningEmptyRepoDownloaded;
+                    }
+
+                    // Add additional checks as needed
+
+                    // If all checks passed, consider the repository valid
+                    return null;
+                }
+            }
+            catch (RepositoryNotFoundException)
+            {
+                return "Error: The repository does not exist.";
+            }
+            catch (Exception ex)
+            {
+                return $"Error: An unexpected error occurred: {ex.Message}";
+            }
+        }
+
+        public void DoDownloadValidationCheck(string repoPath, string repoFullName)
+        {
+            // Check if validation is needed
+            if (Globals._backupRepoValidation)
+            {
+                // Validate the repository
+                string errorMessage = ValidateRepo(repoPath);
+                if (errorMessage != null)
+                {
+                    // Check if the error message contains the specific indication of possibly empty repository on GitHub
+                    if (errorMessage.Contains(Globals._logMessageStringBackupValidationWarningEmptyRepoDownloaded))
+                    {
+                        // Print success message for possibly empty repository on GitHub
+                        Message(Globals._logMessageStringBackupValidationWarningEmptyRepoDownloaded + $" Repository: '{repoFullName}' - Backup path: '{repoPath}'", EventType.Warning, 1002);
+
+                        // Increment the warning counter
+                        Globals._warnings++;
+
+                        // Increment the counter for total empty repositories
+                        Globals._backupRepoValidationTotalEmptyRepositories++;
+                    }
+                    else
+                    {
+                        // Print error message for other validation errors
+                        Message($"The downloaded repository is not valid: '{repoFullName}' when saving data to the disk ('{repoPath}'): {errorMessage}", EventType.Error, 1001);
+
+                        // Increment the error counter
+                        Globals._errors++;
+                    }
+                }
+                else
+                {
+                    // Print success message for valid repository
+                    Message($"The downloaded repository is valid: '{repoFullName}' when saving data to the disk ('{repoPath}')", EventType.Information, 1000);
+                }
             }
         }
     }

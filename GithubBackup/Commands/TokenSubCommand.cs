@@ -92,6 +92,9 @@ namespace GithubBackup.Commands
                 // Define an option for days to keep backup in backup folder before deleting it (default is 30 days) - if not set it use default value
                 var daysToKeepBackupOption = tokenBasedCmd.Option("-daystokeepbackup <days>", "Number of days to keep backups for. Backups older than this will be deleted (default is 30 days).", CommandOptionType.SingleValue);
 
+                // Define an option for backup repo validation
+                var backupRepoValidationOption = tokenBasedCmd.Option("-gitbackupvalidation", "Validate backup of repositories after backup is done. If set, the backup will be validated.", CommandOptionType.NoValue);
+
                 // Define an option for days to keep log files in log folder before deleting it (default is 30 days) - if not set it use default value
                 var daysToKeepLogFilesOption = tokenBasedCmd.Option("-daystokeeplogfiles <days>", "Number of days to keep log files for. Log files older than this will be deleted (default is 30 days).\n", CommandOptionType.SingleValue);
 
@@ -285,6 +288,26 @@ namespace GithubBackup.Commands
 
                     // Log
                     Message("Processing arguments set for what type of backup(s) to create...", EventType.Information, 1000);
+
+
+                    if (backupRepoValidationOption.HasValue())
+                    {
+                        // Set the backup type for metadata to true
+                        Globals._backupRepoValidation = true;
+
+                        // Log
+                        Message("Set to validate backup of repositories after backup is done", EventType.Information, 1000);
+                    }
+                    else
+                    {
+                        // Set the backup type for metadata to false
+                        Globals._backupRepoValidation = false;
+
+                        // Log
+                        Message("Set to NOT validate backup of repositories after backup is done", EventType.Information, 1000);
+                    }
+
+
                     
                     // Set the backup type based on options for Review Comments metadata
                     if (backupReviewCommentsDataOption.HasValue())
