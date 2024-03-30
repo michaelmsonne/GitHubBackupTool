@@ -60,7 +60,7 @@ namespace GithubBackup.Commands
 
             Command = ParentCommand.Command("token-based", (tokenBasedCmd) =>
             {
-                tokenBasedCmd.Description = "Using a token-based authentication.";
+                tokenBasedCmd.Description = "Using a token-based authentication (token or encrypted token file)";
                 tokenBasedCmd.UnrecognizedArgumentHandling = UnrecognizedArgumentHandling.Throw;
 
                 #region Set/show arguments used for token-based backup
@@ -68,7 +68,7 @@ namespace GithubBackup.Commands
                 // Define options for backup types when using token-based backup
                 // Set the backup type based on options for repos (all, all not forks, all not forks and is owner and so on...)
                 var allReposOption = tokenBasedCmd.Option("-all", "Backup all repositories.", CommandOptionType.NoValue);
-                var allReposNotForksOption = tokenBasedCmd.Option("-allnf", "Exclude forked repositories.", CommandOptionType.NoValue);
+                var allReposNotForksOption = tokenBasedCmd.Option("-allnotforked", "Exclude forked repositories.", CommandOptionType.NoValue);
                 var allReposOwnerOption = tokenBasedCmd.Option("-allowner", "Backup repositories where you are the owner (default).", CommandOptionType.NoValue);
                 var allBranchesOption = tokenBasedCmd.Option("-allbranches", "Backup all branches of repositories (default only DefaultBranch).", CommandOptionType.NoValue);
                 var excludeBranchDependabot = tokenBasedCmd.Option("-excludebranchdependabot", "Exclude branches with 'dependabot' in it from backup.", CommandOptionType.NoValue);
@@ -92,11 +92,14 @@ namespace GithubBackup.Commands
                 // Define an option for days to keep backup in backup folder before deleting it (default is 30 days) - if not set it use default value
                 var daysToKeepBackupOption = tokenBasedCmd.Option("-daystokeepbackup <days>", "Number of days to keep backups for. Backups older than this will be deleted (default is 30 days).", CommandOptionType.SingleValue);
 
+                // Define an option for backup repo validation
+                var backupRepoValidationOption = tokenBasedCmd.Option("-gitbackupvalidation", "Validate backup of repositories after backup is done. If set, the backup will be validated.\n", CommandOptionType.NoValue);
+
                 // Define an option for days to keep log files in log folder before deleting it (default is 30 days) - if not set it use default value
                 var daysToKeepLogFilesOption = tokenBasedCmd.Option("-daystokeeplogfiles <days>", "Number of days to keep log files for. Log files older than this will be deleted (default is 30 days).\n", CommandOptionType.SingleValue);
 
                 // Define the --tokenfile option
-                var tokenFileOption = tokenBasedCmd.Option("--tokenfile", "Save token data to a file for encryption. (Only supported on Windows for the time..)\n", CommandOptionType.SingleValue);
+                var tokenFileOption = tokenBasedCmd.Option("-tokenfile", "Save token data to a file for encryption. (Only supported on Windows for the time..)\n", CommandOptionType.SingleValue);
 
                 // Define arguments for token-based backup (token and destination folder)
                 var tokenArgument = tokenBasedCmd.Argument("Token", "A valid github token.");
@@ -193,10 +196,9 @@ namespace GithubBackup.Commands
 
                     #endregion Set options for backup to keep
                     
-                    var credentials = CredentialsFactory(tokenArgument.Value);
+                    Credentials credentials;
                     var currentFolder = Directory.GetCurrentDirectory();
-                    var destinationFolder = string.IsNullOrWhiteSpace(destinationArgument.Value) ? currentFolder : destinationArgument.Value;
-                    //var backupService = BackupServiceFactory(credentials, destinationFolder);
+                    var destinationFolder = string.IsNullOrWhiteSpace(destinationArgument.Value) ? Path.Combine(currentFolder, "Backup") : destinationArgument.Value;
 
                     #region SecureToken
 
@@ -230,10 +232,11 @@ namespace GithubBackup.Commands
                     // Use SecureString to securely store sensitive information
                     using (SecureString secureToken = new SecureString())
                     {
-                        foreach (char c in tokenArgument.Value)
-                        {
-                            secureToken.AppendChar(c);
-                        }
+                        if (tokenArgument.Value != null)
+                            foreach (char c in tokenArgument.Value)
+                            {
+                                secureToken.AppendChar(c);
+                            }
 
                         // Perform operations with secureToken here
 
@@ -286,6 +289,26 @@ namespace GithubBackup.Commands
 
                     // Log
                     Message("Processing arguments set for what type of backup(s) to create...", EventType.Information, 1000);
+
+
+                    if (backupRepoValidationOption.HasValue())
+                    {
+                        // Set the backup type for metadata to true
+                        Globals._backupRepoValidation = true;
+
+                        // Log
+                        Message("Set to validate backup of repositories after backup is done", EventType.Information, 1000);
+                    }
+                    else
+                    {
+                        // Set the backup type for metadata to false
+                        Globals._backupRepoValidation = false;
+
+                        // Log
+                        Message("Set to NOT validate backup of repositories after backup is done", EventType.Information, 1000);
+                    }
+
+
                     
                     // Set the backup type based on options for Review Comments metadata
                     if (backupReviewCommentsDataOption.HasValue())
