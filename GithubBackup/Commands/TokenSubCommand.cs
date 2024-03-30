@@ -232,10 +232,11 @@ namespace GithubBackup.Commands
                     // Use SecureString to securely store sensitive information
                     using (SecureString secureToken = new SecureString())
                     {
-                        foreach (char c in tokenArgument.Value)
-                        {
-                            secureToken.AppendChar(c);
-                        }
+                        if (tokenArgument.Value != null)
+                            foreach (char c in tokenArgument.Value)
+                            {
+                                secureToken.AppendChar(c);
+                            }
 
                         // Perform operations with secureToken here
 
