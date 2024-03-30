@@ -199,10 +199,10 @@ And the tool can also be used to backup all repositories of a user.
 Use it in a scheduled task to backup your repositories every day or week or month or whatever you want manually or automatically.
 
 ```bash
-$ dotnet publish -r win10-x64 -c release
+$ dotnet publish -r win11-x64 -c release
 ```
 
-So far I tested the application only for win10-x64 systems, but it might also work on other platforms.
+So far I tested the application only for win11-x64 systems, but it might also work on other platforms.
 
 ## Used 3rd party libraries for the tool:
 
