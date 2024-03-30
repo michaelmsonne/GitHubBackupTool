@@ -8,7 +8,8 @@
 - Fixed typo in argument tokenfile
 - Some small internal code changes and cleanup
 - Updated Octokit.9.0.0 to Octokit.10.0.0 (fixes some Windows long path issues to)
-- ⚠️ Changed argument -allnf to -allnotforked for better understanding
+- Updated Autofac.7.1.0 to 8.0.0
+- Changed argument -allnf to -allnotforked for better understanding ⚠️
 
 ### Fixed
 - Fixed a bug if destination folder is not specified, the tool deleted all folders in the root of the application folder. Now the folder is set to "Backups" in the root of the application folder if not set.
