@@ -463,6 +463,9 @@ namespace GithubBackup.Core
                             // Log
                             Message($"> Done processing repository '{repo.FullName}' for backup, DefaultBranch '{repo.DefaultBranch}' - saved data to disk: '" + defaultBranchPath + "'", EventType.Information, 1000);
 
+                            // Count repos processed
+                            Globals._repoBackupPerformedBranchCount++;
+
                             // Used for email report list - list name for projects to list for email report list
                             Globals._repoitemscountelements.Add($"{repo.Name}, ('{repo.DefaultBranch}' Default Branch), Owner: '{repo.Owner.Login}'");
                         }
@@ -521,6 +524,9 @@ namespace GithubBackup.Core
                                     // Fetch the specific branch
                                     LibGit2Sharp.Commands.Fetch(repository, "origin", new[] { $"refs/heads/{branchName.Name}:refs/remotes/origin/{branchName.Name}" }, fetchOptions, null);
 
+                                    // Count repos processed
+                                    Globals._repoBackupPerformedBranchCount++;
+
                                     // Checkout the specific branch in the repository
                                     var branch = repository.Branches[$"origin/{branchName.Name}"];
                                     if (branch != null)
@@ -548,7 +554,6 @@ namespace GithubBackup.Core
                             // Used for email report list - list name for projects to list for email report list
                             Globals._repoitemscountelements.Add($"{repo.Name}, ('{branchName.Name}' branch), Owner: '{repo.Owner.Login}'");
 
-                            // Count repos processed
                             lock (lockObject)
                             {
                                 //Globals._repoBackupedCount++; // Increment the _repoCount integer for count of repos in total
@@ -573,6 +578,8 @@ namespace GithubBackup.Core
                         Globals._repoitemscountelements.Add($"{repo.Name}, ('{repo.DefaultBranch}' Default Branch), Owner: '{repo.Owner.Login}'");
 
                         // Count repos processed
+                        Globals._repoBackupPerformedBranchCount++;
+
                         lock (lockObject)
                         {
                             //Globals._repoBackupedCount++; // Increment the _repoCount integer for count of repos in total
