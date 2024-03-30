@@ -353,8 +353,6 @@ namespace GithubBackup.Core
             // Use an object for locking
             var lockObject = new object();
 
-            var clonedRepoPathTemp = string.Empty;
-
             // Parallel loop to clone repositories
             Parallel.ForEach(repos, (repo) =>
             {
@@ -556,9 +554,6 @@ namespace GithubBackup.Core
                                 // Clone the repository for the branch
                                 LibGit2Sharp.Repository.Clone(repo.CloneUrl, clonedRepoPath, cloneOptions);
 
-                                // Set the cloned repository path to a temp variable for later use
-                                clonedRepoPathTemp = clonedRepoPath;
-
                                 using (var repository = new LibGit2Sharp.Repository(clonedRepoPath))
                                 {
                                     // Fetch the specific branch
@@ -633,9 +628,6 @@ namespace GithubBackup.Core
 
                         // Call validation for the repository backup
                         CallBackupRepoValidation(clonedRepoPath, repo.FullName);
-                        
-                        // Set the cloned repository path to a temp variable for later use
-                        clonedRepoPathTemp = clonedRepoPath;
 
                         // Log
                         Message(
