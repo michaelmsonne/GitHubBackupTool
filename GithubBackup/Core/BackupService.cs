@@ -725,30 +725,6 @@ namespace GithubBackup.Core
                  *
                  */
 
-
-                // Define the path to the downloaded repository
-                //string repoPath = @"C:\Path\To\Your\Downloaded\Repository";
-
-                /*// Check if validation is needed
-                if (Globals._backupRepoValidation)
-                {
-                    // Define the path to the downloaded repository
-                    string repoPath = clonedRepoPathTemp;
-
-                    // Create an instance of LocalBackupsTasks
-                    LocalBackupsTasks backupsTasks = new LocalBackupsTasks();
-
-                    // Validate the repository
-                    if (backupsTasks.ValidateDownloadedRepository(repoPath))
-                    {
-                        Message($"The downloaded repository is valid: " + repo.FullName + " when save data to the disk (" + repoPath + ")", EventType.Information, 1000);
-                    }
-                    else
-                    {
-                        Message($"The downloaded repository is not valid: " + repo.FullName + " when save data to the disk (" + repoPath + ")", EventType.Error, 1001);
-                    }
-                }*/
-
                 // Save metadata for the repository if the option is set
                 if (backupMetadata)
                 {
