@@ -130,7 +130,7 @@ Paramenters (**NOT FINAL**):
 - "D:\Backup\GitHub\": Specify the local directory where you want to store the GitHub repository backups.
 - -allowner: Use this option to back up repositories owned by the token holder.
 - -all: Use this option to back up all repositories the token have access to.
-- -allnf: Use this option to back up repositories owned by the token holder and exclude forked repositories..
+- -allnotforked: Use this option to back up repositories owned by the token holder and exclude forked repositories..
 - -allowner: Use this option to back up repositories owned by the token holder.
 - -allbranches: Use this option to back up all branches of repositories (default only DefaultBranch) by the token holder.
 - -excludebranchdependabot: Use this option to exclude the branches with the name "dependabot" from the backup.
