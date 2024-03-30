@@ -79,48 +79,6 @@ By using the GitHubBackupTool, you can automate the process of creating backups 
 
 The tools and code in it can as much of the same features as my [Azure DevOps Backup tool](https://github.com/michaelmsonne/AzureDevOpsBackupTool), but with some changes to support the GitHub API. Some functions/data/API data is not the same, so some features/stat/status checks is not here at the movemt (we hope in the future).
 
-### Getting GitHub repos API key give access too
-
-![GitHubBackupTool starting](docs/pictures/start-of-backup-getting-repos.png?raw=true "GitHubBackupTool starting")
-
-### Createing GitHub of reposs basd on parameters to backup
-
-![GitHubBackupTool backup running](docs/pictures/backup-running.png?raw=true "GitHubBackupTool backup running")
-
-### Backup done and report send
-
-![GitHubBackupTool backup done](docs/pictures/backup-done.png?raw=true "GitHubBackupTool backup done")
-
-# Console use:
-
-**Help and info menu:**
-
-Main menu:
-
-![Screenshot](docs/pictures/help-menu.png)
-
-Sub menu:
-
-![Screenshot](docs/pictures/help-token-menu.png)
-
-# Email report sample
-
-**Full layout:**
-
-![Screenshot](docs/pictures/email-report-full.png)
-
-**Simple layout:**
-
-![Screenshot](docs/pictures/email-report-simple.png)
-
-## Building
-
-## Download
-
-[Download the latest version](../../releases/latest)
-
-[Version History](CHANGELOG.md)
-
 ## Getting Started
 ### Prerequisites
 - [.NET Core SDK](https://dotnet.microsoft.com/download) installed on your system.
@@ -185,6 +143,48 @@ Paramenters (**NOT FINAL**):
 - -daystokeeplogfiles 180: Set the number of days to retain log files before automatic removal (default is 30 days if not set).
 - -backupmetadata: Backup metadata for each repository. If set, the code itself will be saved to the repo folder.
 - -backupreleasedata: Backup release data for each repository. If set, the code itself will be saved to the repo folder.
+
+### Getting GitHub repos API key give access too
+
+![GitHubBackupTool starting](docs/pictures/start-of-backup-getting-repos.png?raw=true "GitHubBackupTool starting")
+
+### Createing GitHub of reposs basd on parameters to backup
+
+![GitHubBackupTool backup running](docs/pictures/backup-running.png?raw=true "GitHubBackupTool backup running")
+
+### Backup done and report send
+
+![GitHubBackupTool backup done](docs/pictures/backup-done.png?raw=true "GitHubBackupTool backup done")
+
+# Console use:
+
+**Help and info menu:**
+
+Main menu:
+
+![Screenshot](docs/pictures/help-menu.png)
+
+Sub menu:
+
+![Screenshot](docs/pictures/help-token-menu.png)
+
+# Email report sample
+
+**Full layout:**
+
+![Screenshot](docs/pictures/email-report-full.png)
+
+**Simple layout:**
+
+![Screenshot](docs/pictures/email-report-simple.png)
+
+## Building
+
+## Download
+
+[Download the latest version](../../releases/latest)
+
+[Version History](CHANGELOG.md)
 
 # Final thoughts
 This is not an exhaustive method to retrieve every artifact on GitHub. There’s a lot more to be done to make this a complete solution.
