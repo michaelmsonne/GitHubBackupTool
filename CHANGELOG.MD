@@ -8,6 +8,7 @@
 
 ### Fixed
 - Fixed a bug if destination folder is not specified, the tool deleted all folders in the root of the application folder. Now the folder is set to "Backups" in the root of the application folder if not set.
+- Fixed a bug where the counting of processed repositories was not correct in some cases
 
 ## [1.2.0.0] - 15-03-2024
 

@@ -338,6 +338,9 @@ namespace GithubBackup.Core
             // Use an object for locking
             var lockObject = new object();
 
+            // Set correct value for repo count before intering the loop
+            Globals._repoBackupPerformedCount = -1;
+
             Parallel.ForEach(repos, (repo) =>
             {
                 // Backup all branches for the current repository selected for backup
@@ -495,7 +498,7 @@ namespace GithubBackup.Core
                             // Used for email report list - list name for projects to list for email report list
                             Globals._repoitemscountelements.Add($"{repo.Name}, ('{branchName.Name}' branch), Owner: '{repo.Owner.Login}'");
 
-                            //Globals._repoBackupPerformedCount++; // Increment the _repoCount integer for count of repos in total
+                            Globals._repoBackupPerformedCount++; // Increment the _repoCount integer for count of repos in total
                             //Globals._repoBackupPerformedBranchCount++; // Increment the BranchCount
 
                             // Count repos processed
@@ -522,7 +525,7 @@ namespace GithubBackup.Core
                         // Used for email report list - list name for projects to list for email report list
                         Globals._repoitemscountelements.Add($"{repo.Name}, ('{repo.DefaultBranch}' Default Branch), Owner: '{repo.Owner.Login}'");
 
-                        //Globals._repoBackupPerformedCount++; // Increment the _repoCount integer for count of repos in total
+                        Globals._repoBackupPerformedCount++; // Increment the _repoCount integer for count of repos in total
                         //Globals._repoBackupPerformedBranchCount++; // Increment the BranchCount
 
                         // Count repos processed
@@ -535,7 +538,7 @@ namespace GithubBackup.Core
                     }
 
                     // Increment the _repoCount integer for count of repos in total
-                    Globals._repoBackupPerformedCount++;
+                    //Globals._repoBackupPerformedCount++;
                 }
                 catch (LibGit2SharpException libGit2SharpException)
                 {
