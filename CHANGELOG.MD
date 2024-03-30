@@ -1,4 +1,4 @@
-﻿## [1.3.0.0] - XX-XX-2024
+﻿## [1.3.0.0] - 30-03-2024
 
 ### Added
 - Warning states for backups and checks
