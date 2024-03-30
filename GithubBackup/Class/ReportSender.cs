@@ -12,7 +12,7 @@ namespace GithubBackup.Class
     internal class ReportSender
     {
         public static void SendEmail(string serverAddress, int serverPort, string emailFrom, string emailTo, string emailStatusMessage,
-            List<string> listOfReposInGitHubElements, List<string> listOfReposInGitHubBackupIsCreatedElements, int repoCount, int repoItemsCount, string outDir, TimeSpan elapsedTime, int errors,
+            List<string> listOfReposInGitHubElements, List<string> listOfReposInGitHubBackupIsCreatedElements, int repoCount, int repoItemsCount, string outDir, TimeSpan elapsedTime,
             int totalBackupsIsDeleted, int daysToKeep, string repoCountStatusText, string repoItemsCountStatusText,
             string totalBackupsIsDeletedStatusText, bool useSimpleMailReportLayout, string isDaysToKeepNotDefaultStatusText, string startTime, string endTime, string totalBackupFolderSize)
         {
@@ -27,18 +27,16 @@ namespace GithubBackup.Class
             string mailBody;
 
             // Count the number of elements in the list
-            int countForListNumbersOfReposBackedup = listOfReposInGitHubBackupIsCreatedElements.Count;
-
-
-
+            int countForListNumbersOfReposBackedUp = listOfReposInGitHubBackupIsCreatedElements.Count;
+            
             // Parse data to list from list of repo.name and list of repo.name.backup (backup is created) - HTML format - for email report body
-            var listOfReposInGitHub =
-                "<h3>List of Git repositories in GitHub (the provided API key give access to (showing main branch of repo) but means NOT it´s backed up - see the list above):</h3>∘ " +
-                string.Join("<br>∘ ", listOfReposInGitHubElements);
-
             var listOfReposInGitHubBackupIsCreated =
-                "<h3>List of Git repositories and branches in GitHub a backup is performed of (based on arguments for backup type: " + countForListNumbersOfReposBackedup + "):</h3>∘ " +
+                "<h3>List of Git repositories and branches in GitHub a backup is performed of (based on arguments for backup type: " + countForListNumbersOfReposBackedUp + "):</h3>∘ " +
                 string.Join("<br>∘ ", listOfReposInGitHubBackupIsCreatedElements);
+
+            var listOfReposInGitHub =
+                "<h3>List of Git repositories in GitHub (the provided API key give access to (showing main branch of repo) but means <u>NOT it´s backed up</u> - see the list above!):</h3>∘ " +
+                string.Join("<br>∘ ", listOfReposInGitHubElements);
             
             // Get email status text from job status
             emailStatusMessage = Globals._isBackupOk ? "Success" : "Failed!";
@@ -50,7 +48,7 @@ namespace GithubBackup.Class
             }
 
             // It error count is over 0 add warning in email subject
-            if (errors > 0)
+            if (Globals._errors > 0)
             {
                 emailStatusMessage += " - but with warning(s)";
             }
@@ -90,6 +88,25 @@ namespace GithubBackup.Class
                     Console.ResetColor();
                 }
             }
+
+            // If there is any empty repositories in backup if backup repo validation is set
+            if (Globals._backupRepoValidation && Globals._backupRepoValidationTotalEmptyRepositories != 0)
+            {
+                repoItemsCountStatusText += " - but with " + Globals._backupRepoValidationTotalEmptyRepositories + " empty repositories - It's possible that it is empty on GitHub itself! - Check the repository(s) on GitHub.";
+            }
+            if (Globals._backupRepoValidation && Globals._backupRepoValidationTotalEmptyRepositories == 0)
+            {
+                repoItemsCountStatusText += " - no empty repositories";
+            }
+
+
+
+
+
+
+
+
+
             // TODO - CLEANUP LATER
             // Globals._totalBackupsIsDeletedStatusText = totalBackupsIsDeletedStatusText;
             
@@ -175,14 +192,9 @@ namespace GithubBackup.Class
                 Body = mailBody,
                 BodyEncoding = Encoding.UTF8,
                 IsBodyHtml = true,
-                Subject = "[" + emailStatusMessage + $"] - {Globals._appName} status - (" +
-                          Globals._repoPerformedRepoCount + " Total Git repositories processed - (" +
-                          Globals._repoBackupPerformedBranchCount + " branches backed up, " +
-                          Globals._repoBackupPerformedCount + " repositories), " +
-                          "skipped repositorie(s): " + Globals._repoBackupSkippedCount +
-                          " - issues(s): " + errors +
-                          " - Backups (backups to keep (days): " + daysToKeep +
-                          ", backup(s) deleted: " + totalBackupsIsDeleted + ")",
+                Subject = "[" + emailStatusMessage + $"] - {Globals._appName} status - Repositories processed: " + Globals._repoPerformedRepoCount + " - (" + Globals._repoBackupPerformedBranchCount + " branches backed up, " +
+                          " repositories: " + Globals._repoBackupPerformedCount + ", skipped repositorie(s): " + Globals._repoBackupSkippedCount + ") - Error(s): " + Globals._errors + " - Warning(s): " + Globals._warnings +
+                          " - Backups to keep (days): " + daysToKeep + ", backup(s) deleted: " + totalBackupsIsDeleted,
 
                 // Set email priority level based on command-line argument
                 Priority = Globals._emailPriority,

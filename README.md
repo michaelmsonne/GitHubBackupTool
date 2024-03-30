@@ -143,6 +143,7 @@ Paramenters (**NOT FINAL**):
 - -daystokeeplogfiles 180: Set the number of days to retain log files before automatic removal (default is 30 days if not set).
 - -backupmetadata: Backup metadata for each repository. If set, the code itself will be saved to the repo folder.
 - -backupreleasedata: Backup release data for each repository. If set, the code itself will be saved to the repo folder.
+- -gitbackupvalidation: Validate backup of repositories after backup is done. If set, the backup will be validated.
 - ...
 
 ### Getting GitHub repos API key give access too

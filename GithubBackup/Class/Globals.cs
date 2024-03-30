@@ -58,7 +58,10 @@ namespace GithubBackup.Class
         public static string _isDaysToKeepNotDefaultStatusText; // text to display in email report if days to keep backup is not default value (30 days)
         public static string _isdaysToKeepLogFilesOptionDefaultStatusText; // text to display in email report if days to keep log files is not default value (30 days)
         public static string _totalBackupsIsDeletedStatusText; // text to display in email report if backups is deleted
-        
+        public static bool _backupRepoValidation; // Setting for backup repo validation or not
+
+        public static int _backupRepoValidationTotalEmptyRepositories; // count of total empty repositories
+
         // Set Global variables for cleanup
         public static int _totalBackupsIsDeleted; // count of total backups deleted
         public static int _oldLogFilesToDeleteCount; // count of old log files deleted
@@ -84,5 +87,8 @@ namespace GithubBackup.Class
         // Hold Git project details from project to backup
         public static List<string> _repocountelements = new List<string>(); // list of repos to backup from Github - used for email report
         public static List<string> _repoitemscountelements = new List<string>(); // list of repo items to backup from Github - used for email report
+
+        // Set Global variables for logging messages
+        public static string _logMessageStringBackupValidationWarningEmptyRepoDownloaded = "Warning: The repository is empty. However, it's possible that it is empty on GitHub itself! - Check the repository(s) on GitHub.";
     }
 }
