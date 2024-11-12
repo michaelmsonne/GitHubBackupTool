@@ -1,12 +1,13 @@
-﻿## [1.3.1.0] - xx-11-2024
+﻿## [1.3.1.0] - 12-11-2024
 
 ### Added
 - Better error handling and output for cleanup old backups (better error description and details) (more will come)
 
 ### Changed
+- Upgraded to .Net 8.0 (from .Net 7.0)
 - Upgraded some dependencies:
     - Autofac 8.0.0 -> 8.1.1
-    - Microsoft.Windows.Compatibility 8.0.3 > 8.0.10
+    - Microsoft.Windows.Compatibility 8.0.3 > 9.0.0
     - Octokit 10.0.0 > 13.0.1
 
 ### Fixed
