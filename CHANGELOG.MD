@@ -3,6 +3,12 @@
 ### Added
 - Better error handling and output for cleanup old backups (better error description and details) (more will come)
 
+### Changed
+- Upgraded some dependencies:
+    - Autofac 8.0.0 -> 8.1.1
+    - Microsoft.Windows.Compatibility 8.0.3 > 8.0.10
+    - Octokit 10.0.0 > 13.0.1
+
 ### Fixed
 - Fixed if the backedup files have Read-Only attribute, the tool will not be able to delete the folder and files - now the tool will remove the Read-Only attribute before deleting the files and folders
 
