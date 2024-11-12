@@ -50,13 +50,13 @@ namespace GithubBackup.Class
                     }
                     catch (UnauthorizedAccessException)
                     {
-                        Message("Unable to delete old backup folder: '" + dir + "'. Make sure the account you use to run this tool has delete rights to this location.", EventType.Error, 1001);
+                        Message("Unable to delete old backup folder: '" + dir + "'. Make sure the account you use to run this tool has delete rights to this location.", EventType.Warning, 1001);
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Unable to delete old backup folder: '" + dir + "'. Make sure the account you use to run this tool has delete rights to this location.");
                         Console.ResetColor();
 
                         // Count errors
-                        Globals._errors++;
+                        Globals._warnings++;
                     }
                     catch (Exception e)
                     {

@@ -65,17 +65,58 @@ namespace GithubBackup.Class
             {
                 DeleteDirectory(directory);
             }
+
+            // Remove read-only attribute from files in the directory
+            foreach (string file in Directory.GetFiles(path))
+            {
+                FileInfo fileInfo = new FileInfo(file);
+                if (fileInfo.IsReadOnly)
+                {
+                    fileInfo.IsReadOnly = false;
+
+                    // Log and console output for changed read-only attribute
+                    Message($"Removed read-only attribute from file: {file}", EventType.Information, 1000);
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine($"Removed read-only attribute from file: {file}");
+                    Console.ResetColor();
+                }
+            }
+
             try
             {
                 Directory.Delete(path, true);
+                // Log and console output for successful deletion
+                //Message($"Deleted directory: {path}", EventType.Information, 1000);
+                //Console.ForegroundColor = ConsoleColor.Yellow;
+                //Console.WriteLine($"Deleted directory: {path}");
+                //Console.ResetColor();
             }
-            catch (IOException)
+            catch (IOException ex)
             {
-                Directory.Delete(path, true);
+                // Log and console output for IOException
+                Message($"IOException caught when trying to delete directory: {path} - error: {ex.Message}", EventType.Error, 1001);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"IOException caught when trying to delete directory: {path} - error: {ex.Message}");
+                Console.ResetColor();
+                throw;
             }
-            catch (UnauthorizedAccessException)
+            catch (UnauthorizedAccessException ex)
             {
-                Directory.Delete(path, true);
+                // Log and console output for UnauthorizedAccessException
+                Message($"UnauthorizedAccessException caught when trying to delete directory: {path} - error: {ex.Message}", EventType.Error, 1001);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"UnauthorizedAccessException caught when trying to delete directory: {path} - error: {ex.Message}");
+                Console.ResetColor();
+                throw;
+            }
+            catch (Exception ex)
+            {
+                // Log and console output for any other exceptions
+                Message($"Exception caught when trying to delete directory: {path} - error: {ex.Message}", EventType.Error, 1001);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Exception caught when trying to delete directory: {path} - error: {ex.Message}");
+                Console.ResetColor();
+                throw;
             }
         }
 
