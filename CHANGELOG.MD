@@ -1,4 +1,4 @@
-﻿## [1.3.0.1] - 12-11-2024
+﻿## [1.3.1.0] - xx-11-2024
 
 ### Added
 - Better error handling and output for cleanup old backups (better error description and details) (more will come)
