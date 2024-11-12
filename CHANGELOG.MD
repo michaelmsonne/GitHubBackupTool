@@ -1,4 +1,12 @@
-﻿## [1.3.0.0] - 30-03-2024
+﻿## [1.3.0.1] - 12-11-2024
+
+### Added
+- Better error handling and output for cleanup old backups (better error description and details) (more will come)
+
+### Fixed
+- Fixed if the backedup files have Read-Only attribute, the tool will not be able to delete the folder and files - now the tool will remove the Read-Only attribute before deleting the files and folders
+
+## [1.3.0.0] - 30-03-2024
 
 ### Added
 - Warning states for backups and checks

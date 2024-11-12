@@ -27,6 +27,18 @@ namespace GithubBackup.Class
                 {
                     try
                     {
+                        // Remove read-only attribute if set
+                        if (fi.IsReadOnly)
+                        {
+                            fi.IsReadOnly = false;
+
+                            // Log and console output for changed read-only attribute
+                            Message($"Removed read-only attribute from file: {file}", EventType.Information, 1000);
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.WriteLine($"Removed read-only attribute from file: {file}");
+                            Console.ResetColor();
+                        }
+
                         // Do work
                         fi.Delete();
 
