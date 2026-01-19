@@ -146,6 +146,180 @@ Paramenters (**NOT FINAL**):
 - -gitbackupvalidation: Validate backup of repositories after backup is done. If set, the backup will be validated.
 - ...
 
+## Automating Backups with Windows Task Scheduler
+
+To run the backup automatically on a schedule, you can use Windows Task Scheduler. Follow these steps to configure it properly:
+
+### Task Scheduler Configuration
+
+1. **Open Task Scheduler** and create a new task (not a basic task)
+
+2. **General Tab**:
+   - Name: `GitHub Backup`
+   - Description: `Automated backup of GitHub repositories`
+   - Security options:
+     - ☑ **Run whether user is logged on or not**
+     - ☑ **Run with highest privileges**
+     - Configure for: **Windows 10/Windows Server 2016** (or later)
+
+3. **Triggers Tab**:
+   - Click **New...**
+   - Set your schedule (e.g., Daily at 2:00 AM)
+   - Click **OK**
+
+4. **Actions Tab** (MOST IMPORTANT):
+   - Click **New...**
+   - Action: **Start a program**
+   - **Program/script:**
+     ```
+     "C:\Program Files (x86)\Michael Morten Sonne\GitHubBackupTool\GitHubBackupTool.exe"
+     ```
+   - **Add arguments (optional):**
+     ```
+     token-based token.bin "C:\Backup\GitHub" -allowner -mailto "mail-to@domain.com" -mailfrom "mail-from@domain.com" -mailserver "mailserver.domain.com" -mailport "25" -priority high -daystokeepbackup 50 -daystokeeplogfiles 180
+     ```
+   - **Start in (optional):** ⚠️ **CRITICAL - MUST BE SET**
+     ```
+     C:\Program Files (x86)\Michael Morten Sonne\GitHubBackupTool
+     ```
+   - Click **OK**
+
+5. **Conditions Tab**:
+   - ☐ Uncheck **Start the task only if the computer is on AC power** (if running on a laptop)
+   - ☑ Check **Wake the computer to run this task** (if needed)
+
+6. **Settings Tab**:
+   - ☑ **Allow task to be run on demand**
+   - ☑ **Run task as soon as possible after a scheduled start is missed**
+   - If the task fails, restart every: **1 minute** up to **3 times**
+
+### Common Issues and Solutions
+
+#### Error 0x1 (Exit Code 1)
+This usually means the working directory is not set correctly.
+
+**Solution**: Make sure the **"Start in (optional)"** field is set to the tool's installation directory:
+```
+C:\Program Files (x86)\Michael Morten Sonne\GitHubBackupTool
+```
+
+#### Permission Errors
+The task runs but fails to create files or access folders.
+
+**Solution**: 
+- Run the task with an account that has:
+  - **Write** access to the backup destination (`C:\Backup\GitHub`)
+  - **Write** access to the log folder
+  - **Read** access to the `token.bin` file
+
+#### Task Runs But Does Nothing
+No output or logs are created.
+
+**Solution**: Create a batch file wrapper for better error logging:
+
+**Create `RunGitHubBackup.bat` in the tool directory:**
+```cmd
+@echo off
+REM GitHub Backup Tool - Task Scheduler Wrapper
+
+REM Change to the application directory
+cd /d "C:\Program Files (x86)\Michael Morten Sonne\GitHubBackupTool"
+
+REM Log start time
+echo Starting GitHub Backup at %DATE% %TIME% >> "%~dp0task_scheduler.log"
+
+REM Run the backup tool
+"C:\Program Files (x86)\Michael Morten Sonne\GitHubBackupTool\GitHubBackupTool.exe" token-based token.bin "C:\Backup\GitHub" -allowner -mailto "mail-to@domain.com" -mailfrom "mail-from@domain.com" -mailserver "mailserver.domain.com" -mailport "25" -priority high -daystokeepbackup 50 -daystokeeplogfiles 180
+
+REM Capture exit code
+set EXIT_CODE=%ERRORLEVEL%
+
+REM Log completion
+echo Completed with exit code %EXIT_CODE% at %DATE% %TIME% >> "%~dp0task_scheduler.log"
+
+REM Exit with the same code
+exit /b %EXIT_CODE%
+```
+
+Then configure Task Scheduler to run the batch file:
+- **Program/script:** `C:\Program Files (x86)\Michael Morten Sonne\GitHubBackupTool\RunGitHubBackup.bat`
+- **Start in:** `C:\Program Files (x86)\Michael Morten Sonne\GitHubBackupTool`
+
+### PowerShell Alternative
+
+For more advanced error handling, create a PowerShell wrapper:
+
+**Create `RunGitHubBackup.ps1` in the tool directory:**
+```powershell
+# RunGitHubBackup.ps1
+$ErrorActionPreference = "Stop"
+$appPath = "C:\Program Files (x86)\Michael Morten Sonne\GitHubBackupTool"
+Set-Location $appPath
+
+$logFile = Join-Path $appPath "task_scheduler.log"
+Add-Content $logFile "Starting GitHub Backup at $(Get-Date)"
+
+try {
+    & "$appPath\GitHubBackupTool.exe" token-based token.bin "C:\Backup\GitHub" -allowner -mailto "mail-to@domain.com" -mailfrom "mail-from@domain.com" -mailserver "mailserver.domain.com" -mailport "25" -priority high -daystokeepbackup 50 -daystokeeplogfiles 180
+    
+    $exitCode = $LASTEXITCODE
+    Add-Content $logFile "Completed with exit code $exitCode at $(Get-Date)"
+    exit $exitCode
+}
+catch {
+    Add-Content $logFile "Error: $($_.Exception.Message) at $(Get-Date)"
+    exit 1
+}
+```
+
+Configure Task Scheduler to run the PowerShell script:
+- **Program/script:** `powershell.exe`
+- **Add arguments:** `-ExecutionPolicy Bypass -File "C:\Program Files (x86)\Michael Morten Sonne\GitHubBackupTool\RunGitHubBackup.ps1"`
+- **Start in:** `C:\Program Files (x86)\Michael Morten Sonne\GitHubBackupTool`
+
+### Verifying the Task
+
+After creating the task:
+
+1. **Test the task immediately:**
+   - Right-click the task and select **Run**
+   - Check the **Last Run Result** column (should be `0x0` for success)
+
+2. **Check the logs:**
+   ```powershell
+   # Check application log
+   Get-Content "C:\Program Files (x86)\Michael Morten Sonne\GitHubBackupTool\Log\GitHubBackup Log $(Get-Date -Format 'dd-MM-yyyy').log" -Tail 50
+   
+   # Check Task Scheduler log (if using wrapper)
+   Get-Content "C:\Program Files (x86)\Michael Morten Sonne\GitHubBackupTool\task_scheduler.log"
+   ```
+
+3. **Enable Task Scheduler History:**
+   - In Task Scheduler, click **Action** → **Enable All Tasks History**
+   - Select your task and view the **History** tab for detailed execution information
+
+### Troubleshooting
+
+If the task still fails:
+
+1. **Test the command manually in PowerShell:**
+   ```powershell
+   # Simulate Task Scheduler environment
+   Set-Location "C:\Windows\System32"
+   & "C:\Program Files (x86)\Michael Morten Sonne\GitHubBackupTool\GitHubBackupTool.exe" token-based token.bin "C:\Backup\GitHub" -allowner
+   ```
+
+2. **Check Event Viewer** for errors:
+   - Open Event Viewer
+   - Navigate to **Windows Logs** → **Application**
+   - Look for errors from **Task Scheduler** source
+
+3. **Verify .NET Runtime:**
+   ```powershell
+   dotnet --list-runtimes
+   # Should show: Microsoft.NETCore.App 8.0.x
+   ```
+
 ### Getting GitHub repos API key give access too
 
 ![GitHubBackupTool starting](docs/pictures/start-of-backup-getting-repos.png?raw=true "GitHubBackupTool starting")
