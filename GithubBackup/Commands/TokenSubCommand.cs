@@ -70,6 +70,7 @@ namespace GithubBackup.Commands
                 var allReposOption = tokenBasedCmd.Option("-all", "Backup all repositories.", CommandOptionType.NoValue);
                 var allReposNotForksOption = tokenBasedCmd.Option("-allnotforked", "Exclude forked repositories.", CommandOptionType.NoValue);
                 var allReposOwnerOption = tokenBasedCmd.Option("-allowner", "Backup repositories where you are the owner (default).", CommandOptionType.NoValue);
+                var ownerFilterOption = tokenBasedCmd.Option("-owner <owner>", "Optional owner login filter (for example: michaelmsonne).", CommandOptionType.SingleValue);
                 var allBranchesOption = tokenBasedCmd.Option("-allbranches", "Backup all branches of repositories (default only DefaultBranch).", CommandOptionType.NoValue);
                 var excludeBranchDependabot = tokenBasedCmd.Option("-excludebranchdependabot", "Exclude branches with 'dependabot' in it from backup.", CommandOptionType.NoValue);
                 var backupMetadataOption = tokenBasedCmd.Option("-backupmetadata", "Backup metadata for each repository. If set, the data itself will be saved to the repo folder.", CommandOptionType.NoValue);
@@ -416,6 +417,17 @@ namespace GithubBackup.Commands
 
                         // Log
                         Message("Set to download all repositories the API Key have access to but not forks and is owner (so your own) - default as no other option is set", EventType.Information, 1000);
+                    }
+
+                    // Optional owner filter
+                    if (ownerFilterOption.HasValue())
+                    {
+                        Globals._ownerFilter = ownerFilterOption.Value();
+                        Message($"Owner filter is set to: '{Globals._ownerFilter}'", EventType.Information, 1000);
+                    }
+                    else
+                    {
+                        Globals._ownerFilter = null;
                     }
 
                     // Set the backup type based on options for branches

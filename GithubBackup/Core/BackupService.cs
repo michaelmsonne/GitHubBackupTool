@@ -344,6 +344,17 @@ namespace GithubBackup.Core
                 filteredRepos = allRepos;
             }
 
+            // Optional owner login filter (applies after selected backup type filter)
+            if (!string.IsNullOrWhiteSpace(Globals._ownerFilter))
+            {
+                filteredRepos = filteredRepos
+                    .Where(repo => repo.Owner != null &&
+                                  repo.Owner.Login.Equals(Globals._ownerFilter, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+
+                Message($"Filtering repositories by owner login: '{Globals._ownerFilter}'", EventType.Information, 1000);
+            }
+
             foreach (var repo in allRepos)
             {
                 // Increment the _repoCount integer for count of repos in total

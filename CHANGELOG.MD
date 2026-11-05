@@ -1,6 +1,7 @@
 ﻿## [1.4.0.0] - 05-11-2026
 
 ### Added
+- Added optional argument `-owner <owner>` to filter backups by repository owner login.
 - Added clone fallback using git.exe with safe.directory for network/UNC path scenarios where LibGit2Sharp reports repository ownership issues.
 - Added documentation for Task Scheduler setup and troubleshooting.
 - Added README guidance for optional Git for Windows installation (used for fallback cloning on some servers).

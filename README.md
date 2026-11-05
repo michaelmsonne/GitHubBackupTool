@@ -146,7 +146,8 @@ Paramenters (**NOT FINAL**):
 - -backupmetadata: Backup metadata for each repository. If set, the code itself will be saved to the repo folder.
 - -backupreleasedata: Backup release data for each repository. If set, the code itself will be saved to the repo folder.
 - -gitbackupvalidation: Validate backup of repositories after backup is done. If set, the backup will be validated.
-- ...
+- -owner: Optional owner login filter (for example: michaelmsonne).
+- - ...
 
 ## Automating Backups with Windows Task Scheduler
 
