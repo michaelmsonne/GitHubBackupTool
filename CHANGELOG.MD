@@ -1,4 +1,28 @@
-﻿## [1.3.1.0] - 12-11-2024
+﻿## [1.4.0.0] - 05-11-2026
+
+### Added
+- Added clone fallback using git.exe with safe.directory for network/UNC path scenarios where LibGit2Sharp reports repository ownership issues.
+- Added documentation for Task Scheduler setup and troubleshooting.
+- Added README guidance for optional Git for Windows installation (used for fallback cloning on some servers).
+
+### Changed
+- Upgraded target framework from .NET 8 to .NET 10 (net10.0-windows7.0).
+- Upgraded some dependencies:
+    - Autofac 8.1.1 > 9.3.4
+    - McMaster.Extensions.CommandLineUtils 4.1.1 > 5.1.0
+    - Microsoft.Windows.Compatibility 9.0.0 > 10.0.14
+    - Newtonsoft.Json 13.0.3 > 13.0.4
+- Updated backup clone flow to use branch-targeted cloning and clean existing branch folders before cloning.
+
+### Fixed
+- Fixed culture-dependent DateTime formatting/parsing issue (HH:mm:ss vs HH.mm.ss) by formatting runtime timestamps with CultureInfo.InvariantCulture.
+- Improved backup reliability for branch/default-branch cloning in repeated runs by recreating target folders before clone.
+
+### Notes
+- On some Windows Server/UNC environments, very long file paths can fail.
+- Recommended: enable Windows long paths, set git config --global core.longpaths true, and use a shorter backup root path.
+
+## [1.3.1.0] - 12-11-2024
 
 ### Added
 - Better error handling and output for cleanup old backups (better error description and details) (more will come)

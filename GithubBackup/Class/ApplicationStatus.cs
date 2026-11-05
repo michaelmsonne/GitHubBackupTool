@@ -28,7 +28,7 @@ namespace GithubBackup.Class
             var endTime = DateTime.Now;
 
             // Set start time and end time for the tool - convert to a string and save to global variables
-            Globals._endTime = endTime.ToString("dd-MM-yyyy HH:mm:ss"); // convert end time to a string
+            Globals._endTime = endTime.ToString("dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture); // convert end time to a string
 
             // Format and display the TimeSpan value.
             // Parse the start and end times into DateTime objects

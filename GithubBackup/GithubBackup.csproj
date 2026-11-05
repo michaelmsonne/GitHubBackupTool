@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0-windows7.0</TargetFramework>
+    <TargetFramework>net10.0-windows7.0</TargetFramework>
     <AssemblyName>GitHubBackupTool</AssemblyName>
     <Copyright>Copyright © Michael Morten Sonne</Copyright>
     <Authors>Michael Morten Sonne</Authors>
@@ -9,8 +9,8 @@
     <ApplicationIcon>Resources\github_git_icon.ico</ApplicationIcon>
     <PackageIcon>github_git_icon.ico</PackageIcon>
     <AssemblyVersion></AssemblyVersion>
-    <FileVersion />
-    <Version>1.3.1.0</Version>
+    <FileVersion></FileVersion>
+    <Version>1.4.0.0</Version>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -28,11 +28,11 @@
     <Content Include="Resources\github_git_icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="8.1.1" />
+    <PackageReference Include="Autofac" Version="9.3.4" />
     <PackageReference Include="LibGit2Sharp" Version="0.28.0" />
-    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.1.1" />
-    <PackageReference Include="Microsoft.Windows.Compatibility" Version="9.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="5.1.0" />
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="10.0.14" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="Octokit" Version="13.0.1" />
     <PackageReference Include="ShellProgressBar" Version="5.2.0" />
   </ItemGroup>

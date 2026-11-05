@@ -1,10 +1,11 @@
 ﻿using Autofac;
 using GithubBackup.Class;
+using GithubBackup.Commands;
 using Octokit;
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.Reflection;
-using GithubBackup.Commands;
 using static GithubBackup.Class.FileLogger;
 
 namespace GithubBackup.Core
@@ -56,7 +57,7 @@ namespace GithubBackup.Core
             DateTime startTime = DateTime.Now; // get current time as start time for tool
 
             // Set start time and end time for tool
-            Globals._startTime = startTime.ToString("dd-MM-yyyy HH:mm:ss"); // convert start time to string
+            Globals._startTime = startTime.ToString("dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture); // convert start time to string
 
             //GitHubServiceStatus.Check("Incident with API Requests");
 

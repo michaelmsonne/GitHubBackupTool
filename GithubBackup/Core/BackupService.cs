@@ -13,6 +13,7 @@ using static GithubBackup.Class.FileLogger;
 using Branch = Octokit.Branch;
 using Credentials = Octokit.Credentials;
 using Repository = Octokit.Repository;
+using System.Diagnostics;
 
 // ReSharper disable AccessToDisposedClosure
 
@@ -44,6 +45,47 @@ namespace GithubBackup.Core
 
             // Return the user data
             return user;
+        }
+
+        private static void CloneWithFallback(string cloneUrl, string targetPath, CloneOptions cloneOptions, string branchName)
+        {
+            try
+            {
+                var branchCloneOptions = new CloneOptions
+                {
+                    BranchName = branchName,
+                    OnTransferProgress = cloneOptions.OnTransferProgress,
+                    RepositoryOperationCompleted = cloneOptions.RepositoryOperationCompleted,
+                    CredentialsProvider = cloneOptions.CredentialsProvider
+                };
+
+                LibGit2Sharp.Repository.Clone(cloneUrl, targetPath, branchCloneOptions);
+                return;
+            }
+            catch (Exception ex) when (ex.Message.Contains("not owned by current user", StringComparison.OrdinalIgnoreCase))
+            {
+                // Fallback to git.exe with safe.directory for UNC/network ownership scenarios
+                var psi = new ProcessStartInfo
+                {
+                    FileName = "git",
+                    Arguments = $"-c safe.directory=* clone --branch \"{branchName}\" --single-branch \"{cloneUrl}\" \"{targetPath}\"",
+                    RedirectStandardError = true,
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+
+                using var p = Process.Start(psi);
+                if (p == null)
+                    throw new InvalidOperationException("Failed to start git process for clone fallback.");
+
+                var stdOut = p.StandardOutput.ReadToEnd();
+                var stdErr = p.StandardError.ReadToEnd();
+                p.WaitForExit();
+
+                if (p.ExitCode != 0)
+                    throw new Exception($"git fallback clone failed (exit {p.ExitCode}): {stdErr}\n{stdOut}");
+            }
         }
 
         private GitHubClient CreateGithubClient()
@@ -481,24 +523,32 @@ namespace GithubBackup.Core
                                 $"Create repository main branch folder for '{repo.FullName}' for branch '{repo.DefaultBranch}' to disk: '{defaultBranchPath}'",
                                 EventType.Information, 1000);
 
-                            // Create the folder for the default branch if it doesn't exist
+                            // Ensure clean target folder (important on network drives and reruns)
+                            if (Directory.Exists(defaultBranchPath))
+                            {
+                                LocalFolderTasks.DeleteDirectory(defaultBranchPath);
+                            }
+
                             Directory.CreateDirectory(defaultBranchPath);
 
-                            // Clone the repository for the default branch
-                            LibGit2Sharp.Repository.Clone(repo.CloneUrl, defaultBranchPath, cloneOptions);
+                            // Clone default branch directly
+                            var defaultBranchCloneOptions = new CloneOptions
+                            {
+                                BranchName = repo.DefaultBranch,
+                                OnTransferProgress = cloneOptions.OnTransferProgress,
+                                RepositoryOperationCompleted = cloneOptions.RepositoryOperationCompleted,
+                                CredentialsProvider = cloneOptions.CredentialsProvider
+                            };
 
-                            // Log
+                            CloneWithFallback(repo.CloneUrl, defaultBranchPath, cloneOptions, repo.DefaultBranch);
+
                             Message(
                                 $"> Done processing repository '{repo.FullName}' for backup, DefaultBranch '{repo.DefaultBranch}' - saved data to disk: '" +
                                 defaultBranchPath + "'", EventType.Information, 1000);
 
-                            // Call validation for the repository backup
                             CallBackupRepoValidation(defaultBranchPath, repo.FullName);
-                            
-                            // Count repos processed
                             Globals._repoBackupPerformedBranchCount++;
 
-                            // Used for email report list - list name for projects to list for email report list
                             Globals._repoitemscountelements.Add(
                                 $"{repo.Name}, ('{repo.DefaultBranch}' Default Branch), Owner: '{repo.Owner.Login}'");
                         }
@@ -532,69 +582,46 @@ namespace GithubBackup.Core
 
                             try
                             {
-                                // Log
                                 Message(
                                     $"Create repository branch folder for '{repo.FullName}' for branch '{branchName.Name}' to disk: '{clonedRepoPath}'",
                                     EventType.Information, 1000);
 
-                                // Create the folder for the branch if it doesn't exist
+                                // Ensure clean target folder (important on network drives and reruns)
+                                if (Directory.Exists(clonedRepoPath))
+                                {
+                                    LocalFolderTasks.DeleteDirectory(clonedRepoPath);
+                                }
+
                                 Directory.CreateDirectory(clonedRepoPath);
                             }
                             catch (Exception e)
                             {
-                                // Log
                                 Message(
                                     $"Error creating folder for branch '{branchName.Name}' in repo '{repo.FullName}' for backup to disk: '{clonedRepoPath}' - Error: {e.Message}",
                                     EventType.Information, 1000);
-                                continue; // Skip to the next branch if folder creation fails
+                                continue;
                             }
 
                             try
                             {
-                                // Clone the repository for the branch
-                                LibGit2Sharp.Repository.Clone(repo.CloneUrl, clonedRepoPath, cloneOptions);
-
-                                using (var repository = new LibGit2Sharp.Repository(clonedRepoPath))
+                                // Clone the specific branch directly (avoid opening repo path again)
+                                var branchCloneOptions = new CloneOptions
                                 {
-                                    // Fetch the specific branch
-                                    var fetchOptions = new FetchOptions
-                                    {
-                                        CredentialsProvider = cloneOptions.CredentialsProvider
-                                    };
+                                    BranchName = branchName.Name,
+                                    OnTransferProgress = cloneOptions.OnTransferProgress,
+                                    RepositoryOperationCompleted = cloneOptions.RepositoryOperationCompleted,
+                                    CredentialsProvider = cloneOptions.CredentialsProvider
+                                };
 
-                                    // Fetch the specific branch
-                                    LibGit2Sharp.Commands.Fetch(repository, "origin",
-                                        new[] { $"refs/heads/{branchName.Name}:refs/remotes/origin/{branchName.Name}" },
-                                        fetchOptions, null);
+                                CloneWithFallback(repo.CloneUrl, clonedRepoPath, cloneOptions, branchName.Name);
 
-                                    // Count repos processed
-                                    Globals._repoBackupPerformedBranchCount++;
+                                Globals._repoBackupPerformedBranchCount++;
 
-                                    // Checkout the specific branch in the repository
-                                    var branch = repository.Branches[$"origin/{branchName.Name}"];
-                                    if (branch != null)
-                                    {
-                                        // Checkout the specific branch
-                                        LibGit2Sharp.Commands.Checkout(repository, branch);
+                                Message(
+                                    $"> Done processing repository '{repo.FullName}' for backup - Options: all branches: saved data for branch '{branchName.Name}' to disk: '{clonedRepoPath}'",
+                                    EventType.Information, 1000);
 
-                                        // Log
-                                        Message(
-                                            $"> Done processing repository '{repo.FullName}' for backup - Options: all branches: saved data for branch '{branchName.Name}' to disk: '{clonedRepoPath}'",
-                                            EventType.Information, 1000);
-
-                                        // Call validation for the repository backup
-                                        CallBackupRepoValidation(clonedRepoPath, repo.FullName);
-                                    }
-                                    else
-                                    {
-                                        // Handle the case where the branch doesn't exist
-                                        Console.WriteLine(
-                                            $"Branch '{branchName.Name}' does not exist in repository '{repo.FullName}'.");
-                                        Message(
-                                            $"Branch '{branchName.Name}' does not exist in repository '{repo.FullName}'.",
-                                            EventType.Warning, 1001);
-                                    }
-                                }
+                                CallBackupRepoValidation(clonedRepoPath, repo.FullName);
                             }
                             catch (Exception ex)
                             {
@@ -623,8 +650,23 @@ namespace GithubBackup.Core
                         // Create a folder path for the branch
                         var clonedRepoPath = Path.Combine(repoDestinationBackupCode, repo.DefaultBranch);
 
-                        // Backup only the default branch for the current repository selected for backup (default branch) - this is the default option
-                        LibGit2Sharp.Repository.Clone(repo.CloneUrl, clonedRepoPath, cloneOptions);
+                        // Ensure clean target folder
+                        if (Directory.Exists(clonedRepoPath))
+                        {
+                            LocalFolderTasks.DeleteDirectory(clonedRepoPath);
+                        }
+                        Directory.CreateDirectory(clonedRepoPath);
+
+                        // Clone only default branch directly
+                        var defaultOnlyCloneOptions = new CloneOptions
+                        {
+                            BranchName = repo.DefaultBranch,
+                            OnTransferProgress = cloneOptions.OnTransferProgress,
+                            RepositoryOperationCompleted = cloneOptions.RepositoryOperationCompleted,
+                            CredentialsProvider = cloneOptions.CredentialsProvider
+                        };
+
+                        CloneWithFallback(repo.CloneUrl, clonedRepoPath, defaultOnlyCloneOptions, repo.DefaultBranch);
 
                         // Call validation for the repository backup
                         CallBackupRepoValidation(clonedRepoPath, repo.FullName);

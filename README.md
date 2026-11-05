@@ -82,6 +82,8 @@ The tools and code in it can as much of the same features as my [Azure DevOps Ba
 ## Getting Started
 ### Prerequisites
 - [.NET Core SDK](https://dotnet.microsoft.com/download) installed on your system.
+- **Optional (recommended for network share backups):** [Git for Windows](https://git-scm.com/download/win) installed and available in `PATH`.
+  - This is used as a fallback when cloning to UNC/network paths on some Windows Server environments.
 
 ### How to build
 
@@ -319,6 +321,13 @@ If the task still fails:
    dotnet --list-runtimes
    # Should show: Microsoft.NETCore.App 8.0.x
    ```
+
+4. **Optional: Configure Git safe directory (recommended for UNC/network share backups):**
+   - Run this under the **same account** used by Task Scheduler / service.
+   - If your environment is strict, prefer adding only your backup root instead of `*`, for example:
+       ```powershell
+       - git config --global --add safe.directory "\homevault.home.sonnes.cloud\backups\GitHub"
+       ```
 
 ### Getting GitHub repos API key give access too
 
