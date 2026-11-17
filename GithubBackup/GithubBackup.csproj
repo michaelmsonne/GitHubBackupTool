@@ -31,7 +31,7 @@
     <PackageReference Include="Autofac" Version="9.3.4" />
     <PackageReference Include="LibGit2Sharp" Version="0.28.0" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="5.1.0" />
-    <PackageReference Include="Microsoft.Windows.Compatibility" Version="10.0.14" />
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="11.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="Octokit" Version="13.0.1" />
     <PackageReference Include="ShellProgressBar" Version="5.2.0" />
