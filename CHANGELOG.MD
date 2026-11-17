@@ -1,4 +1,17 @@
-﻿## [1.4.0.0] - 05-11-2026
+﻿## [1.4.0.1] - 17-11-2026
+
+### Added
+- Added optional argument `-owner <owner>` to filter backups by repository owner login.
+
+### Changed
+- Updated repository discovery/details logging to iterate filtered repositories (respecting `-owner` and backup mode filters).
+
+### Fixed
+- Fixed issue where branch/details enumeration still processed repositories outside the selected owner filter and could fail the run.
+- Fixed unhandled exception flow to write root and inner exception messages to logfile.
+- Fixed fatal-error completion flow to still run failure end-state and send failure email report when email options are configured.
+
+## [1.4.0.0] - 05-11-2026
 
 ### Added
 - Added optional argument `-owner <owner>` to filter backups by repository owner login.

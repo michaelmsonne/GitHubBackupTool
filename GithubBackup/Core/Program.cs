@@ -14,6 +14,27 @@ namespace GithubBackup.Core
     {
         private static IContainer _container;
 
+        private static void LogUnhandledException(Exception ex)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(ex.Message);
+            Console.ResetColor();
+
+            Message($"Unhandled exception: {ex.Message}", EventType.Error, 1001);
+
+            if (ex is AggregateException aggregateException)
+            {
+                foreach (var innerException in aggregateException.Flatten().InnerExceptions)
+                {
+                    Message($"Inner exception: {innerException.Message}", EventType.Error, 1001);
+                }
+            }
+            else if (ex.InnerException != null)
+            {
+                Message($"Inner exception: {ex.InnerException.Message}", EventType.Error, 1001);
+            }
+        }
+
         public static void SetupIocContainer()
         {
             var builder = new ContainerBuilder();
@@ -80,7 +101,24 @@ namespace GithubBackup.Core
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                LogUnhandledException(ex);
+
+                Globals._isBackupOk = false;
+                if (string.IsNullOrWhiteSpace(Globals._repoCountStatusText))
+                {
+                    Globals._repoCountStatusText = "Failed";
+                }
+
+                try
+                {
+                    ApplicationStatus.ApplicationEndBackup(false);
+                }
+                catch (Exception endStatusException)
+                {
+                    Message($"Failed to run ApplicationEndBackup(false): {endStatusException.Message}", EventType.Error, 1001);
+                }
+
+                result = 1;
             }
 
             return result;

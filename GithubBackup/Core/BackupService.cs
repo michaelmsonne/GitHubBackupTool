@@ -355,29 +355,42 @@ namespace GithubBackup.Core
                 Message($"Filtering repositories by owner login: '{Globals._ownerFilter}'", EventType.Information, 1000);
             }
 
-            foreach (var repo in allRepos)
+            // Count total repositories the token has access to (before filtering)
+            Globals._repoCount = allRepos.Count;
+
+            foreach (var repo in filteredRepos)
             {
-                // Increment the _repoCount integer for count of repos in total
-                Globals._repoCount++;
-
-                // Get branch names for the current repository
-                var branchNames = GetBranchNamesForRepository(client, repo.Owner.Login, repo.Name);
-
-                // Print main repository details to console
-                RepositoryDetails.PrintRepositoryDetails(repo);
-
-                // Print branch start text to console
-                Console.WriteLine("Branche(s) for repo:");
-
-                // Print branch names to console
-                foreach (var branchName in branchNames)
+                try
                 {
-                    Console.WriteLine($"  Repository Name: '{repo.Name}', Branch: '{branchName}'");
-                }
+                    // Get branch names for the current repository
+                    var branchNames = GetBranchNamesForRepository(client, repo.Owner.Login, repo.Name);
 
-                // List name for projects to list for email report list
-                Globals._repocountelements.Add(
-                    $"{repo.Name}, ('{repo.DefaultBranch}' branch), Owner: '{repo.Owner.Login}'");
+                    // Print main repository details to console
+                    RepositoryDetails.PrintRepositoryDetails(repo);
+
+                    // Print branch start text to console
+                    Console.WriteLine("Branche(s) for repo:");
+
+                    // Print branch names to console
+                    foreach (var branchName in branchNames)
+                    {
+                        Console.WriteLine($"  Repository Name: '{repo.Name}', Branch: '{branchName}'");
+                    }
+
+                    // List name for projects to list for email report list
+                    Globals._repocountelements.Add(
+                        $"{repo.Name}, ('{repo.DefaultBranch}' branch), Owner: '{repo.Owner.Login}'");
+                }
+                catch (Exception ex)
+                {
+                    Message($"Unable to retrieve branch details for repository '{repo.FullName}' - error: {ex.Message}",
+                        EventType.Error, 1001);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"Unable to retrieve branch details for repository '{repo.FullName}' - error: {ex.Message}");
+                    Console.ResetColor();
+
+                    Globals._errors++;
+                }
             }
 
             // Return the filtered repositories, or all repositories if none of the conditions are met
