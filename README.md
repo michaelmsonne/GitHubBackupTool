@@ -4,6 +4,13 @@
   <a href="https://github.com/michaelmsonne/GitHubBackupTool"><img src="https://img.shields.io/github/languages/top/michaelmsonne/GitHubBackupTool.svg"></a>
   <a href="https://github.com/michaelmsonne/GitHubBackupTool"><img src="https://img.shields.io/github/languages/code-size/michaelmsonne/GitHubBackupTool.svg"></a>
   <a href="https://github.com/michaelmsonne/GitHubBackupTool"><img src="https://img.shields.io/github/downloads/michaelmsonne/GitHubBackupTool/total.svg"></a>
+  <a href="https://github.com/michaelmsonne/GitHubBackupTool/releases/latest"><img alt="GitHub release" src="https://img.shields.io/github/v/release/michaelmsonne/GitHubBackupTool?include_prereleases&logo=github"></a>
+  <a href="https://github.com/michaelmsonne/GitHubBackupTool"><img src="https://img.shields.io/github/downloads/michaelmsonne/GitHubBackupTool/total.svg" alt="GitHub Downloads"></a>
+  <a href="https://github.com/michaelmsonne/GitHubBackupTool/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/michaelmsonne/GitHubBackupTool"></a>
+  <a href="https://github.com/michaelmsonne/GitHubBackupTool/pulls"><img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/michaelmsonne/GitHubBackupTool"></a>
+  <a href="https://github.com/michaelmsonne/GitHubBackupTool"><img alt="Top language" src="https://img.shields.io/github/languages/top/michaelmsonne/GitHubBackupTool.svg"></a>
+  <a href="https://github.com/michaelmsonne/GitHubBackupTool"><img alt="Code size" src="https://img.shields.io/github/languages/code-size/michaelmsonne/GitHubBackupTool.svg"></a>
+  <a href="https://learn.microsoft.com/windows/"><img alt="Platform" src="https://img.shields.io/badge/platform-Windows-0078D6?logo=windows&logoColor=white"></a>
 </p>
 
 <div align="center">
